@@ -14,7 +14,6 @@
     "php": "^7.0",
     "liqpay/liqpay": "dev-master"
   },
-  "prefer-stable": true,
   "autoload": {
     "files": [
       "registration.php"
