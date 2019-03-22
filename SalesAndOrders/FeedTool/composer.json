@@ -1,0 +1,27 @@
+{
+  "name": "perspective/integration",
+  "description": "Integration Module",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Victor Pankovych",
+      "email": "pankovych.v@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "liqpay/liqpay": "dev-master"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Perspective\\IntegrationModule\\": ""
+    }
+  }
+}
