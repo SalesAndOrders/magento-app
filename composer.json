@@ -12,8 +12,10 @@
   ],
   "require": {
     "php": "^7.0",
-    "liqpay/liqpay": "master@dev"
+    "liqpay/liqpay": "dev-master"
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "files": [
       "registration.php"
