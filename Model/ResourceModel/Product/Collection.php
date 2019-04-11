@@ -19,7 +19,4 @@ class Collection extends AbstractCollection
     {
         $this->_init('SalesAndOrders\FeedTool\Model\Product', 'SalesAndOrders\FeedTool\Model\ResourceModel\Product');
     }
-
-
-
 }
