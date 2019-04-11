@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="perspective" translate="label" sortOrder="1000001">
+            <label><![CDATA[<a href="https://perspective.net.ua/" target="_BLANK" title="Perspective Studio - Your Best Magento Team">Custom options</a>]]></label>
+        </tab>
+        <section id="custom_options" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Fields mapper</label>
+            <tab>perspective</tab>
+            <resource>SalesAndOrders_FeedTool::config</resource>
+            <group id="field_mapper" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Fields mapper settings</label>
+                <field id="fields" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <comment>Here you can configure the mapper matching with the product attributes</comment>
+                    <frontend_model>SalesAndOrders\FeedTool\Block\Adminhtml\Form\Field\FieldMapper</frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
