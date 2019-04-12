@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
     <system>
-        <tab id="perspective" translate="label" sortOrder="1000001">
+        <tab id="custom_options" translate="label" sortOrder="1000001">
             <label><![CDATA[<a href="https://perspective.net.ua/" target="_BLANK" title="Perspective Studio - Your Best Magento Team">Custom options</a>]]></label>
         </tab>
-        <section id="custom_options" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="fields_mapper" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Fields mapper</label>
-            <tab>perspective</tab>
+            <tab>custom_options</tab>
             <resource>SalesAndOrders_FeedTool::config</resource>
             <group id="field_mapper" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Fields mapper settings</label>
@@ -17,5 +17,19 @@
                 </field>
             </group>
         </section>
+
+        <section id="api_configs" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>API Configurations</label>
+            <tab>custom_options</tab>
+            <resource>SalesAndOrders_FeedTool::config</resource>
+            <group id="api_config_data" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>API Configurations</label>
+                <field id="api_remote_url" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API remote URL</label>
+                </field>
+            </group>
+        </section>
+
     </system>
 </config>

@@ -39,6 +39,6 @@ class View extends \Magento\Framework\App\Action\Action
         $result = $this->resultJsonFactory->create();
         $data = ['message' => 'Hello world 2!'];
 
-        return $result->setData($data);
+        return $result->setData($mapper);
     }
 }
