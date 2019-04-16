@@ -2,7 +2,6 @@
 
 namespace SalesAndOrders\FeedTool\Controller\Page;
 
-use \SalesAndOrders\FeedTool\Model\Mapper;
 
 class View extends \Magento\Framework\App\Action\Action
 {
@@ -20,12 +19,10 @@ class View extends \Magento\Framework\App\Action\Action
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        Mapper $mapper
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
     )
     {
         $this->resultJsonFactory = $resultJsonFactory;
-        $this->mapper = $mapper;
         parent::__construct($context);
     }
     /**
@@ -35,10 +32,9 @@ class View extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        $mapper = $this->mapper->getMapperToAttributes();
         $result = $this->resultJsonFactory->create();
         $data = ['message' => 'Hello world 2!'];
 
-        return $result->setData($mapper);
+        return $result->setData($data);
     }
 }
