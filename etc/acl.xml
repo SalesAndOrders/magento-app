@@ -4,12 +4,8 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Magento_Backend::stores">
-                    <resource id="Magento_Backend::stores_settings">
-                        <resource id="Magento_Config::config">
-                            
-                        </resource>
-                    </resource>
+                <resource id="Magento_Catalog::catalog">
+                    <resource id="SalesAndOrders_FeedTool::integration_module" title="Sales and Orders" translate="title" sortOrder="100" />
                 </resource>
             </resource>
         </resources>
