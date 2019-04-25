@@ -7,5 +7,10 @@ interface RestCallbackInterface
     /**
      * @return mixed
      */
+    public function actions();
+
+    /**
+     * @return mixed
+     */
     public function products();
 }

@@ -2,39 +2,42 @@
 
 namespace SalesAndOrders\FeedTool\Controller\Adminhtml\Page;
 
+use \Magento\Framework\App\Action\Action;
+use \Magento\Framework\App\Action\Context;
+use \Magento\Framework\Controller\Result\JsonFactory;
+use \Magento\Framework\View\Result\PageFactory;
 
-class View extends \Magento\Framework\App\Action\Action
+class View extends Action
 {
     /**
-     * @var \Magento\Framework\Controller\Result\JsonFactory
+     * @var JsonFactory
      */
     protected $resultJsonFactory;
+
+    protected $resultPageFactory;
+
     /**
-     * @var Mapper
-     */
-    protected $mapper;
-    /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
+     * View constructor.
+     * @param Context $context
+     * @param JsonFactory $resultJsonFactory
+     * @param PageFactory $resultPageFactory
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
+        Context $context,
+        JsonFactory $resultJsonFactory,
+        PageFactory $resultPageFactory
     )
     {
         $this->resultJsonFactory = $resultJsonFactory;
+        $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
     }
+
     /**
-     * View  page action
-     *
-     * @return \Magento\Framework\Controller\ResultInterface
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|\Magento\Framework\View\Result\Page
      */
     public function execute()
     {
-        $result = $this->resultJsonFactory->create();
-        $data = ['message' => 'New admin page'];
-
-        return $result->setData($data);
+        return $resultPage = $this->resultPageFactory->create();
     }
 }

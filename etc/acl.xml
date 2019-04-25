@@ -7,6 +7,13 @@
                 <resource id="Magento_Catalog::catalog">
                     <resource id="SalesAndOrders_FeedTool::integration_module" title="Sales and Orders" translate="title" sortOrder="100" />
                 </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="SalesAndOrders_FeedTool::config" title="OAuth configurations" />
+                        </resource>
+                    </resource>
+                </resource>
             </resource>
         </resources>
     </acl>
