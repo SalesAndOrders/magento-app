@@ -1,0 +1,64 @@
+<iframe id="theFrame" src="http://www.salesandorders.com" style="width:100%;" frameborder="0"></iframe>
+<div class="header-view-block">
+    <img src="/pub/media/salesandorders/image/logo.png">
+    <button id="popup-modal">Install</button>
+</div>
+<div class="content-view-block">
+    <div class="content-view-block-left">
+        <h2>Dev - Sales and Orders</h2>
+        <h3>App Dev - Sales and Orders requires:</h3>
+        <ul>
+            <li>
+                <p>View and modify basic store information</p>
+            </li>
+            <li>
+                <p>View general store information</p>
+            </li>
+            <li>
+                <p>View marketing information</p>
+            </li>
+            <li>
+                <p>View products</p>
+            </li>
+        </ul>
+    </div>
+    <div class="content-view-block-center">
+        <ul>
+            <li>
+                <p>Access to your password</p>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                //title: 'popup modal title',
+                /*buttons: [{
+                    text: $.mage.__('Continue'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]*/
+            };
+
+            var popup = modal(options, $('#theFrame'));
+
+            $(document).on('click', '#popup-modal', function () {
+                $('#theFrame').modal('openModal');
+            });
+        }
+    );
+</script>

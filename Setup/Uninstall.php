@@ -19,9 +19,6 @@ class Uninstall implements UninstallInterface
         $setup->getConnection()->dropTable(
             $setup->getTable('perspective_products')
         );
-        $setup->getConnection()->dropTable(
-            $setup->getTable('perspective_attribute_mapper')
-        );
 
         $setup->endSetup();
     }

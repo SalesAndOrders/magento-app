@@ -37,7 +37,7 @@ class CatalogProductSaveBefore implements ObserverInterface
         $product = $observer->getProduct();
         $action = 'create';
         if ($product->getId() && !is_null($product->getId())) {
-            $action = 'edit';
+            $action = 'update';
         }
         $product->setData('product_action', $action);
         return true;
