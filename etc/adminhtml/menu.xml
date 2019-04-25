@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="SalesAndOrders_FeedTool::integration_module" title="Sales and Orders" module="SalesAndOrders_FeedTool" sortOrder="70" parent="Magento_Catalog::catalog" action="integration_module/page/view/" resource="SalesAndOrders_FeedTool::integration_module"/>
+    </menu>
+</config>

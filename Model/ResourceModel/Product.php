@@ -164,13 +164,13 @@ class Product extends AbstractDb {
                 if ($actions[$datum->getId()] != 'delete') {
                     $result[] = [
                         'id' => $datum->getId(),
-                        'sku' => $datum->getSku(),
-                        'title' => $datum->getName(),
-                        'description' => $datum->getDescription(),
-                        'price' => $datum->getPrice(),
-                        'availability' =>$datum->getQuantityAndStockStatus(),
-                        'link' =>$datum->getProductUrl(),
-                        'image_link' => $this->getProductImage($datum),
+                        //'sku' => $datum->getSku(),
+                        //'title' => $datum->getName(),
+                        //'description' => $datum->getDescription(),
+                        //'price' => $datum->getPrice(),
+                        //'availability' =>$datum->getQuantityAndStockStatus(),
+                        //'link' =>$datum->getProductUrl(),
+                        //'image_link' => $this->getProductImage($datum),
                         'action' => $actions[$datum->getId()]
                     ];
                 }
