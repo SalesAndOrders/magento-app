@@ -109,7 +109,7 @@ class Product extends AbstractDb {
     {
         if (!empty($products)) {
             foreach ($products as $product) {
-                $this->getConnection()->delete($this->getMainTable(), ['product_id = ?' => $product['entity_id']]);
+                $this->getConnection()->delete($this->getMainTable(), ['product_id = ?' => $product['id']]);
             }
         }
         return true;
