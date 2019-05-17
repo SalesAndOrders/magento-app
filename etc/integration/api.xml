@@ -1,0 +1,20 @@
+<integrations>
+    <integration name="sales_and_order">
+        <resources>
+            <!-- To grant permission to Magento_Log::online, its parent Magento_Customer::customer needs to be declared as well-->
+            <resource name="Magento_Customer::customer" />
+            <resource name="Magento_Log::online" />
+            <!-- To grant permission to Magento_Sales::reorder, all its parent resources need to be declared-->
+            <resource name="Magento_Catalog::catalog" />
+            <resource name="Magento_Catalog::catalog_inventory" />
+            <resource name="Magento_Catalog::products" />
+            <resource name="Magento_Catalog::categories" />
+
+
+            <resource name="Magento_Backend::stores" />
+            <resource name="Magento_Backend::stores_attributes" />
+            <resource name="Magento_Backend::stores_settings" />
+            <resource name="Magento_Config::config" />
+        </resources>
+    </integration>
+</integrations>

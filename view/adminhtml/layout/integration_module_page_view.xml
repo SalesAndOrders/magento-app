@@ -2,6 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="SalesAndOrders_FeedTool::css/view.css" />
+        <link src="SalesAndOrders_FeedTool::js/view.js"/>
         <title>
             Dev - Sales and Orders
         </title>
