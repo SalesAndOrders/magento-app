@@ -9,7 +9,7 @@ use \Magento\Framework\View\Result\PageFactory;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation;
 use \Magento\Framework\Controller\ResultFactory;
 
-class Activate extends Action
+class Deactivate extends Action
 {
 
     protected $activationModel;
@@ -28,13 +28,12 @@ class Activate extends Action
 
     public function execute()
     {
-        $data = $this->activationModel->runActiovation();
+        $data = $this->activationModel->deactivateIntegration();
 
         /** @var \Magento\Framework\Controller\Result\Json $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $result->setData([
-            'status' => true,
-            'response' => 'response: ' . $data['response'] . "\n err_message: " . $data['err']
+            'status' => $data
         ]);
         return $result;
     }
