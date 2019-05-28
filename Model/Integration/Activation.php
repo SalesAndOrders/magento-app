@@ -179,7 +179,16 @@ class Activation extends AbstractDb
         } else {
             $this->consumer = $this->oauthService->createConsumer(['name' => $this->consumerName]);
         }
-        return true;
+        return $this->consumer;
+    }
+
+    /**
+     * @return \Magento\Integration\Model\Integration|null
+     */
+    public function getIntegration()
+    {
+        $integration = $this->integration;
+        return $integration;
     }
 
     /**
@@ -264,6 +273,11 @@ class Activation extends AbstractDb
         return $data;
     }
 
+    public function getStoreBaseUrl()
+    {
+        return $this->_storeManager->getStore()->getBaseUrl();
+    }
+
     /**
      * @param $endpointUrl
      * @param array $postData
@@ -296,5 +310,41 @@ class Activation extends AbstractDb
         $err = curl_error($curl);
         curl_close($curl);
         return ['response' => $response, 'err' => $err];
+    }
+
+
+    public function getHmac($url, $secret, $queryParams)
+    {
+        //first get params from url string
+        $paramsStr = parse_url($url, PHP_URL_QUERY);
+        parse_str($paramsStr, $decomposedParams);
+
+        if (!empty($decomposedParams)) {
+            $queryParams = array_merge($decomposedParams, $queryParams);
+        }
+
+        $cleanUrl = explode("?", $url)[0];
+
+        $dataArray = [];
+        foreach ($queryParams as $field => $value) {
+            $dataArray[] = urlencode($field) . '=' . urlencode($value);
+        }
+
+        sort($dataArray);
+        $dataString = implode("&", $dataArray);
+        $hmac = hash_hmac('sha256', $dataString, $secret);
+
+        $queryParams["hmac"] = $hmac;
+        $queryPart = http_build_query(
+            $queryParams,
+            null,
+            '&',
+            PHP_QUERY_RFC3986
+        );
+
+        $queryString = $cleanUrl . '?' . $queryPart;
+        // @todo delete this line, it's for testing only
+        $compareQueryString = $cleanUrl . '?' . $dataString . '&hmac=' . $hmac;
+        return $queryString;
     }
 }
