@@ -30,9 +30,23 @@ require(
                 'test': 3,
             }).done(function(data) {
                 if (data.status == true) {
-                    alert(data.response)
+                    alert('Successfully activated');
+                    window.location.href = ''
                 } else {
-                    alert('Error, integration already installed')
+                    alert('Error, try later');
+                }
+            });
+            //$('#theFrame').modal('openModal');
+        });
+
+        $(document).on('click', '#add_integration', function () {
+            $.post('/admin/integration_module/oauth/add', {
+                'test': 3,
+            }).done(function(data) {
+                if (data.status == true) {
+                    alert('Integration successfully added')
+                } else {
+                    alert('Error, integration already added')
                 }
             });
             //$('#theFrame').modal('openModal');
@@ -46,6 +60,19 @@ require(
                     alert('Integration successfully deactivated')
                 } else {
                     alert('Error, integration already deactivated')
+                }
+            });
+            //$('#theFrame').modal('openModal');
+        });
+
+        $(document).on('click', '#delete_integration', function () {
+            $.post('/admin/integration_module/oauth/delete', {
+                'test': 3,
+            }).done(function(data) {
+                if (data.status == true) {
+                    alert('Integration successfully deleted')
+                } else {
+                    alert('Error, integration already deleted')
                 }
             });
             //$('#theFrame').modal('openModal');

@@ -13,7 +13,9 @@ class View extends Action
      * @var JsonFactory
      */
     protected $resultJsonFactory;
-
+    /**
+     * @var PageFactory
+     */
     protected $resultPageFactory;
 
     /**
