@@ -9,7 +9,9 @@ use \Magento\Framework\View\Result\PageFactory;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation;
 use \Magento\Framework\Controller\ResultFactory;
 
-class Deactivate extends Action
+use Magento\Integration\Model\ConfigBasedIntegrationManager;
+
+class Add extends Action
 {
 
     /**
@@ -20,34 +22,41 @@ class Deactivate extends Action
      * @var ResultFactory
      */
     protected $resultFactory;
+    /**
+     * @var ConfigBasedIntegrationManager
+     */
+    protected $integrationManager;
 
     /**
-     * Deactivate constructor.
+     * Add constructor.
      * @param Context $context
      * @param Activation $activation
+     * @param ConfigBasedIntegrationManager $integrationManager
      */
     public function __construct(
         Context $context,
-        Activation $activation
+        Activation $activation,
+        ConfigBasedIntegrationManager $integrationManager
     )
     {
         $this->activationModel = $activation;
         $this->resultFactory = $context->getResultFactory();
+        $this->integrationManager = $integrationManager;
         parent::__construct($context);
     }
 
     /**
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface
-     * @throws \Exception
      */
     public function execute()
     {
-        $data = $this->activationModel->deactivateIntegration();
+        $data = $this->integrationManager->processIntegrationConfig(['sales_and_order']);
 
         /** @var \Magento\Framework\Controller\Result\Json $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $result->setData([
-            'status' => $data
+            'status' => true,
+            'response' => '1111'
         ]);
         return $result;
     }

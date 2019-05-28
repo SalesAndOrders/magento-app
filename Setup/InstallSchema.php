@@ -14,6 +14,9 @@ class InstallSchema implements InstallSchemaInterface
      */
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context) {
 
+        /**
+         * Table - perspective_products
+         */
         $table_perspective_perspective_products = $setup->getConnection()->newTable($setup->getTable('perspective_products'));
 
         $table_perspective_perspective_products->addColumn(
@@ -60,6 +63,90 @@ class InstallSchema implements InstallSchemaInterface
         );
 
         $setup->getConnection()->createTable($table_perspective_perspective_products);
+
+        /**
+         * Table - perspective_webhooks
+         */
+        $table_perspective_webhook = $setup->getConnection()->newTable($setup->getTable('perspective_webhooks'));
+
+        $table_perspective_webhook->addColumn(
+            'id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            11,
+            ['identity' => true,'nullable' => false,'primary' => true,'unsigned' => true,],
+            'Entity ID'
+        );
+
+        $table_perspective_webhook->addColumn(
+            'integration_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            11,
+            ['nullable' => false],
+            'id of integration'
+        );
+
+        $table_perspective_webhook->addColumn(
+            'consumer_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            11,
+            ['nullable' => false],
+            'id of consumer'
+        );
+
+        $table_perspective_webhook->addColumn(
+            'is_oath_authorized',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            11,
+            ['nullable' => false],
+            'flag'
+        );
+
+        $table_perspective_webhook->addColumn(
+            'verify_url_endpoint',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            '2M',
+            ['nullable' => false],
+
+            'url'
+        );
+
+        $table_perspective_webhook->addColumn(
+            'store_code',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            255,
+            ['nullable' => true],
+            'code'
+        );
+
+        $table_perspective_webhook->addColumn(
+            'products_webhook_url',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            '2M',
+            ['nullable' => true],
+
+            'url'
+        );
+
+        $table_perspective_webhook->addColumn(
+            'account_update_url',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            '2M',
+            ['nullable' => true],
+
+            'url'
+        );
+
+        $table_perspective_webhook->addColumn(
+            'uninstall_url',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            '2M',
+            ['nullable' => true],
+
+            'url'
+        );
+
+        $setup->getConnection()->createTable($table_perspective_webhook);
+
 
     }
 }

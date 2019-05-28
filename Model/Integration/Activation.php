@@ -13,71 +13,70 @@ use \Magento\Store\Model\StoreManagerInterface;
 use \Magento\Backend\Model\Auth\Session;
 use \Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
 use \Magento\Framework\HTTP\ZendClient;
+use \SalesAndOrders\FeedTool\Model\WebHook;
 
 
 class Activation extends AbstractDb
 {
 
+    const INTEGRATION_NAME = 'sales_and_order';
+
     /**
      * @var string
      */
     public $integrationName = 'sales_and_order';
-
     /**
      * @var string
      */
-    public $consumerName = 'test_name';
-
+    public $consumerName = 'sales_and_order_consumer';
     /**
      * @var IntegrationFactory
      */
     protected $integrationFactory;
-
     /**
      * @var OauthService
      */
     protected $oauthService;
-
     /**
      * @var AuthorizationService
      */
     protected $authorizationService;
-
     /**
      * @var Token
      */
     protected $token;
-
     /**
      * @var TokenFactory
      */
     protected $_tokenFactory;
-
     /**
      * @var StoreManagerInterface
      */
     protected $_storeManager;
-
     /**
      * @var Session
      */
     protected $authSession;
-
-
+    /**
+     * @var IntegrationOauthHelper
+     */
     protected $_dataHelper;
-
-
+    /**
+     * @var ZendClient
+     */
     protected $_httpClient;
+    /**
+     * @var WebHook
+     */
+    protected $webHookModel;
     /**
      * @var \Magento\Integration\Model\Integration|null
      */
     protected $integration = null;
-
     /**
      * @var null
      */
     protected $consumer = null;
-
     /**
      * @var null
      */
@@ -96,6 +95,10 @@ class Activation extends AbstractDb
      * @param Token $token
      * @param TokenFactory $tokenFactory
      * @param StoreManagerInterface $storeManager
+     * @param Session $authSession
+     * @param IntegrationOauthHelper $_dataHelper
+     * @param ZendClient $_httpClient
+     * @param WebHook $webHookModel
      */
     public function __construct(
         Context $context,
@@ -107,7 +110,8 @@ class Activation extends AbstractDb
         StoreManagerInterface $storeManager,
         Session $authSession,
         IntegrationOauthHelper $_dataHelper,
-        ZendClient $_httpClient
+        ZendClient $_httpClient,
+        WebHook $webHookModel
     )
     {
         $this->integrationFactory = $integrationFactory;
@@ -119,6 +123,7 @@ class Activation extends AbstractDb
         $this->authSession = $authSession;
         $this->_dataHelper = $_dataHelper;
         $this->_httpClient = $_httpClient;
+        $this->webHookModel = $webHookModel;
 
         $this->integration = $this->integrationFactory->create()->load($this->integrationName, 'name');
         $this->currentUser = $this->authSession->getUser();
@@ -131,13 +136,26 @@ class Activation extends AbstractDb
         // TODO: Implement _construct() method.
     }
 
+    /**
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Oauth\Exception
+     */
     public function runActiovation()
     {
         $endPointUrl = $this->integration->getEndpoint();
-        $this->createConsumer();
+        $this->getConsumer();
         $data = $this->getData();
         $response = $this->sendData($endPointUrl, $data);
-        return $response;
+        $result = json_decode($response['response']);
+        if ($result->status == 500) {
+            $this->activateIntegration();
+            $this->webHookModel->addIntegrationWebHook(['verify_url_endpoint' => $result->detail], 0);
+            return $result->detail;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -145,9 +163,20 @@ class Activation extends AbstractDb
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Oauth\Exception
      */
-    public function createConsumer()
+    public function getConsumer()
     {
-        $this->consumer = $this->oauthService->createConsumer(['name' => $this->consumerName]);
+        if ($this->integration && $this->integration->getId()) {
+            $consumer = $this->oauthService->loadConsumer($this->integration->getConsumerId());
+            if ($consumer && $consumer->getId()) {
+                $this->consumer = $consumer;
+            } else {
+                $this->consumer = $this->oauthService->createConsumer(['name' => $this->consumerName]);
+                $this->integration->setConsumerId($this->consumer->getId());
+                $this->integration->save();
+            }
+        } else {
+            $this->consumer = $this->oauthService->createConsumer(['name' => $this->consumerName]);
+        }
         return true;
     }
 
@@ -185,17 +214,23 @@ class Activation extends AbstractDb
     public function deleteIntegration()
     {
         if ($this->integration && $this->integration->getName()) {
+            $this->webHookModel->deleteWebHook($this->integration->getId());
             $this->integration->delete();
             return true;
         }
         return false;
     }
 
+    /**
+     * @return bool
+     * @throws \Exception
+     */
     public function deactivateIntegration()
     {
         if ($this->integration->getStatus() == '1') {
             $this->integration->setStatus(0);
             $this->integration->save();
+            $this->webHookModel->deleteWebHook($this->integration->getId());
             return true;
         }
         return false;
@@ -227,7 +262,11 @@ class Activation extends AbstractDb
         return $data;
     }
 
-
+    /**
+     * @param $endpointUrl
+     * @param array $postData
+     * @return array
+     */
     public function sendData($endpointUrl, $postData = [])
     {
         $curl = curl_init();

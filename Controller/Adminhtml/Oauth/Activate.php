@@ -12,10 +12,20 @@ use \Magento\Framework\Controller\ResultFactory;
 class Activate extends Action
 {
 
+    /**
+     * @var Activation
+     */
     protected $activationModel;
-
+    /**
+     * @var ResultFactory
+     */
     protected $resultFactory;
 
+    /**
+     * Activate constructor.
+     * @param Context $context
+     * @param Activation $activation
+     */
     public function __construct(
         Context $context,
         Activation $activation
@@ -26,6 +36,12 @@ class Activate extends Action
         parent::__construct($context);
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Oauth\Exception
+     */
     public function execute()
     {
         $data = $this->activationModel->runActiovation();
@@ -34,7 +50,7 @@ class Activate extends Action
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $result->setData([
             'status' => true,
-            'response' => 'response: ' . $data['response'] . "\n err_message: " . $data['err']
+            'response' => $data
         ]);
         return $result;
     }
