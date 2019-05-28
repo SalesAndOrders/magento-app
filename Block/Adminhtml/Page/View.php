@@ -42,8 +42,13 @@ class View extends Template
      */
     public function getIframeLinkData()
     {
+        $data = [
+            'content' => false,
+            'url' => false
+        ];
         $ingegration = $this->activationModel->getIntegration();
-        if ($ingegration && $ingegration->getId()) {
+        $integrationData = $ingegration->getData();
+        if ($ingegration && isset($integrationData['id'])) {
             $webHook = $this->webHookModel->getWebHookData($ingegration->getId());
             if ($webHook && $webHook->verify_url_endpoint && $webHook->is_oath_authorized == 0) {
                 $data = [
