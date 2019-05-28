@@ -6,25 +6,15 @@
         </tab>
         <section id="oauth_configs" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
-            <label>Oauth configurations</label>
+            <label>Options</label>
             <tab>custom_options</tab>
             <resource>SalesAndOrders_FeedTool::config</resource>
-            <group id="oauth_config" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="custom_config" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Oauth configurations</label>
-                <field id="consumer_key" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Consumer key</label>
-                </field>
-                <field id="consumer_secret" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Consumer secret</label>
-                </field>
-                <field id="access_token" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Access token</label>
-                </field>
-                <field id="access_token_secret" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Access token secret</label>
+                <field id="load_iframe" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Load iframe URL</label>
                 </field>
             </group>
         </section>
-
     </system>
 </config>

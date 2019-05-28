@@ -9,7 +9,7 @@
     </head>
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Backend\Block\Template" template="SalesAndOrders_FeedTool::view.phtml"/>
+            <block class="SalesAndOrders\FeedTool\Block\Adminhtml\Page\View" template="SalesAndOrders_FeedTool::view.phtml"/>
         </referenceContainer>
     </body>
 </page>
