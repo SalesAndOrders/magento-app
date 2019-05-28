@@ -42,10 +42,8 @@ class View extends Template
      */
     public function getIframeLinkData()
     {
-        $data = [
-            'content' => false,
-            'url' => false
-        ];
+        $data = ['content' => false, 'url' => false];
+
         $ingegration = $this->integrationFactory->create()->load(IntegrationActivation::INTEGRATION_NAME, 'name');
         if ($ingegration && $ingegration->getId()) {
             $webHook = $this->webHookModel->getWebHookData($ingegration->getId());
@@ -59,17 +57,17 @@ class View extends Template
                     'content' => 'load_iframe',
                     'url' => $this->getIframeLoadUrl()
                 ];
-            } else {
-                $data = [
-                    'content' => false,
-                    'url' => false
-                ];
             }
         }
 
         return $data;
     }
 
+    /**
+     * @return string
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Oauth\Exception
+     */
     private function getIframeLoadUrl()
     {
         $loadUrl = $this->configHelper->getIframeLoadUrl();
