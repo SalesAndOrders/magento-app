@@ -9,7 +9,7 @@ use \Magento\Framework\View\Result\PageFactory;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation;
 use \Magento\Framework\Controller\ResultFactory;
 
-class Deactivate extends Action
+class Delete extends Action
 {
 
     /**
@@ -22,7 +22,7 @@ class Deactivate extends Action
     protected $resultFactory;
 
     /**
-     * Deactivate constructor.
+     * Delete constructor.
      * @param Context $context
      * @param Activation $activation
      */
@@ -42,7 +42,7 @@ class Deactivate extends Action
      */
     public function execute()
     {
-        $data = $this->activationModel->deactivateIntegration();
+        $data = $this->activationModel->deleteIntegration();
 
         /** @var \Magento\Framework\Controller\Result\Json $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
