@@ -49,7 +49,7 @@ class Activate extends Action
         /** @var \Magento\Framework\Controller\Result\Json $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $result->setData([
-            'status' => true,
+            'status' => $data,
             'response' => $data
         ]);
         return $result;

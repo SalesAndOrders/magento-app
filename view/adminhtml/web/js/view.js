@@ -23,13 +23,13 @@ require(
             }]*/
         };
 
-        var popup = modal(options, $('#theFrame'));
+        //var popup = modal(options, $('#theFrame'));
 
         $(document).on('click', '#popup-modal', function () {
             $.post('/admin/integration_module/oauth/activate', {
                 'test': 3,
             }).done(function(data) {
-                if (data.status == true) {
+                if (data.status) {
                     alert('Successfully activated');
                     window.location.href = ''
                 } else {
@@ -44,9 +44,10 @@ require(
                 'test': 3,
             }).done(function(data) {
                 if (data.status == true) {
-                    alert('Integration successfully added')
+                    alert('Integration successfully added');
+                    window.location.href = ''
                 } else {
-                    alert('Error, integration already added')
+                    alert('Error, integration already added');
                 }
             });
             //$('#theFrame').modal('openModal');
@@ -57,9 +58,10 @@ require(
                 'test': 3,
             }).done(function(data) {
                 if (data.status == true) {
-                    alert('Integration successfully deactivated')
+                    alert('Integration successfully deactivated');
+                    window.location.href = ''
                 } else {
-                    alert('Error, integration already deactivated')
+                    alert('Error, integration already deactivated');
                 }
             });
             //$('#theFrame').modal('openModal');
@@ -70,9 +72,10 @@ require(
                 'test': 3,
             }).done(function(data) {
                 if (data.status == true) {
-                    alert('Integration successfully deleted')
+                    alert('Integration successfully deleted');
+                    window.location.href = ''
                 } else {
-                    alert('Error, integration already deleted')
+                    alert('Error, integration already deleted');
                 }
             });
             //$('#theFrame').modal('openModal');
