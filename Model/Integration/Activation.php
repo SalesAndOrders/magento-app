@@ -149,7 +149,7 @@ class Activation extends AbstractDb
         $data = $this->getData();
         $response = $this->sendData($endPointUrl, $data);
         $result = json_decode($response['response']);
-        if ($result->status == 500) {
+        if ($result->status == 200) {
             $this->activateIntegration();
             $this->webHookModel->addIntegrationWebHook(['verify_url_endpoint' => $result->detail], 0);
             return $result->detail;
