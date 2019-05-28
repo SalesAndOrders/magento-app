@@ -46,9 +46,8 @@ class View extends Template
             'content' => false,
             'url' => false
         ];
-        $ingegration = $this->activationModel->getIntegration();
-        $integrationData = $ingegration->getData();
-        if ($ingegration && isset($integrationData['id'])) {
+        $ingegration = $this->integrationFactory->create()->load(IntegrationActivation::INTEGRATION_NAME, 'name');
+        if ($ingegration && $ingegration->getId()) {
             $webHook = $this->webHookModel->getWebHookData($ingegration->getId());
             if ($webHook && $webHook->verify_url_endpoint && $webHook->is_oath_authorized == 0) {
                 $data = [
