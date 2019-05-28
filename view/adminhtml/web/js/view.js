@@ -29,7 +29,7 @@ require(
             $.post('/admin/integration_module/oauth/activate', {
                 'test': 3,
             }).done(function(data) {
-                if (data.status == true) {
+                if (data.status) {
                     alert('Successfully activated');
                     window.location.href = ''
                 } else {
