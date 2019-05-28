@@ -21,6 +21,8 @@ class Activation extends AbstractDb
 
     const INTEGRATION_NAME = 'sales_and_order';
 
+    const END_POINT_SUCCESS_CODE = 200;
+
     /**
      * @var string
      */
@@ -149,7 +151,7 @@ class Activation extends AbstractDb
         $data = $this->getData();
         $response = $this->sendData($endPointUrl, $data);
         $result = json_decode($response['response']);
-        if ($result->status == 200) {
+        if ($result->status == self::END_POINT_SUCCESS_CODE) {
             $this->activateIntegration();
             $this->webHookModel->addIntegrationWebHook(['verify_url_endpoint' => $result->detail], 0);
             return $result->detail;
