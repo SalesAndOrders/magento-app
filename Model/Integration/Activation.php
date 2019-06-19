@@ -22,7 +22,7 @@ class Activation extends AbstractDb
 
     const INTEGRATION_NAME = 'sales_and_order';
 
-    const END_POINT_SUCCESS_CODE = 500;
+    const END_POINT_SUCCESS_CODE = 200;
 
     /**
      * @var string
