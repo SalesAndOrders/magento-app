@@ -2,5 +2,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <add id="SalesAndOrders_FeedTool::integration_module" title="Sales and Orders" module="SalesAndOrders_FeedTool" sortOrder="70" parent="Magento_Catalog::catalog" action="integration_module/page/view/" resource="SalesAndOrders_FeedTool::integration_module"/>
+        <add id="SalesAndOrders_FeedTool::integration_module_accounts" title="Sales and Orders Accounts" module="SalesAndOrders_FeedTool" sortOrder="71" parent="Magento_Catalog::catalog" action="integration_module/page/accounts/" resource="SalesAndOrders_FeedTool::integration_module"/>
     </menu>
 </config>

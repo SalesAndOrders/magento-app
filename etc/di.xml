@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="SalesAndOrders\FeedTool\Api\RestCallbackInterface" type="SalesAndOrders\FeedTool\Model\RestCallback"/>
+    <type name="Magento\Backend\Controller\Adminhtml\System\Store\Save">
+        <plugin name="EditStore" type="SalesAndOrders\FeedTool\Plugin\EditStorePlugin" sortOrder="5" />
+    </type>
+    <type name="Magento\Config\Controller\Adminhtml\System\Config\Save">
+        <plugin name="EditSystemConfig" type="SalesAndOrders\FeedTool\Plugin\EditConfigPlugin" sortOrder="5" />
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="integration_module_page_listing_data_source" xsi:type="string">SalesAndOrders\FeedTool\Model\ResourceModel\WebHook\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="SalesAndOrdersAcc" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">perspective_webhooks</argument>
+            <argument name="resourceModel" xsi:type="string">SalesAndOrders\FeedTool\Model\ResourceModel\WebHook</argument>
+        </arguments>
+    </virtualType>
 </config>

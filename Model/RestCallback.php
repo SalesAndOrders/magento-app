@@ -9,7 +9,7 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Webapi\ServiceOutputProcessor;
 use Magento\Framework\Webapi\Rest\Request;
 
-use SalesAndOrders\FeedTool\Model\WebHook;
+use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
 class RestCallback implements RestCallbackInterface
 {
@@ -35,7 +35,7 @@ class RestCallback implements RestCallbackInterface
      */
     protected $_request;
     /**
-     * @var \SalesAndOrders\FeedTool\Model\WebHook
+     * @var \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook
      */
     protected $webHookModel;
 
@@ -46,7 +46,7 @@ class RestCallback implements RestCallbackInterface
      * @param SearchCriteriaInterface $searchCriteria
      * @param ServiceOutputProcessor $serviceOutputProcessor
      * @param Request $request
-     * @param \SalesAndOrders\FeedTool\Model\WebHook $webHookModel
+     * @param \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook $webHookModel
      */
     public function __construct(
         CronScheduler $cronScheduler,
