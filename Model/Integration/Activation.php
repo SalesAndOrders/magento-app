@@ -13,7 +13,8 @@ use \Magento\Store\Model\StoreManagerInterface;
 use \Magento\Backend\Model\Auth\Session;
 use \Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
 use \Magento\Framework\HTTP\ZendClient;
-use \SalesAndOrders\FeedTool\Model\WebHook;
+use \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
+use \SalesAndOrders\FeedTool\Model\Transport;
 
 
 class Activation extends AbstractDb
@@ -21,7 +22,7 @@ class Activation extends AbstractDb
 
     const INTEGRATION_NAME = 'sales_and_order';
 
-    const END_POINT_SUCCESS_CODE = 200;
+    const END_POINT_SUCCESS_CODE = 500;
 
     /**
      * @var string
@@ -67,6 +68,8 @@ class Activation extends AbstractDb
      * @var ZendClient
      */
     protected $_httpClient;
+
+    protected $transport;
     /**
      * @var WebHook
      */
@@ -113,7 +116,8 @@ class Activation extends AbstractDb
         Session $authSession,
         IntegrationOauthHelper $_dataHelper,
         ZendClient $_httpClient,
-        WebHook $webHookModel
+        WebHook $webHookModel,
+        Transport $transport
     )
     {
         $this->integrationFactory = $integrationFactory;
@@ -126,6 +130,7 @@ class Activation extends AbstractDb
         $this->_dataHelper = $_dataHelper;
         $this->_httpClient = $_httpClient;
         $this->webHookModel = $webHookModel;
+        $this->transport = $transport;
 
         $this->integration = $this->integrationFactory->create()->load($this->integrationName, 'name');
         $this->currentUser = $this->authSession->getUser();
@@ -149,7 +154,7 @@ class Activation extends AbstractDb
         $endPointUrl = $this->integration->getEndpoint();
         $this->getConsumer();
         $data = $this->getData();
-        $response = $this->sendData($endPointUrl, $data);
+        $response = $this->transport->sendData($endPointUrl, $data);
         $result = json_decode($response['response']);
         if ($result->status == self::END_POINT_SUCCESS_CODE) {
             $this->activateIntegration();
@@ -276,40 +281,6 @@ class Activation extends AbstractDb
     public function getStoreBaseUrl()
     {
         return $this->_storeManager->getStore()->getBaseUrl();
-    }
-
-    /**
-     * @param $endpointUrl
-     * @param array $postData
-     * @return array
-     */
-    public function sendData($endpointUrl, $postData = [])
-    {
-        $curl = curl_init();
-
-        $curlOptions = array(
-            CURLOPT_URL => $endpointUrl,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => json_encode($postData),
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/json",
-                "cache-control: no-cache"
-            ),
-        );
-
-        curl_setopt_array($curl, $curlOptions);
-
-        $response = curl_exec($curl);
-        $info = curl_getinfo($curl);
-        $err = curl_error($curl);
-        curl_close($curl);
-        return ['response' => $response, 'err' => $err];
     }
 
 

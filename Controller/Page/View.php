@@ -2,9 +2,10 @@
 
 namespace SalesAndOrders\FeedTool\Controller\Page;
 
+use \Magento\Framework\App\Action\Action;
 use SalesAndOrders\FeedTool\Model\Product;
 
-class View extends \Magento\Framework\App\Action\Action
+class View extends Action
 {
     /**
      * @var \Magento\Framework\Controller\Result\JsonFactory
