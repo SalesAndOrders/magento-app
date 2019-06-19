@@ -6,9 +6,10 @@ use \Magento\Framework\View\Element\Template;
 use \Magento\Framework\View\Element\Template\Context;
 use \Magento\Integration\Model\IntegrationFactory;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation as IntegrationActivation;
-use \SalesAndOrders\FeedTool\Model\WebHook;
+use \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation;
 use \SalesAndOrders\FeedTool\Helper\Config;
+use \Magento\Store\Model\StoreManagerInterface;
 
 class View extends Template
 {
@@ -21,18 +22,22 @@ class View extends Template
 
     protected $configHelper;
 
+    protected $_storeManager;
+
     public function __construct(
         Context $context,
         IntegrationFactory $integrationFactory,
         WebHook $webHookModel,
         Activation $activation,
-        Config $configHelper
+        Config $configHelper,
+        StoreManagerInterface $_storeManager
     )
     {
         $this->integrationFactory = $integrationFactory;
         $this->webHookModel = $webHookModel;
         $this->activationModel = $activation;
         $this->configHelper = $configHelper;
+        $this->_storeManager = $_storeManager;
         parent::__construct($context);
     }
 
@@ -43,10 +48,10 @@ class View extends Template
     public function getIframeLinkData()
     {
         $data = ['content' => false, 'url' => false];
-
+        $store = $this->_storeManager->getStore()->getCode();
         $ingegration = $this->integrationFactory->create()->load(IntegrationActivation::INTEGRATION_NAME, 'name');
         if ($ingegration && $ingegration->getId()) {
-            $webHook = $this->webHookModel->getWebHookData($ingegration->getId());
+            $webHook = $this->webHookModel->getWebHookData($ingegration->getId(), $store);
             if ($webHook && $webHook->verify_url_endpoint && $webHook->is_oath_authorized == 0) {
                 $data = [
                     'content' => 'login_iframe',
