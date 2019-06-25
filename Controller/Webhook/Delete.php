@@ -1,21 +1,16 @@
 <?php
 
-namespace SalesAndOrders\FeedTool\Controller\Page;
+namespace SalesAndOrders\FeedTool\Controller\Webhook;
 
 use \Magento\Framework\App\Action\Action;
-use SalesAndOrders\FeedTool\Model\Product;
 
-class View extends Action
+class Delete extends Action
 {
     /**
      * @var \Magento\Framework\Controller\Result\JsonFactory
      */
     protected $resultJsonFactory;
 
-    /**
-     * @var Product
-     */
-    protected $productModel;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
@@ -23,12 +18,10 @@ class View extends Action
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        Product $productModel
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
     )
     {
         $this->resultJsonFactory = $resultJsonFactory;
-        $this->productModel = $productModel;
         parent::__construct($context);
     }
     /**
@@ -38,10 +31,8 @@ class View extends Action
      */
     public function execute()
     {
-        //$result = $this->resultJsonFactory->create();
-        //$this->productModel->testCase($this->getRequest()->getPost());
-        //$data = ['message' => 'Hello world 2!'];
-        echo '1'; exit;
+        $result = $this->resultJsonFactory->create();
+        $data = ['params' => $this->getRequest()->getParams()];
         return $result->setData($data);
     }
 }

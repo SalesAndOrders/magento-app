@@ -205,7 +205,6 @@ class Activation extends AbstractDb
         if ($this->integration->getStatus() == '0') {
             $this->integration->setStatus(1);
 
-
             $consumerId = $this->consumer->getId();
             $this->integration->setConsumerId($this->consumer->getId());
             $this->integration->save();
