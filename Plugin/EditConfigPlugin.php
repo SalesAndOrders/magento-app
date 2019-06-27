@@ -5,6 +5,8 @@ namespace SalesAndOrders\FeedTool\Plugin;
 use Magento\Config\Controller\Adminhtml\System\Config\Save;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use SalesAndOrders\FeedTool\Model\Transport;
+use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
 class EditConfigPlugin {
 
@@ -13,6 +15,10 @@ class EditConfigPlugin {
     protected $storeManager;
 
     protected $scopeConfig;
+
+    protected $transport;
+
+    protected $webhookResource;
 
     protected $beforeBaseUrl = null;
     protected $beforeSecureUrl = null;
@@ -26,11 +32,15 @@ class EditConfigPlugin {
 
     public function __construct(
         StoreManagerInterface $storeManager,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        Transport $transport,
+        WebHook $webHookResource
     )
     {
         $this->storeManager = $storeManager;
         $this->scopeConfig = $scopeConfig;
+        $this->transport = $transport;
+        $this->webhookResource = $webHookResource;
     }
 
     public function beforeExecute(Save $subject)
@@ -109,9 +119,24 @@ class EditConfigPlugin {
 
         if ($this->isChanged) {
             // curl to account url
+            $storeCode = $this->storeManager->getStore($storeID)->getCode();
+            $webhook = $this->webhookResource->getWebhookByStoreCode($storeCode);
+            if ($webhook && $webhook->account_update_url) {
+                $data = $this->getData($baseUrl, $storeCode, $this->beforeBaseUrl);
+                $this->transport->sendData($webhook->account_update_url, $data);
+            }
         }
 
 
         return $result;
+    }
+
+    private function getData($newBaseUrl, $newStoreCode, $baseUrl)
+    {
+        return [
+            'store_base_url' => $newBaseUrl,
+            'store_code' => $newStoreCode,
+            'old_store_base_url' => $baseUrl,
+        ];
     }
 }

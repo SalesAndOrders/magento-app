@@ -139,8 +139,11 @@ class WebHook extends AbstractDb
         return $result;
     }
 
-    public function getDataToSend()
+    public function getWebhookByStoreCode($storeCode)
     {
+        $select = $this->getConnection()->select()->from($this->getMainTable())
+            ->where('store_code = ?', $storeCode);
 
+        return $this->getConnection()->query($select)->fetchObject();
     }
 }
