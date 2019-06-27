@@ -32,7 +32,6 @@ class Delete extends Action
     public function execute()
     {
         $result = $this->resultJsonFactory->create();
-        $data = ['params' => $this->getRequest()->getParams()];
         return $result->setData($data);
     }
 }
