@@ -70,7 +70,8 @@ class RestCallback implements RestCallbackInterface
      */
     public function actions()
     {
-        $response = $this->cronScheduler->sendProducts();
+        //$response = $this->cronScheduler->sendProducts();
+        $response = $this->cronScheduler->sendActions();
         return $response;
     }
 

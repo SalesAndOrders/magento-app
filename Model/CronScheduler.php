@@ -3,6 +3,7 @@
 namespace SalesAndOrders\FeedTool\Model;
 
 use \SalesAndOrders\FeedTool\Model\ResourceModel\Product;
+use \SalesAndOrders\FeedTool\Model\ProductFactory;
 
 class CronScheduler
 {
@@ -14,14 +15,18 @@ class CronScheduler
      */
     protected $productResource;
 
+    protected $productFactory;
+
     /**
      * CronScheduler constructor.
      */
     public function __construct(
-        Product $productResource
+        Product $productResource,
+        ProductFactory $productFactory
     )
     {
         $this->productResource = $productResource;
+        $this->productFactory = $productFactory;
     }
 
     /**
@@ -86,5 +91,28 @@ class CronScheduler
             }
         }
         return false;
+    }
+
+    public function sendActions()
+    {
+        $currentPage = 1;
+        $pageCount = $this->productFactory->create()
+            ->getCollection()
+            ->setPageSize(500)
+            ->getLastPageNumber();
+
+        $result = [];
+        for ($i = $currentPage; $i <= (int)$pageCount; $i ++) {
+            $collection = $this->productFactory->create()->getCollection()
+                ->setPageSize(500);
+            $collection->setCurPage($i);
+            $result['pages'][$i]['base_store_url'] = 'test';
+            $result['pages'][$i]['store_id'] = 'test';
+            foreach ($collection->load() as $item) {
+                $result['pages'][$i]['actions'][] = $item->getId();
+            }
+            // send $i page to product URL
+        }
+        return $result;
     }
 }
