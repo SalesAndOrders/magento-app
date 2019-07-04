@@ -45,6 +45,15 @@ class InstallSchema implements InstallSchemaInterface
         );
 
         $table_perspective_perspective_products->addColumn(
+            'store_code',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            255,
+            [],
+
+            'store_code of product event'
+        );
+
+        $table_perspective_perspective_products->addColumn(
             'edited',
             \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
             null,
