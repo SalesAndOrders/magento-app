@@ -51,6 +51,8 @@ class Product extends AbstractDb {
     {
         $store_data = $productData->getStore()->getData();
         $store_code = isset($store_data['code']) ? $store_data['code'] : null;
+        $store_id = isset($store_data['store_id']) ? $store_data['store_id'] : null;
+        $storeBaseUrl = $this->storemanager->getStore($store_id)->getBaseUrl();
         if (!$store_code){
             return false;
         }
@@ -65,6 +67,7 @@ class Product extends AbstractDb {
             $this->getConnection()
                 ->update($this->getMainTable(),
                     [
+                        'store_base_url' => $storeBaseUrl,
                         'edited' => date('Y-m-d H:i:s'),
                         'action' => $action
                     ], $where);
@@ -75,6 +78,7 @@ class Product extends AbstractDb {
                         'product_id' => $productData->getId(),
                         'product_sku' => $productData->getSku(),
                         'store_code' => $store_code,
+                        'store_base_url' => $storeBaseUrl,
                         'edited' => date('Y-m-d H:i:s'),
                         'action' => $action
                     ]);

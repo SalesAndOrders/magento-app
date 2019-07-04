@@ -13,7 +13,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         $installer = $setup;
         $installer->startSetup();
 
-        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.22') < 0) {
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.23') < 0) {
 
             $table_perspective_perspective_products = $setup->getConnection()->newTable($setup->getTable('perspective_products'));
 
@@ -49,6 +49,15 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 [],
 
                 'store_code of product event'
+            );
+
+            $table_perspective_perspective_products->addColumn(
+                'store_base_url',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                [],
+
+                'storestore_base_url_code of product event'
             );
 
             $table_perspective_perspective_products->addColumn(

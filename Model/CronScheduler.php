@@ -8,6 +8,8 @@ use \SalesAndOrders\FeedTool\Model\ProductFactory;
 class CronScheduler
 {
 
+    const ACTION_ITEMS_PER_PAGE = 500;
+
     protected $url = 'http://test182.perspective.net.ua/api/test/close/';
 
     /**
@@ -101,18 +103,21 @@ class CronScheduler
         $currentPage = 1;
         $pageCount = $this->productFactory->create()
             ->getCollection()
-            ->setPageSize(500)
+            ->setPageSize(self::ACTION_ITEMS_PER_PAGE)
             ->getLastPageNumber();
 
         $result = [];
         for ($i = $currentPage; $i <= (int)$pageCount; $i ++) {
             $collection = $this->productFactory->create()->getCollection()
-                ->setPageSize(500);
-            $collection->setCurPage($i);
-            $result['pages'][$i]['base_store_url'] = 'test';
-            $result['pages'][$i]['store_id'] = 'test';
-            foreach ($collection->load() as $item) {
-                $result['pages'][$i]['actions'][] = $item->getId();
+                ->setPageSize(self::ACTION_ITEMS_PER_PAGE)
+                ->setCurPage($i)
+                ->setOrder('store_code','asc');
+
+            foreach ($collection as $item) {
+                if ($item->getStoreCode() && $item->getAction()) {
+                    $result['pages'][$i]['store_code'][$item->getStoreCode()]['base_store_url'] = $item->getStoreBaseUrl();
+                    $result['pages'][$i]['store_code'][$item->getStoreCode()]['actions'][$item->getAction()][] = $item->getId();
+                }
             }
             // send $i page to product URL
         }
