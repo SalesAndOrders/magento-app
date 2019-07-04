@@ -65,7 +65,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         }
 
 
-        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.19') < 0) {
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.21') < 0) {
 
             $table_perspective_webhook = $setup->getConnection()->newTable($setup->getTable('perspective_webhooks'));
 
@@ -116,6 +116,15 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 255,
                 ['nullable' => true],
                 'code'
+            );
+
+            $table_perspective_webhook->addColumn(
+                'is_deleted',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                11,
+                ['nullable' => true, 'default' => '0'],
+
+                'if deleted - CRON not used'
             );
 
             $table_perspective_webhook->addColumn(

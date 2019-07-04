@@ -11,7 +11,7 @@ class SalesAndOrdersActions extends Column
 {
 
     /** Url path */
-    const URL_PATH_DELETE   = 'integration_module/page_accounts/delete';
+    const URL_PATH_DELETE   = 'integration_module/page_accounts/uninstall';
     const URL_PATH_EDIT     = '';
 
     /** @var UrlInterface */

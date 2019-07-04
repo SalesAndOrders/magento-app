@@ -119,6 +119,15 @@ class InstallSchema implements InstallSchemaInterface
         );
 
         $table_perspective_webhook->addColumn(
+            'is_deleted',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            11,
+            ['nullable' => true, 'default' => '0'],
+
+            'if deleted - CRON not used'
+        );
+
+        $table_perspective_webhook->addColumn(
             'products_webhook_url',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             '2M',
@@ -144,6 +153,7 @@ class InstallSchema implements InstallSchemaInterface
 
             'url'
         );
+
 
         $setup->getConnection()->createTable($table_perspective_webhook);
 

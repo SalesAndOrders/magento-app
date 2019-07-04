@@ -39,7 +39,7 @@ class View extends Action
     public function execute()
     {
         //$result = $this->resultJsonFactory->create();
-        $this->productModel->testCase($this->getRequest()->getPost());
+        //$this->productModel->testCase($this->getRequest()->getPost());
         //$data = ['message' => 'Hello world 2!'];
         echo '1'; exit;
         return $result->setData($data);
