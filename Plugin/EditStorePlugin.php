@@ -40,7 +40,7 @@ class EditStorePlugin {
 
     public function afterExecute(Save $subject, $result)
     {
-        $newStoreCode = isset($subject->getRequest()->getPost()['store']['store_code']) ? $subject->getRequest()->getPost()['store']['store_code'] : null;
+        $newStoreCode = isset($subject->getRequest()->getPost()['store']['code']) ? $subject->getRequest()->getPost()['store']['code'] : null;
         $storeBaseUrl = $this->storeManager->getStore($subject->getRequest()->getPost()['store']['store_id'])->getBaseUrl();
 
         if ($this->beforeStoreCode && $newStoreCode && $this->beforeStoreCode != $newStoreCode) {
@@ -48,6 +48,8 @@ class EditStorePlugin {
             if ($webhook && $webhook->account_update_url) {
                 $data = $this->getData($storeBaseUrl, $newStoreCode, $this->beforeStoreCode);
                 $this->transport->sendData($webhook->account_update_url, $data);
+                // change webhook store code
+                $this->webhookResource->updateWebhook('id', $webhook->id, ['store_code' => $newStoreCode]);
             }
         }
         return $result;
