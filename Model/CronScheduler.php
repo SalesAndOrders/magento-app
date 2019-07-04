@@ -93,6 +93,9 @@ class CronScheduler
         return false;
     }
 
+    /**
+     * @return array
+     */
     public function sendActions()
     {
         $currentPage = 1;
