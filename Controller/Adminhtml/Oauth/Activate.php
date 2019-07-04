@@ -44,7 +44,7 @@ class Activate extends Action
      */
     public function execute()
     {
-        $data = $this->activationModel->runActiovation();
+        $data = $this->activationModel->runActivation();
 
         /** @var \Magento\Framework\Controller\Result\Json $result */
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);

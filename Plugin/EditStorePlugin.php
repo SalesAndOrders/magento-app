@@ -4,6 +4,8 @@ namespace SalesAndOrders\FeedTool\Plugin;
 
 use Magento\Backend\Controller\Adminhtml\System\Store\Save;
 use Magento\Store\Model\StoreManagerInterface;
+use SalesAndOrders\FeedTool\Model\Transport;
+use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
 class EditStorePlugin {
 
@@ -11,11 +13,19 @@ class EditStorePlugin {
 
     protected $storeManager;
 
+    protected $transport;
+
+    protected $webhookResource;
+
     public function __construct(
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        Transport $transport,
+        WebHook $webHookResource
     )
     {
         $this->storeManager = $storeManager;
+        $this->transport = $transport;
+        $this->webhookResource = $webHookResource;
     }
 
     public function beforeExecute(Save $subject)
@@ -31,9 +41,24 @@ class EditStorePlugin {
     public function afterExecute(Save $subject, $result)
     {
         $newStoreCode = isset($subject->getRequest()->getPost()['store']['store_code']) ? $subject->getRequest()->getPost()['store']['store_code'] : null;
-        if ($this->beforeStoreCode && $newStoreCode && $this->beforeStoreCode != $newStoreCode) {
+        $storeBaseUrl = $this->storeManager->getStore($subject->getRequest()->getPost()['store']['store_id'])->getBaseUrl();
 
+        if ($this->beforeStoreCode && $newStoreCode && $this->beforeStoreCode != $newStoreCode) {
+            $webhook = $this->webhookResource->getWebhookByStoreCode($this->beforeStoreCode);
+            if ($webhook && $webhook->account_update_url) {
+                $data = $this->getData($storeBaseUrl, $newStoreCode, $this->beforeStoreCode);
+                $this->transport->sendData($webhook->account_update_url, $data);
+            }
         }
         return $result;
+    }
+
+    private function getData($newBaseUrl, $newStoreCode, $storeCode)
+    {
+        return [
+            'store_base_url' => $newBaseUrl,
+            'store_code' => $newStoreCode,
+            'old_store_code' => $storeCode
+        ];
     }
 }

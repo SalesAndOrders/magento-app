@@ -10,7 +10,7 @@ use \Magento\Framework\View\Result\LayoutFactory;
 use\Magento\Framework\Controller\ResultFactory;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
-class Delete extends Action
+class Uninstall extends Action
 {
     /**
      * @var JsonFactory

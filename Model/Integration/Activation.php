@@ -15,6 +15,7 @@ use \Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
 use \Magento\Framework\HTTP\ZendClient;
 use \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 use \SalesAndOrders\FeedTool\Model\Transport;
+use \SalesAndOrders\FeedTool\Model\Logger;
 
 
 class Activation extends AbstractDb
@@ -69,7 +70,15 @@ class Activation extends AbstractDb
      */
     protected $_httpClient;
 
+    /**
+     * @var Transport
+     */
     protected $transport;
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
     /**
      * @var WebHook
      */
@@ -117,7 +126,8 @@ class Activation extends AbstractDb
         IntegrationOauthHelper $_dataHelper,
         ZendClient $_httpClient,
         WebHook $webHookModel,
-        Transport $transport
+        Transport $transport,
+        Logger $logger
     )
     {
         $this->integrationFactory = $integrationFactory;
@@ -131,6 +141,7 @@ class Activation extends AbstractDb
         $this->_httpClient = $_httpClient;
         $this->webHookModel = $webHookModel;
         $this->transport = $transport;
+        $this->logger = $logger;
 
         $this->integration = $this->integrationFactory->create()->load($this->integrationName, 'name');
         $this->currentUser = $this->authSession->getUser();
@@ -149,18 +160,28 @@ class Activation extends AbstractDb
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Oauth\Exception
      */
-    public function runActiovation()
+    public function runActivation()
     {
+        $logger = $this->logger->create('run_activation', 'oath');
         $endPointUrl = $this->integration->getEndpoint();
         $this->getConsumer();
         $data = $this->getData();
+        $this->logger->log('Try send data to ' . $endPointUrl . ' URL');
+        $this->logger->log($data);
         $response = $this->transport->sendData($endPointUrl, $data);
+        $this->logger->log('Endpoint send response:');
         $result = json_decode($response['response']);
+        $this->logger->log($result);
         if ($result->status == self::END_POINT_SUCCESS_CODE) {
+            $this->logger->log('Try to activation integration');
             $this->activateIntegration();
+            $this->logger->log('Creating webhook field');
             $this->webHookModel->addIntegrationWebHook(['verify_url_endpoint' => $result->detail], 0);
+            $this->logger->log('Webhook field created');
+            $this->logger->log('End activationg');
             return $result->detail;
         }else{
+            $this->logger->log('Error from endpoint');
             return false;
         }
     }
@@ -203,21 +224,24 @@ class Activation extends AbstractDb
     public function activateIntegration()
     {
         if ($this->integration->getStatus() == '0') {
+            $this->logger->log('Activating ...');
             $this->integration->setStatus(1);
-
 
             $consumerId = $this->consumer->getId();
             $this->integration->setConsumerId($this->consumer->getId());
             $this->integration->save();
 
+            $this->logger->log('Try to add permission');
             $this->authorizationService->grantAllPermissions($this->integration->getId());
 
+            $this->logger->log('Create token');
             $token = $this->token;
             $uri = $token->createVerifierToken($consumerId);
             $token->setType('access');
             $token->save();
             $result = true;
         }else{
+            $this->logger->log('Cant activate the integration? already activated');
             $result = false;
         }
         return $result;
