@@ -227,7 +227,7 @@ class CronScheduler
 
         }
 
-        $logger->info('End of sending product actions');
+        $logger->info('End of sending product actions at ' . date('d.m.Y H:i:s'));
         return $allResult;
     }
 }
