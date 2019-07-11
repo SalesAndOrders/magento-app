@@ -49,12 +49,25 @@ class Product extends AbstractDb {
      */
     public function saveEditedProduct($productData, $action = 'create')
     {
-        $product = $this->getProductByField($productData->getId());
+        $store_data = $productData->getStore()->getData();
+        $store_code = isset($store_data['code']) ? $store_data['code'] : null;
+        $store_id = isset($store_data['store_id']) ? $store_data['store_id'] : null;
+        $storeBaseUrl = $this->storemanager->getStore($store_id)->getBaseUrl();
+        if (!$store_code){
+            return false;
+        }
+
+        $product = $this->getProductByFields([
+            'product_id' => $productData->getId(),
+            'store_code' => $store_code
+        ]);
+
         if ($product) {
             $where = ['id = ?' => $product->id];
             $this->getConnection()
                 ->update($this->getMainTable(),
                     [
+                        'store_base_url' => $storeBaseUrl,
                         'edited' => date('Y-m-d H:i:s'),
                         'action' => $action
                     ], $where);
@@ -64,6 +77,8 @@ class Product extends AbstractDb {
                     [
                         'product_id' => $productData->getId(),
                         'product_sku' => $productData->getSku(),
+                        'store_code' => $store_code,
+                        'store_base_url' => $storeBaseUrl,
                         'edited' => date('Y-m-d H:i:s'),
                         'action' => $action
                     ]);
@@ -84,6 +99,21 @@ class Product extends AbstractDb {
         $result = null;
         $select = $this->getConnection()->select()->from($this->getMainTable())
             ->where($field . ' = ?', $value);
+        $result = $this->getConnection()->query($select)->fetchObject();
+        return $result;
+    }
+
+    public function getProductByFields($fields = [])
+    {
+        $result = null;
+        $select = $this->getConnection()->select()->from($this->getMainTable());
+
+        if (is_array($fields) && !empty($fields)) {
+            foreach ($fields as $field => $value) {
+                $select->where($field . ' = ?', $value);
+            }
+        }
+
         $result = $this->getConnection()->query($select)->fetchObject();
         return $result;
     }

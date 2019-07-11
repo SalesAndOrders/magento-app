@@ -9,10 +9,4 @@
     <event name="catalog_product_delete_after">
         <observer name="CatalogProductDeleteAfter" instance="SalesAndOrders\FeedTool\Observer\Frontend\CatalogProductDeleteAfter"/>
     </event>
-    <event name="admin_system_config_changed_section_general">
-        <observer name="sao_system_config_changed_section_general" instance="SalesAndOrders\FeedTool\Observer\Frontend\SystemConfigChanged"/>
-    </event>
-    <event name="admin_system_config_changed_section_web">
-        <observer name="sao_system_config_changed_section_web" instance="SalesAndOrders\FeedTool\Observer\Frontend\SystemConfigChanged"/>
-    </event>
 </config>

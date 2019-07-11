@@ -146,4 +146,11 @@ class WebHook extends AbstractDb
 
         return $this->getConnection()->query($select)->fetchObject();
     }
+
+    public function updateWebhook($field, $value, $data = [])
+    {
+        $where[] = $this->getConnection()->quoteInto($field . ' = ?', $value);
+        $this->getConnection()->update($this->getMainTable(), $data, $where);
+        return true;
+    }
 }
