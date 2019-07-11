@@ -18,6 +18,9 @@ class Logger {
      */
     protected $directoryList;
 
+    /**
+     * @var null
+     */
     protected $customLogger = null;
 
     /**
@@ -25,12 +28,27 @@ class Logger {
      */
     protected $file;
 
+    /**
+     * @var string
+     */
     private $logFolder = '/log/';
 
+    /**
+     * @var string
+     */
     private $logDateFolder = '/';
 
+    /**
+     * @var array
+     */
     public $logPath = [];
 
+    /**
+     * Logger constructor.
+     * @param LoggerInterface $logger
+     * @param DirectoryList $directoryList
+     * @param File $file
+     */
     public function __construct(
         LoggerInterface $logger,
         DirectoryList $directoryList,
@@ -42,6 +60,13 @@ class Logger {
         $this->file = $file;
     }
 
+    /**
+     * @param string $log_name
+     * @param string $fileFolder
+     * @param string $type
+     * @return \Zend\Log\Logger
+     * @throws \Magento\Framework\Exception\FileSystemException
+     */
     public function create($log_name = 'log_file', $fileFolder = '', $type = 'all')
     {
         $fileFolder = $fileFolder ? '/' . $fileFolder : '';
@@ -59,6 +84,10 @@ class Logger {
         return $logger;
     }
 
+    /**
+     * @param $messageData
+     * @return array|bool
+     */
     public function log($messageData)
     {
         if (!$this->customLogger) {
