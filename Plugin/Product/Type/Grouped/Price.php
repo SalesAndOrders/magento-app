@@ -1,23 +1,22 @@
 <?php
 
-namespace SalesAndOrders\FeedTool\Plugin\Product\Type\Bundle;
+namespace SalesAndOrders\FeedTool\Plugin\Product\Type\Grouped;
 
 class Price
 {
     public function aroundGetPrice($subject, $proceed, $product)
     {
-        if($product->getTypeId() == "bundle"){
+        if($product->getTypeId() == "grouped"){
             $price = 0;
             if (!$price || $price == 0) {
-                $childrenProducts = $product->getTypeInstance(true)
-                    ->getSelectionsCollection($product->getTypeInstance(true)->getOptionsIds($product), $product);
-
-                if ($childrenProducts && !empty($childrenProducts)) {
-                    foreach ($childrenProducts as $childrenProduct) {
+                $childProductCollection = $product->getTypeInstance()->getAssociatedProducts($product);
+                if ($childProductCollection && !empty($childProductCollection && !$product->getData('temp_view_price'))) {
+                    foreach ($childProductCollection as $childrenProduct) {
                         if ($price == 0 || $price > $childrenProduct->getPrice()) {
                             $price = $childrenProduct->getPrice();
                         }
                     }
+                    $product->setData('temp_view_price', true);
                 }
             }
         }
