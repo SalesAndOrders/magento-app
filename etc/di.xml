@@ -26,4 +26,7 @@
     <type name="Magento\Bundle\Model\Product\Price">
         <plugin name="feedtool_bundle_product_price" type="SalesAndOrders\FeedTool\Plugin\Product\Type\Bundle\Price"/>
     </type>
+    <type name="Magento\Catalog\Model\Product\Type\Price">
+        <plugin name="feedtool_grouped_product_price" type="SalesAndOrders\FeedTool\Plugin\Product\Type\Grouped\Price"/>
+    </type>
 </config>

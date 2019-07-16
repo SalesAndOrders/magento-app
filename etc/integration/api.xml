@@ -15,6 +15,20 @@
             <resource name="Magento_Backend::stores_attributes" />
             <resource name="Magento_Backend::stores_settings" />
             <resource name="Magento_Config::config" />
+
+            <resource name="Magento_Customer::customer" />
+            <resource name="Magento_Customer::manage" />
+            <resource name="Magento_Customer::online" />
+            <resource name="Magento_Customer::group" />
+
+            <resource name="Magento_Sales::sales" />
+            <resource name="Magento_Sales::sales_operation" />
+            <resource name="Magento_Sales::sales_order" />
+            <resource name="Magento_Sales::actions" />
+            <resource name="Magento_Sales::create" />
+            <resource name="Magento_Sales::actions_view" />
+            <resource name="Magento_Sales::reorder" />
+            <resource name="Magento_Sales::cancel" />
         </resources>
     </integration>
 </integrations>
