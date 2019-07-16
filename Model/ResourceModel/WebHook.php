@@ -65,7 +65,6 @@ class WebHook extends AbstractDb
      */
     public function addIntegrationWebHook($insertData = [], $authorize_flag = 0)
     {
-
         if ($this->integration && $this->integration->getId()) {
             $insertData['store_code'] = isset($insertData['store_code']) ? $insertData['store_code'] : $this->storeManager->getStore()->getCode();
             $integrationWebHook = $this->getWebHookData($this->integration->getId(), $insertData['store_code']);
@@ -77,8 +76,13 @@ class WebHook extends AbstractDb
             if (!$integrationWebHook) {
                 $this->getConnection()->insert($this->_mainTable, $insertData);
             }else{
-                $this->getConnection()->update($this->_mainTable, $insertData, ['integration_id = ?' => $this->integration->getId()]);
+                $store_code = $insertData['store_code'];
+                unset($insertData['store_code']);
+                $where[] = $this->getConnection()->quoteInto('integration_id = ?', $this->integration->getId());
+                $where[] = $this->getConnection()->quoteInto('store_code = ?', $store_code);
+                $this->getConnection()->update($this->_mainTable, $insertData, $where);
             }
+            return true;
         }
         return false;
     }
