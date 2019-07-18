@@ -29,4 +29,10 @@
     <type name="Magento\Catalog\Model\Product\Type\Price">
         <plugin name="feedtool_grouped_product_price" type="SalesAndOrders\FeedTool\Plugin\Product\Type\Grouped\Price"/>
     </type>
+    <type name="Magento\Catalog\Api\ProductRepositoryInterface">
+        <plugin name="feedtool_rest_product_get" type="SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable\Get"/>
+    </type>
+    <type name="Magento\Catalog\Api\ProductRepositoryInterface">
+        <plugin name="feedtool_rest_product_getlist" type="SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable\GetList"/>
+    </type>
 </config>
