@@ -29,5 +29,7 @@
                 <field>stock_status_changed_auto</field>
             </join>
         </attribute>
+        <attribute code="is_variant" type="string">
+        </attribute>
     </extension_attributes>
 </config>
