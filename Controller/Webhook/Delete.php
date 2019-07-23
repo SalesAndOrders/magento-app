@@ -45,7 +45,7 @@ class Delete extends Action
         $webhookID = isset($params['webhook']) ? $params['webhook'] : null;
 
         /**
-         * We check isset webhookID and create factory of model WebHook and change flag is_deleted to =1
+         * We check isset webhookID and create factory of model WebHook and change flag is_deleted to = 1
          */
         $logger = $this->logger->create('delete_webhook_id_' . $webhookID, 'webhooks');
         if ($webhookID) {
