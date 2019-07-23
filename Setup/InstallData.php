@@ -27,6 +27,6 @@ class InstallData implements InstallDataInterface
      */
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
-        $this->integrationManager->processIntegrationConfig(['sales_and_order']);
+        $this->integrationManager->processIntegrationConfig(['sales_and_orders']);
     }
 }

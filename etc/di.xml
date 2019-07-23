@@ -35,4 +35,7 @@
     <type name="Magento\Catalog\Api\ProductRepositoryInterface">
         <plugin name="feedtool_rest_product_getlist" type="SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable\GetList"/>
     </type>
+    <type name="Magento\Backend\Model\Menu\Builder">
+        <plugin name="add_dynamic_menu" type="SalesAndOrders\FeedTool\Plugin\Menu\BuilderPlugin" />
+    </type>
 </config>

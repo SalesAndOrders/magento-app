@@ -26,6 +26,6 @@ class UpgradeData implements UpgradeDataInterface
      */
     public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
-        $this->integrationManager->processIntegrationConfig(['sales_and_order']);
+        $this->integrationManager->processIntegrationConfig(['sales_and_orders']);
     }
 }

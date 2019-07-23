@@ -7,21 +7,5 @@
              sortOrder="70"
              parent="Magento_Catalog::catalog"
              resource="SalesAndOrders_FeedTool::integration_module"/>
-
-        <add id="SalesAndOrders_FeedTool::integration"
-             title="Sales and Orders"
-             module="SalesAndOrders_FeedTool"
-             sortOrder="71"
-             parent="SalesAndOrders_FeedTool::integration_module"
-             action="integration_module/page/view/"
-             resource="SalesAndOrders_FeedTool::integration_module"/>
-
-        <add id="SalesAndOrders_FeedTool::accounts"
-             title="Sales and Orders Accounts"
-             module="SalesAndOrders_FeedTool"
-             sortOrder="72"
-             parent="SalesAndOrders_FeedTool::integration_module"
-             action="integration_module/page/accounts/"
-             resource="SalesAndOrders_FeedTool::integration_module"/>
     </menu>
 </config>
