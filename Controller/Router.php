@@ -51,6 +51,10 @@ class Router implements \Magento\Framework\App\RouterInterface
         );
     }
 
+    /**
+     * @param string $identifier
+     * @return array
+     */
     protected function getWebhookDeleteParams($identifier = '/')
     {
         $dataExplode = explode('/', $identifier);

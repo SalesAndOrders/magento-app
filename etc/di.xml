@@ -38,4 +38,7 @@
     <type name="Magento\Backend\Model\Menu\Builder">
         <plugin name="add_dynamic_menu" type="SalesAndOrders\FeedTool\Plugin\Menu\BuilderPlugin" />
     </type>
+    <type name="Magento\Backend\Controller\Adminhtml\System\Store\DeleteStorePost">
+        <plugin name="delete_store_view_plugin" type="SalesAndOrders\FeedTool\Plugin\Admin\System\Store\DeleteStore" />
+    </type>
 </config>
