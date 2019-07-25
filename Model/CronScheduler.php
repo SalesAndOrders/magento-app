@@ -180,6 +180,7 @@ class CronScheduler
             $this->logger->log($pagesCount);
 
             $allResult = [];
+            $collections = null;
             if (!empty($pagesCount)) {
                 foreach ($pagesCount as $storeCode => $count) {
                     $logger->info('Begin generate collection for Store: ' . $storeCode);
@@ -205,6 +206,7 @@ class CronScheduler
                                 $result['pages'][$i]['actions'][$item->getAction()][] = $item->getId();
                             }
                         }
+                        $collections[] = $collection;
                     }
                     // send to store product url his pages
                     if (isset($result['pages'])) {
@@ -226,7 +228,7 @@ class CronScheduler
             }
 
         }
-
+        $this->productResource->removeProductsCollections($collections);
         $logger->info('End of sending product actions at ' . date('d.m.Y H:i:s'));
         return $allResult;
     }

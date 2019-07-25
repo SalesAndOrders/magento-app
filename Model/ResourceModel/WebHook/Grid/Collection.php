@@ -46,7 +46,8 @@ class Collection extends WebHookCollection implements SearchResultInterface
         $this->getSelect()->joinLeft(
             ['stores' => $this->getTable('store')],
             'main_table.store_code = stores.code',
-            ['store_id', 'store_name'=>'name']);
+            ['store_id', 'store_name'=>'name'])
+            ->where('stores.store_id <> ?', '');
         return $this;
     }
 

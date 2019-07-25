@@ -1,6 +1,6 @@
 <?php
 
-namespace SalesAndOrders\FeedTool\Controller\Adminhtml\Oauth;
+namespace SalesAndOrders\FeedTool\Controller\Integration;
 
 use \Magento\Framework\App\Action\Action;
 use \Magento\Framework\App\Action\Context;
@@ -56,7 +56,7 @@ class Add extends Action
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $result->setData([
             'status' => true,
-            'response' => '1111'
+            'response' => 'Integration successfully added'
         ]);
         return $result;
     }

@@ -1,5 +1,5 @@
 <integrations>
-    <integration name="sales_and_order">
+    <integration name="sales_and_orders">
         <email>someone@example.com</email>
         <endpoint_url>https://app1.testing.salesandorders.com/api/magento/auth</endpoint_url>
         <identity_link_url>https://app1.testing.salesandorders.com</identity_link_url>
