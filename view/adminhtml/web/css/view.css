@@ -15,6 +15,13 @@
     margin-left: 20px;
 }
 
+.header-view-block .loader{
+    float: left;
+    width: 30px;
+    margin-left: 25px;
+    display: none;
+}
+
 .content-view-block{
     float: left;
     width: 100%;

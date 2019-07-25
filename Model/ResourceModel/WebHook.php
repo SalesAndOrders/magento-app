@@ -9,6 +9,7 @@ use \Magento\Integration\Model\IntegrationFactory;
 use Magento\Store\Model\StoreManagerInterface;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation as IntegrationActivation;
 use \SalesAndOrders\FeedTool\Model\Transport;
+use SalesAndOrders\FeedTool\Model\Cache;
 
 class WebHook extends AbstractDb
 {
@@ -33,6 +34,8 @@ class WebHook extends AbstractDb
 
     protected $transport;
 
+    protected $cacheModel;
+
 
     /**
      * WebHook constructor.
@@ -43,13 +46,15 @@ class WebHook extends AbstractDb
         Context $context,
         IntegrationFactory $integrationFactory,
         StoreManagerInterface $storeManager,
-        Transport $transport
+        Transport $transport,
+        Cache $cacheModel
     )
     {
         $this->integrationFactory = $integrationFactory;
         $this->integration = $this->integrationFactory->create()->load(IntegrationActivation::INTEGRATION_NAME, 'name');
         $this->storeManager = $storeManager;
         $this->transport = $transport;
+        $this->cacheModel = $cacheModel;
         parent::__construct($context);
     }
 
@@ -81,6 +86,10 @@ class WebHook extends AbstractDb
                 $where[] = $this->getConnection()->quoteInto('integration_id = ?', $this->integration->getId());
                 $where[] = $this->getConnection()->quoteInto('store_code = ?', $store_code);
                 $this->getConnection()->update($this->_mainTable, $insertData, $where);
+            }
+
+            if ($authorize_flag == 1) {
+                $this->cacheModel->cleanCahes(['config', 'block_html']);
             }
             return true;
         }
@@ -137,6 +146,10 @@ class WebHook extends AbstractDb
                 // remove webhook from DB
                 $this->deleteWebHookByStoreCode($this->integration->getId(), $store_code);
                 $result = true;
+                $authWebHooks = $this->getAuthorizedWebhooks();
+                if (!$authWebHooks || $authWebHooks->webhook_count == 0) {
+                    $this->cacheModel->cleanCahes(['config', 'block_html']);
+                }
             }
         }
 
@@ -156,5 +169,16 @@ class WebHook extends AbstractDb
         $where[] = $this->getConnection()->quoteInto($field . ' = ?', $value);
         $this->getConnection()->update($this->getMainTable(), $data, $where);
         return true;
+    }
+
+    public function getAuthorizedWebhooks()
+    {
+        $select = $this->getConnection()->select()->from('perspective_webhooks',
+            array('webhook_count' => 'COUNT(id)'))
+            ->where('integration_id = ?', $this->integration->getId())
+            ->where('is_oath_authorized = ?', '1')
+            ->where('is_deleted = ?', '0');
+
+        return $this->getConnection()->query($select)->fetchObject();
     }
 }

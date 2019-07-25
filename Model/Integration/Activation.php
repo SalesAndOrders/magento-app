@@ -21,18 +21,18 @@ use \SalesAndOrders\FeedTool\Model\Logger;
 class Activation extends AbstractDb
 {
 
-    const INTEGRATION_NAME = 'sales_and_order';
+    const INTEGRATION_NAME = 'sales_and_orders';
 
     const END_POINT_SUCCESS_CODE = 200;
 
     /**
      * @var string
      */
-    public $integrationName = 'sales_and_order';
+    public $integrationName = 'sales_and_orders';
     /**
      * @var string
      */
-    public $consumerName = 'sales_and_order_consumer';
+    public $consumerName = 'sales_and_orders_consumer';
     /**
      * @var IntegrationFactory
      */
@@ -226,6 +226,7 @@ class Activation extends AbstractDb
         if ($this->integration->getStatus() == '0') {
             $this->logger->log('Activating ...');
             $this->integration->setStatus(1);
+            $this->integration->setSetupType(2);
 
             $consumerId = $this->consumer->getId();
             $this->integration->setConsumerId($this->consumer->getId());

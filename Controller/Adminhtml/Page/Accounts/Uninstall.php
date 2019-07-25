@@ -7,7 +7,7 @@ use \Magento\Framework\App\Action\Context;
 use \Magento\Framework\Controller\Result\JsonFactory;
 use \Magento\Framework\View\Result\PageFactory;
 use \Magento\Framework\View\Result\LayoutFactory;
-use\Magento\Framework\Controller\ResultFactory;
+use \Magento\Framework\Controller\ResultFactory;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
 class Uninstall extends Action

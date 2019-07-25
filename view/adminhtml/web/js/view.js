@@ -13,30 +13,29 @@ require(
             type: 'popup',
             responsive: true,
             innerScroll: true,
-            //title: 'popup modal title',
-            /*buttons: [{
-                text: $.mage.__('Continue'),
-                class: '',
-                click: function () {
-                    this.closeModal();
-                }
-            }]*/
         };
 
-        //var popup = modal(options, $('#theFrame'));
+        var headLoader = $('.header-view-block .loader');
+        var headActivate = $('.header-view-block .activate')
 
         $(document).on('click', '#popup-modal', function () {
+            headLoader.show();
+            headActivate.hide();
             $.post('/admin/integration_module/oauth/activate', {
                 'test': 3,
             }).done(function(data) {
+                headLoader.hide();
                 if (data.status) {
                     alert('Successfully activated');
                     window.location.href = ''
                 } else {
+                    headActivate.show();
                     alert('Error, try later');
                 }
+            }).fail(e, function (resp) {
+                headLoader.hide();
+                headActivate.show();
             });
-            //$('#theFrame').modal('openModal');
         });
 
         $(document).on('click', '#add_integration', function () {
@@ -50,7 +49,6 @@ require(
                     alert('Error, integration already added');
                 }
             });
-            //$('#theFrame').modal('openModal');
         });
 
         $(document).on('click', '#deactivate_integration', function () {
@@ -64,7 +62,6 @@ require(
                     alert('Error, integration already deactivated');
                 }
             });
-            //$('#theFrame').modal('openModal');
         });
 
         $(document).on('click', '#delete_integration', function () {
@@ -78,7 +75,6 @@ require(
                     alert('Error, integration already deleted');
                 }
             });
-            //$('#theFrame').modal('openModal');
         });
     }
 );

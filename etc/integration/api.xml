@@ -1,5 +1,5 @@
 <integrations>
-    <integration name="sales_and_order">
+    <integration name="sales_and_orders">
         <resources>
             <!-- To grant permission to Magento_Log::online, its parent Magento_Customer::customer needs to be declared as well-->
             <resource name="Magento_Customer::customer" />
