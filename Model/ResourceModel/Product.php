@@ -223,4 +223,11 @@ class Product extends AbstractDb {
         }
         return $productImageUrl;
     }
+
+    public function removeProductsCollections($collections = null)
+    {
+        $where[] = $this->getConnection()->quoteInto('id  <> ?', '');
+        $this->getConnection()->delete($this->getMainTable(), $where);
+        return true;
+    }
 }
