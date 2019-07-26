@@ -226,9 +226,8 @@ class CronScheduler
                     }
                 }
             }
-
+            $this->productResource->removeProductsCollections($collections);
         }
-        $this->productResource->removeProductsCollections($collections);
         $logger->info('End of sending product actions at ' . date('d.m.Y H:i:s'));
         return $allResult;
     }

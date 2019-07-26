@@ -51,7 +51,6 @@ class WebHook extends AbstractDb
     )
     {
         $this->integrationFactory = $integrationFactory;
-        $this->integration = $this->integrationFactory->create()->load(IntegrationActivation::INTEGRATION_NAME, 'name');
         $this->storeManager = $storeManager;
         $this->transport = $transport;
         $this->cacheModel = $cacheModel;
@@ -63,6 +62,14 @@ class WebHook extends AbstractDb
         $this->_init('perspective_webhooks', 'id');
     }
 
+    public function getIntegration()
+    {
+        if (!$this->integration || !$this->integration->getId()){
+            $this->integration = $this->integrationFactory->create()->load(IntegrationActivation::INTEGRATION_NAME, 'name');
+        }
+        $integration = $this->integration;
+        return $integration;
+    }
     /**
      * @param array $insertData
      * @param int $authorize_flag
@@ -70,6 +77,7 @@ class WebHook extends AbstractDb
      */
     public function addIntegrationWebHook($insertData = [], $authorize_flag = 0)
     {
+        $integration = $this->getIntegration();
         if ($this->integration && $this->integration->getId()) {
             $insertData['store_code'] = isset($insertData['store_code']) ? $insertData['store_code'] : $this->storeManager->getStore()->getCode();
             $integrationWebHook = $this->getWebHookData($this->integration->getId(), $insertData['store_code']);
@@ -111,6 +119,15 @@ class WebHook extends AbstractDb
         return $this->getConnection()->query($select)->fetchObject();
     }
 
+    public function getCustomWebHookData($integrationId = 0)
+    {
+        $select = $this->getConnection()->select()
+            ->from($this->_mainTable)
+            ->where('integration_id = ?', $integrationId);
+
+        return $this->getConnection()->query($select)->fetchObject();
+    }
+
     /**
      * @param int $integrationId
      */
@@ -130,26 +147,38 @@ class WebHook extends AbstractDb
 
     public function uninstall($store_code = null)
     {
+        $integration = $this->getIntegration();
         $webHook = $this->getWebHookData($this->integration->getId(), $store_code);
         $result = false;
-        if ($webHook && $webHook->uninstall_url) {
+        if ($webHook) {
             // send to uninstall url data
+            $decodeResult = null;
             $storeBaseUrl = $this->storeManager->getStore()->getBaseUrl();
             $data = [
                 'store_base_url' => $storeBaseUrl,
                 'store_code' => $store_code
             ];
-            $response = $this->transport->sendData($webHook->uninstall_url, $data);
-            $decodeResult = json_decode($response['response']);
-            // if code == 200 we delete webhook by store code from DB
-            if (isset($decodeResult->status) && $decodeResult->status == IntegrationActivation::END_POINT_SUCCESS_CODE) {
-                // remove webhook from DB
-                $this->deleteWebHookByStoreCode($this->integration->getId(), $store_code);
-                $result = true;
-                $authWebHooks = $this->getAuthorizedWebhooks();
-                if (!$authWebHooks || $authWebHooks->webhook_count == 0) {
-                    $this->cacheModel->cleanCahes(['config', 'block_html']);
-                }
+            if ($webHook && $webHook->uninstall_url) {
+                $response = $this->transport->sendData($webHook->uninstall_url, $data);
+                $decodeResult = json_decode($response['response']);
+            }
+
+            // remove webhook from DB
+            $this->deleteWebHookByStoreCode($this->integration->getId(), $store_code);
+            $result = true;
+            /**
+             * delete integration if we dont have any webhooks
+             */
+            $enabledWebhooks = $this->getEnabledWebhooks();
+            if (!$enabledWebhooks || $enabledWebhooks->webhook_count == 0) {
+                $this->integration->delete();
+            }
+            /**
+             * we cleared cache if no have is_authorized webhooks
+             */
+            $authWebHooks = $this->getAuthorizedWebhooks();
+            if (!$authWebHooks || $authWebHooks->webhook_count == 0) {
+                $this->cacheModel->cleanCahes(['config', 'block_html']);
             }
         }
 
@@ -173,10 +202,22 @@ class WebHook extends AbstractDb
 
     public function getAuthorizedWebhooks()
     {
+        $integration = $this->getIntegration();
         $select = $this->getConnection()->select()->from('perspective_webhooks',
             array('webhook_count' => 'COUNT(id)'))
             ->where('integration_id = ?', $this->integration->getId())
             ->where('is_oath_authorized = ?', '1')
+            ->where('is_deleted = ?', '0');
+
+        return $this->getConnection()->query($select)->fetchObject();
+    }
+
+    public function getEnabledWebhooks()
+    {
+        $integration = $this->getIntegration();
+        $select = $this->getConnection()->select()->from('perspective_webhooks',
+            array('webhook_count' => 'COUNT(id)'))
+            ->where('integration_id = ?', $this->integration->getId())
             ->where('is_deleted = ?', '0');
 
         return $this->getConnection()->query($select)->fetchObject();

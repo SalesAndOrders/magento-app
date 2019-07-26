@@ -51,18 +51,26 @@ class View extends Template
         $store = $this->_storeManager->getStore()->getCode();
         $ingegration = $this->integrationFactory->create()->load(IntegrationActivation::INTEGRATION_NAME, 'name');
         if ($ingegration && $ingegration->getId()) {
-            $webHook = $this->webHookModel->getWebHookData($ingegration->getId(), $store);
-            if ($webHook && $webHook->verify_url_endpoint && $webHook->is_oath_authorized == 0) {
+
+            $enabledWebhooks = $this->webHookModel->getEnabledWebhooks();
+            $authWebHooks = $this->webHookModel->getAuthorizedWebhooks();
+            if ($enabledWebhooks && $enabledWebhooks->webhook_count > 0) {
+                $webHook = $this->webHookModel->getCustomWebHookData($ingegration->getId());
                 $data = [
                     'content' => 'login_iframe',
                     'url' => $webHook->verify_url_endpoint
                 ];
-            } elseif ($webHook && $webHook->is_oath_authorized == 1) {
+            }else{
+                $ingegration->delete();
+            }
+
+            if ($authWebHooks && $authWebHooks->webhook_count > 0) {
                 $data = [
                     'content' => 'load_iframe',
                     'url' => $this->getIframeLoadUrl()
                 ];
             }
+
         }
 
         return $data;
