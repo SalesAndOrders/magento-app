@@ -33,7 +33,7 @@ class BuilderPlugin
     public function afterGetResult(Builder $subject, Menu $menu)
     {
         $title = 'Install';
-        $webhooks = $this->webHookModel->getAuthorizedWebhooks();
+        $webhooks = $this->webHookModel->getEnabledWebhooks();
         if ($webhooks && $webhooks->webhook_count > 0) {
             $title = 'Log In';
         }
