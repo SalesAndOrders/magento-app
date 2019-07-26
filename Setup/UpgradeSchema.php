@@ -16,42 +16,8 @@ class UpgradeSchema implements UpgradeSchemaInterface
         if ($context->getVersion() && version_compare($context->getVersion(), '1.0.24') < 0) {
 
             /**
-             * perspective_products updates
+             * Update data if module installed
              */
-            $installer->getConnection()->addColumn(
-                $installer->getTable('perspective_products'),
-                'store_code',
-                [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                    'length' => 255,
-                    'comment' => 'store_code of product event'
-                ]
-            );
-
-            $installer->getConnection()->addColumn(
-                $installer->getTable('perspective_products'),
-                'store_base_url',
-                [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                    'length' => 255,
-                    'comment' => 'storestore_base_url_code of product event'
-                ]
-            );
-
-            /**
-             * perspective_webhooks updates
-             */
-            $installer->getConnection()->addColumn(
-                $installer->getTable('perspective_webhooks'),
-                'is_deleted',
-                [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                    'length' => 11,
-                    'nullable' => true,
-                    'default' => '0',
-                    'comment' => 'if deleted - CRON not used'
-                ]
-            );
 
         }
 

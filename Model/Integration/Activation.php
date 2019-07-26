@@ -16,6 +16,8 @@ use \Magento\Framework\HTTP\ZendClient;
 use \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 use \SalesAndOrders\FeedTool\Model\Transport;
 use \SalesAndOrders\FeedTool\Model\Logger;
+use Magento\Integration\Model\ConfigBasedIntegrationManager;
+use SalesAndOrders\FeedTool\Model\Cache;
 
 
 class Activation extends AbstractDb
@@ -83,6 +85,13 @@ class Activation extends AbstractDb
      * @var WebHook
      */
     protected $webHookModel;
+
+    /**
+     * @var ConfigBasedIntegrationManager
+     */
+    protected $integrationManager;
+
+    protected $cacheModel;
     /**
      * @var \Magento\Integration\Model\Integration|null
      */
@@ -127,7 +136,9 @@ class Activation extends AbstractDb
         ZendClient $_httpClient,
         WebHook $webHookModel,
         Transport $transport,
-        Logger $logger
+        Logger $logger,
+        ConfigBasedIntegrationManager $integrationManager,
+        Cache $cacheModel
     )
     {
         $this->integrationFactory = $integrationFactory;
@@ -142,6 +153,8 @@ class Activation extends AbstractDb
         $this->webHookModel = $webHookModel;
         $this->transport = $transport;
         $this->logger = $logger;
+        $this->integrationManager = $integrationManager;
+        $this->cacheModel = $cacheModel;
 
         $this->integration = $this->integrationFactory->create()->load($this->integrationName, 'name');
         $this->currentUser = $this->authSession->getUser();
@@ -162,6 +175,10 @@ class Activation extends AbstractDb
      */
     public function runActivation()
     {
+        if (!$this->createIntegration()) {
+            return  false;
+        }
+
         $logger = $this->logger->create('run_activation', 'oath');
         $endPointUrl = $this->integration->getEndpoint();
         $this->getConsumer();
@@ -179,11 +196,31 @@ class Activation extends AbstractDb
             $this->webHookModel->addIntegrationWebHook(['verify_url_endpoint' => $result->detail], 0);
             $this->logger->log('Webhook field created');
             $this->logger->log('End activationg');
+            // clear cache
+            $this->cacheModel->cleanCahes(['config', 'block_html']);
             return $result->detail;
         }else{
             $this->logger->log('Error from endpoint');
             return false;
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function createIntegration()
+    {
+        if (!$this->integration || !$this->integration->getId()) {
+            $this->integrationManager->processIntegrationConfig([$this->integrationName]);
+            $this->integration = $this->integrationFactory->create()->load($this->integrationName, 'name');
+            $this->integration->setSetupType(2);
+            $this->integration->save();
+        }
+        if (!$this->integration || !$this->integration->getId()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
