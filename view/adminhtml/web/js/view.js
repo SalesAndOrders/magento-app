@@ -21,7 +21,8 @@ require(
         $(document).on('click', '#popup-modal', function () {
             headLoader.show();
             headActivate.hide();
-            $.post('/admin/integration_module/oauth/activate', {
+            var urlStr = url.build('integration_module/oauth/activate');
+            $.post(urlStr, {
                 'test': 3,
             }).done(function(data) {
                 headLoader.hide();
@@ -39,7 +40,8 @@ require(
         });
 
         $(document).on('click', '#add_integration', function () {
-            $.post('/admin/integration_module/oauth/add', {
+            var urlStr = url.build('integration_module/oauth/add');
+            $.post(urlStr, {
                 'test': 3,
             }).done(function(data) {
                 if (data.status == true) {
@@ -52,7 +54,8 @@ require(
         });
 
         $(document).on('click', '#deactivate_integration', function () {
-            $.post('/admin/integration_module/oauth/deactivate', {
+            var urlStr = url.build('integration_module/oauth/deactivate');
+            $.post(urlStr, {
                 'test': 3,
             }).done(function(data) {
                 if (data.status == true) {
@@ -65,7 +68,8 @@ require(
         });
 
         $(document).on('click', '#delete_integration', function () {
-            $.post('/admin/integration_module/oauth/delete', {
+            var urlStr = url.build('integration_module/oauth/delete');
+            $.post(urlStr, {
                 'test': 3,
             }).done(function(data) {
                 if (data.status == true) {

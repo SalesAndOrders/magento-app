@@ -10,6 +10,7 @@ use \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation;
 use \SalesAndOrders\FeedTool\Helper\Config;
 use \Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\App\DeploymentConfig\Reader;
 
 class View extends Template
 {
@@ -24,13 +25,16 @@ class View extends Template
 
     protected $_storeManager;
 
+    protected $_configReader;
+
     public function __construct(
         Context $context,
         IntegrationFactory $integrationFactory,
         WebHook $webHookModel,
         Activation $activation,
         Config $configHelper,
-        StoreManagerInterface $_storeManager
+        StoreManagerInterface $_storeManager,
+        Reader $reader
     )
     {
         $this->integrationFactory = $integrationFactory;
@@ -38,6 +42,7 @@ class View extends Template
         $this->activationModel = $activation;
         $this->configHelper = $configHelper;
         $this->_storeManager = $_storeManager;
+        $this->_configReader = $reader;
         parent::__construct($context);
     }
 
@@ -89,5 +94,12 @@ class View extends Template
         $fullLoadUrl = $this->activationModel->getHmac($loadUrl, $consumer['secret'], $params);
         return $fullLoadUrl;
     }
+
+    public function getAdminBaseUrl(){
+        $config = $this->_configReader->load();
+        $adminSuffix = $config['backend']['frontName'];
+        return $this->getBaseUrl() . $adminSuffix . '/';
+    }
+
 }
 

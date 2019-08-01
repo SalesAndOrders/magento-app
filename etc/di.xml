@@ -41,4 +41,7 @@
     <type name="Magento\Backend\Controller\Adminhtml\System\Store\DeleteStorePost">
         <plugin name="delete_store_view_plugin" type="SalesAndOrders\FeedTool\Plugin\Admin\System\Store\DeleteStore" />
     </type>
+    <type name="Magento\Integration\Controller\Adminhtml\Integration\Delete">
+        <plugin name="delete_integration_plugin" type="SalesAndOrders\FeedTool\Plugin\Admin\System\Integration\Delete" />
+    </type>
 </config>
