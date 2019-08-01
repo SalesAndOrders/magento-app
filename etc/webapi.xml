@@ -1,0 +1,21 @@
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/integration/products" method="POST">
+        <service class="SalesAndOrders\FeedTool\Api\RestCallbackInterface" method="products"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/integration/actions" method="POST">
+        <service class="SalesAndOrders\FeedTool\Api\RestCallbackInterface" method="actions"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/integration/webhooks" method="POST">
+        <service class="SalesAndOrders\FeedTool\Api\RestCallbackInterface" method="webhooks"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

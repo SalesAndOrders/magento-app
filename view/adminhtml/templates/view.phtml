@@ -1,0 +1,52 @@
+<?php
+/**
+ * @var \SalesAndOrders\FeedTool\Block\Adminhtml\Page\View $block
+ */
+
+$viewData = $block->getIframeLinkData();
+?>
+
+<?php if ($viewData['content']) { ?>
+    <div class="header-view-block">
+        <!--<button id="deactivate_integration">Deactivate</button>
+        <button id="delete_integration">Delete</button>-->
+    </div>
+    <iframe id="iFrame" src="<?php echo $viewData['url']; ?>" style="width:100%; height: 800px" frameborder="0"></iframe>
+<? } else { ?>
+    <div class="header-view-block">
+        <img src="/pub/media/salesandorders/image/logo.png">
+        <button class="activate" id="popup-modal">Install</button>
+        <img class="loader" src="/pub/media/salesandorders/image/load.gif">
+<!--        <button id="add_integration">Add</button>-->
+<!--        <button id="deactivate_integration">Deactivate</button>-->
+<!--        <button id="delete_integration">Delete</button>-->
+    </div>
+    <div class="content-view-block">
+        <div class="content-view-block-left">
+            <h2>Dev - Sales and Orders</h2>
+            <h3>App Dev - Sales and Orders requires:</h3>
+            <ul>
+                <li>
+                    <p>View basic store information</p>
+                </li>
+                <li>
+                    <p>View general store information</p>
+                </li>
+                <li>
+                    <p>View and modify products</p>
+                </li>
+
+            </ul>
+        </div>
+        <div class="content-view-block-center">
+            <ul>
+                <li>
+                    <p>View Customers information</p>
+                </li>
+                <li>
+                    <p>View and create orders</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+<?php } ?>

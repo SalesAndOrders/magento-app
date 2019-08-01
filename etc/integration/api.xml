@@ -1,0 +1,34 @@
+<integrations>
+    <integration name="sales_and_orders">
+        <resources>
+            <!-- To grant permission to Magento_Log::online, its parent Magento_Customer::customer needs to be declared as well-->
+            <resource name="Magento_Customer::customer" />
+            <resource name="Magento_Log::online" />
+            <!-- To grant permission to Magento_Sales::reorder, all its parent resources need to be declared-->
+            <resource name="Magento_Catalog::catalog" />
+            <resource name="Magento_Catalog::catalog_inventory" />
+            <resource name="Magento_Catalog::products" />
+            <resource name="Magento_Catalog::categories" />
+            <resource name="Magento_CatalogInventory::cataloginventory" />
+
+            <resource name="Magento_Backend::stores" />
+            <resource name="Magento_Backend::stores_attributes" />
+            <resource name="Magento_Backend::stores_settings" />
+            <resource name="Magento_Config::config" />
+
+            <resource name="Magento_Customer::customer" />
+            <resource name="Magento_Customer::manage" />
+            <resource name="Magento_Customer::online" />
+            <resource name="Magento_Customer::group" />
+
+            <resource name="Magento_Sales::sales" />
+            <resource name="Magento_Sales::sales_operation" />
+            <resource name="Magento_Sales::sales_order" />
+            <resource name="Magento_Sales::actions" />
+            <resource name="Magento_Sales::create" />
+            <resource name="Magento_Sales::actions_view" />
+            <resource name="Magento_Sales::reorder" />
+            <resource name="Magento_Sales::cancel" />
+        </resources>
+    </integration>
+</integrations>

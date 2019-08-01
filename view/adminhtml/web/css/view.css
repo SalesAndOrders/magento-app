@@ -1,0 +1,40 @@
+.integration_module-page-view .page-title{
+    margin-left: 30px;
+}
+.header-view-block{
+    float: left;
+    width: 100%;
+    margin-left: 30px;
+}
+.header-view-block img{
+    float: left;
+}
+
+.header-view-block button{
+    float: left;
+    margin-left: 20px;
+}
+
+.header-view-block .loader{
+    float: left;
+    width: 30px;
+    margin-left: 25px;
+    display: none;
+}
+
+.content-view-block{
+    float: left;
+    width: 100%;
+    margin-top: 80px;
+}
+
+.content-view-block-left{
+    float: left;
+    margin-left: 50px;
+    width: 30%;
+}
+.content-view-block-center{
+    float: left;
+    width: 30%;
+    margin-top: 85px;
+}

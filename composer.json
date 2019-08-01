@@ -1,0 +1,27 @@
+{
+  "name": "salesandorders/feedtool",
+  "description": "Feed Tool",
+  "type": "magento2-module",
+  "version": "1.0.1",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Victor Pankovych",
+      "email": "pankovych.v@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "salesandorders/feedtool": "dev-master"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "SalesAndOrders\\FeedTool\\": ""
+    }
+  }
+}

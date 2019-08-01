@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="changed_product_cron">
+        <job name="changed_product_cron_job" instance="SalesAndOrders\FeedTool\Model\CronScheduler" method="sendStoresActions">
+            <schedule>*/15 * * * *</schedule>
+        </job>
+    </group>
+</config>

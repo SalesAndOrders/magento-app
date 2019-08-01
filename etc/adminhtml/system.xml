@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="custom_options" translate="label" sortOrder="1000001">
+            <label>Custom options</label>
+        </tab>
+        <section id="oauth_configs" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Options</label>
+            <tab>custom_options</tab>
+            <resource>SalesAndOrders_FeedTool::config</resource>
+            <group id="custom_config" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Oauth configurations</label>
+                <field id="load_iframe" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Load iframe URL</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
