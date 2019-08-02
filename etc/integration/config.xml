@@ -1,7 +1,7 @@
 <integrations>
     <integration name="sales_and_orders">
         <email>someone@example.com</email>
-        <endpoint_url>https://app1.testing.salesandorders.com/api/magento/auth</endpoint_url>
-        <identity_link_url>https://app1.testing.salesandorders.com</identity_link_url>
+        <endpoint_url>https://app1.staging.salesandorders.com/api/magento/auth</endpoint_url>
+        <identity_link_url>https://app1.staging.salesandorders.com</identity_link_url>
     </integration>
 </integrations>
