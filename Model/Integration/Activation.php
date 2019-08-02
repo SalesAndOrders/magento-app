@@ -189,7 +189,7 @@ class Activation extends AbstractDb
         $this->logger->log('Endpoint send response:');
         $result = json_decode($response['response']);
         $this->logger->log($result);
-        if ($result->status == self::END_POINT_SUCCESS_CODE) {
+        if (isset($result->status) && $result->status == self::END_POINT_SUCCESS_CODE) {
             $this->logger->log('Try to activation integration');
             $this->activateIntegration();
             $this->logger->log('Creating webhook field');
