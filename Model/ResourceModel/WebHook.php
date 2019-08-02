@@ -145,6 +145,13 @@ class WebHook extends AbstractDb
         return true;
     }
 
+    public function deleteWebHookByIntegration($integrationId = 0)
+    {
+        $where[] = $this->getConnection()->quoteInto('integration_id = ?', $integrationId);
+        $this->getConnection()->delete($this->_mainTable, $where);
+        return true;
+    }
+
     public function uninstall($store_code = null)
     {
         $integration = $this->getIntegration();
@@ -185,6 +192,30 @@ class WebHook extends AbstractDb
         return $result;
     }
 
+    public function uninstallAll($integrationID = null)
+    {
+        $webHook = $this->getWebHookWithUninstallUrl($integrationID);
+        // remove webhooks by Int ID
+        $this->deleteWebHookByIntegration($integrationID);
+        // send curl
+        $decodeResult = null;
+        $storeBaseUrl = $this->storeManager->getStore()->getBaseUrl();
+        $store_code = $this->storeManager->getStore()->getCode();
+        $data = [
+            'store_base_url' => $storeBaseUrl
+        ];
+        if ($webHook && $webHook->uninstall_url) {
+            $response = $this->transport->sendData($webHook->uninstall_url, $data);
+            $decodeResult = json_decode($response['response']);
+        }
+        // clear caches
+        $authWebHooks = $this->getAuthorizedWebhooks();
+        if (!$authWebHooks || $authWebHooks->webhook_count == 0) {
+            $this->cacheModel->cleanCahes(['config', 'block_html']);
+        }
+        return true;
+    }
+
     public function getWebhookByStoreCode($storeCode)
     {
         $select = $this->getConnection()->select()->from($this->getMainTable())
@@ -219,6 +250,15 @@ class WebHook extends AbstractDb
             array('webhook_count' => 'COUNT(id)'))
             ->where('integration_id = ?', $this->integration->getId())
             ->where('is_deleted = ?', '0');
+
+        return $this->getConnection()->query($select)->fetchObject();
+    }
+
+    public function getWebHookWithUninstallUrl($integrationID = null)
+    {
+        $select = $this->getConnection()->select()->from($this->getMainTable())
+            ->where('integration_id = ?', $integrationID)
+            ->where('uninstall_url <> ?', '');
 
         return $this->getConnection()->query($select)->fetchObject();
     }
