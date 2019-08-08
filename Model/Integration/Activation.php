@@ -26,7 +26,6 @@ class Activation extends AbstractDb
     const INTEGRATION_NAME = 'sales_and_orders';
 
     const END_POINT_SUCCESS_CODE = 200;
-
     /**
      * @var string
      */
@@ -71,12 +70,10 @@ class Activation extends AbstractDb
      * @var ZendClient
      */
     protected $_httpClient;
-
     /**
      * @var Transport
      */
     protected $transport;
-
     /**
      * @var Logger
      */
@@ -85,12 +82,13 @@ class Activation extends AbstractDb
      * @var WebHook
      */
     protected $webHookModel;
-
     /**
      * @var ConfigBasedIntegrationManager
      */
     protected $integrationManager;
-
+    /**
+     * @var Cache
+     */
     protected $cacheModel;
     /**
      * @var \Magento\Integration\Model\Integration|null
@@ -122,6 +120,10 @@ class Activation extends AbstractDb
      * @param IntegrationOauthHelper $_dataHelper
      * @param ZendClient $_httpClient
      * @param WebHook $webHookModel
+     * @param Transport $transport
+     * @param Logger $logger
+     * @param ConfigBasedIntegrationManager $integrationManager
+     * @param Cache $cacheModel
      */
     public function __construct(
         Context $context,
@@ -340,12 +342,22 @@ class Activation extends AbstractDb
         return $data;
     }
 
+    /**
+     * @return mixed
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function getStoreBaseUrl()
     {
         return $this->_storeManager->getStore()->getBaseUrl();
     }
 
 
+    /**
+     * @param $url
+     * @param $secret
+     * @param $queryParams
+     * @return string
+     */
     public function getHmac($url, $secret, $queryParams)
     {
         //first get params from url string
