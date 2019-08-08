@@ -3,9 +3,7 @@
     <head>
         <css src="SalesAndOrders_FeedTool::css/view.css" />
         <link src="SalesAndOrders_FeedTool::js/view.js"/>
-        <title>
-            Dev - Sales and Orders
-        </title>
+        <title></title>
     </head>
     <body>
         <referenceContainer name="content">
