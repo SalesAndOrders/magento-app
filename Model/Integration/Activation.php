@@ -158,16 +158,14 @@ class Activation extends AbstractDb
         $this->integrationManager = $integrationManager;
         $this->cacheModel = $cacheModel;
 
-        $this->integration = $this->integrationFactory->create()->load($this->integrationName, 'name');
+        $this->integration = $this->getIntegration();
         $this->currentUser = $this->authSession->getUser();
         parent::__construct($context);
     }
 
 
     public function _construct()
-    {
-        // TODO: Implement _construct() method.
-    }
+    {}
 
     /**
      * @return bool
@@ -209,6 +207,8 @@ class Activation extends AbstractDb
 
     /**
      * @return bool
+     *
+     * Magento\Integration\Model\Integration
      */
     public function createIntegration()
     {
@@ -252,8 +252,8 @@ class Activation extends AbstractDb
      */
     public function getIntegration()
     {
-        $integration = $this->integration;
-        return $integration;
+        $this->integration = $this->integrationFactory->create()->load($this->integrationName, 'name');
+        return $this->integration;
     }
 
     /**
