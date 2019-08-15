@@ -23,7 +23,7 @@ class View extends Template
 
     protected $configHelper;
 
-    protected $_storeManager;
+    protected $storeManager;
 
     protected $_configReader;
 
@@ -33,7 +33,7 @@ class View extends Template
         WebHook $webHookModel,
         Activation $activation,
         Config $configHelper,
-        StoreManagerInterface $_storeManager,
+        StoreManagerInterface $storeManager,
         Reader $reader
     )
     {
@@ -41,7 +41,7 @@ class View extends Template
         $this->webHookModel = $webHookModel;
         $this->activationModel = $activation;
         $this->configHelper = $configHelper;
-        $this->_storeManager = $_storeManager;
+        $this->storeManager = $storeManager;
         $this->_configReader = $reader;
         parent::__construct($context);
     }
@@ -53,20 +53,21 @@ class View extends Template
     public function getIframeLinkData()
     {
         $data = ['content' => false, 'url' => false];
-        $store = $this->_storeManager->getStore()->getCode();
-        $ingegration = $this->integrationFactory->create()->load(IntegrationActivation::INTEGRATION_NAME, 'name');
-        if ($ingegration && $ingegration->getId()) {
+        $store = $this->storeManager->getStore();
+        $store = $store->getCode();
+        $integration = $this->integrationFactory->create()->load(IntegrationActivation::INTEGRATION_NAME, 'name');
+        if ($integration && $integration->getId()) {
 
             $enabledWebhooks = $this->webHookModel->getEnabledWebhooks();
             $authWebHooks = $this->webHookModel->getAuthorizedWebhooks();
             if ($enabledWebhooks && $enabledWebhooks->webhook_count > 0) {
-                $webHook = $this->webHookModel->getCustomWebHookData($ingegration->getId());
+                $webHook = $this->webHookModel->getCustomWebHookData($integration->getId());
                 $data = [
                     'content' => 'login_iframe',
                     'url' => $webHook->verify_url_endpoint
                 ];
             }else{
-                $ingegration->delete();
+                $integration->delete();
             }
 
             if ($authWebHooks && $authWebHooks->webhook_count > 0) {
@@ -86,7 +87,7 @@ class View extends Template
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Oauth\Exception
      */
-    private function getIframeLoadUrl()
+    public function getIframeLoadUrl()
     {
         $loadUrl = $this->configHelper->getIframeLoadUrl();
         $consumer = $this->activationModel->getConsumer();
@@ -98,7 +99,9 @@ class View extends Template
     public function getAdminBaseUrl(){
         $config = $this->_configReader->load();
         $adminSuffix = $config['backend']['frontName'];
-        return $this->getBaseUrl() . $adminSuffix . '/';
+        $store = $this->storeManager->getStore();
+        $baseUrl = $store->getBaseUrl();
+        return  $baseUrl . $adminSuffix . '/';
     }
 
 }
