@@ -11,6 +11,7 @@
     }
   ],
   "require": {
+    "php": "^7.1",
     "salesandorders/feedtool": "dev-staging"
   },
   "minimum-stability": "dev",
