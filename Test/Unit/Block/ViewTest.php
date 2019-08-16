@@ -39,10 +39,8 @@ class ViewTest extends TestCase
         $this->webHookModel = $this->createMock(\SalesAndOrders\FeedTool\Model\ResourceModel\WebHook::class);
         $this->activation = $this->createMock(\SalesAndOrders\FeedTool\Model\Integration\Activation::class);
         $this->configHelper = $this->createMock(\SalesAndOrders\FeedTool\Helper\Config::class);
-
         $this->storeManager = $this->createMock(\Magento\Store\Model\StoreManagerInterface::class);
         $this->storeMock = $this->getMockForAbstractClass(StoreInterface::class);
-
         $this->reader = $this->createMock(\Magento\Framework\App\DeploymentConfig\Reader::class);
 
         $this->object = new View(
@@ -84,10 +82,9 @@ class ViewTest extends TestCase
             ->will($this->returnValue((object)['webhook_count' => 1]));
         $this->webHookModel->expects($this->any())->method('getCustomWebHookData')->with(10)
             ->will($this->returnValue((object)['verify_url_endpoint'=>'some_url']));
-
-
         $integrationModel->expects($this->any())->method('delete')->with()->willReturnSelf();
         $this->testGetIframeLoadUrl();
+
         $this->assertArrayHasKey('url', $this->object->getIframeLinkData());
     }
 
@@ -98,7 +95,6 @@ class ViewTest extends TestCase
             ->setMethods(['getBaseUrl'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-
         $this->reader->expects($this->any())->method('load')->willReturn(['backend' => ['frontName' => 'test']]);
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
         $storeMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue('base_url'));
