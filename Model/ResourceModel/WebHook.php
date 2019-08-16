@@ -77,7 +77,7 @@ class WebHook extends AbstractDb
      */
     public function addIntegrationWebHook($insertData = [], $authorize_flag = 0)
     {
-        $integration = $this->getIntegration();
+        $this->integration = $this->getIntegration();
         if ($this->integration && $this->integration->getId()) {
             $insertData['store_code'] = isset($insertData['store_code']) ? $insertData['store_code'] : $this->storeManager->getStore()->getCode();
             $integrationWebHook = $this->getWebHookData($this->integration->getId(), $insertData['store_code']);
