@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "salesandorders/feedtool": "dev-master"
+    "salesandorders/feedtool": "dev-staging"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
