@@ -22,5 +22,11 @@
     "psr-4": {
       "SalesAndOrders\\FeedTool\\": ""
     }
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/SalesAndOrders/magento-app.git"
+    }
+  ]
 }
