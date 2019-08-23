@@ -2,7 +2,7 @@
   "name": "salesandorders/magento-app",
   "description": "Feed Tool",
   "type": "magento2-module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "authors": [
     {
@@ -22,5 +22,11 @@
     "psr-4": {
       "SalesAndOrders\\FeedTool\\": ""
     }
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/SalesAndOrders/magento-app.git"
+    }
+  ]
 }
