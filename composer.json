@@ -2,7 +2,7 @@
   "name": "salesandorders/magento-app",
   "description": "Feed Tool",
   "type": "magento2-module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "authors": [
     {
@@ -10,9 +10,6 @@
       "email": "devtools@salesandorders.com"
     }
   ],
-  "require": {
-    "salesandorders/magento-app": "dev-master"
-  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "autoload": {
