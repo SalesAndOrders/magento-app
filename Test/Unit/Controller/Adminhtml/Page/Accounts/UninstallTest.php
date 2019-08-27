@@ -10,7 +10,9 @@ use \Magento\Framework\App\Action\Context;
 use \Magento\Framework\Controller\Result\JsonFactory;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
-
+/**
+ * Comment is required here
+ */
 class UninstallTest extends TestCase
 {
 
@@ -69,14 +71,17 @@ class UninstallTest extends TestCase
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $this->redirect = $this->context->expects($this->any())->method('getRedirect')->will($this->returnValue($this->redirectInterface));
+        $this->redirect = $this->context->expects($this->any())->method('getRedirect')
+            ->will($this->returnValue($this->redirectInterface));
 
         $this->object = $this->getMockBuilder(
             Uninstall::class
         )
-            ->setMethods([
+            ->setMethods(
+                [
                 'getRequest'
-            ])
+                ]
+            )
             ->setConstructorArgs(
                 [
                     $this->context,
@@ -105,14 +110,11 @@ class UninstallTest extends TestCase
         $this->resultFactoryMock->expects($this->any())->method('create')
             ->with('redirect')->will($this->returnValue($this->resultInteface));
 
-
-
         $this->redirectInterface->expects($this->any())->method('getRefererUrl')->will($this->returnValue('url'));
 
         $this->resultInteface->expects($this->any())
             ->method('setUrl')->will($this->returnSelf());
 
         $this->assertSame($this->resultInteface, $this->object->execute());
-
     }
 }

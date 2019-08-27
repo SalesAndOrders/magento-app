@@ -11,6 +11,9 @@ use \Magento\Framework\Controller\ResultFactory;
 
 use Magento\Integration\Model\ConfigBasedIntegrationManager;
 
+/**
+ * Comment is required here
+ */
 class Add extends Action
 {
 
@@ -29,16 +32,16 @@ class Add extends Action
 
     /**
      * Add constructor.
-     * @param Context $context
-     * @param Activation $activation
+     *
+     * @param Context                       $context
+     * @param Activation                    $activation
      * @param ConfigBasedIntegrationManager $integrationManager
      */
     public function __construct(
         Context $context,
         Activation $activation,
         ConfigBasedIntegrationManager $integrationManager
-    )
-    {
+    ) {
         $this->activationModel = $activation;
         $this->resultFactory = $context->getResultFactory();
         $this->integrationManager = $integrationManager;
@@ -52,12 +55,16 @@ class Add extends Action
     {
         $data = $this->integrationManager->processIntegrationConfig(['sales_and_orders']);
 
-        /** @var \Magento\Framework\Controller\Result\Json $result */
+        /**
+ * @var \Magento\Framework\Controller\Result\Json $result
+*/
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
-        $result->setData([
+        $result->setData(
+            [
             'status' => true,
             'response' => '1111'
-        ]);
+            ]
+        );
         return $result;
     }
 }

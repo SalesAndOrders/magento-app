@@ -6,6 +6,9 @@ namespace SalesAndOrders\FeedTool\Test\Unit\Model;
 use \PHPUnit\Framework\TestCase;
 use \SalesAndOrders\FeedTool\Model\Cache;
 
+/**
+ * Comment is required here
+ */
 class CacheTest extends TestCase
 {
 
@@ -48,5 +51,4 @@ class CacheTest extends TestCase
             [['full_page']]
         ];
     }
-
 }

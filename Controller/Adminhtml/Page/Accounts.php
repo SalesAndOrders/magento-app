@@ -8,6 +8,9 @@ use \Magento\Framework\Controller\Result\JsonFactory;
 use \Magento\Framework\View\Result\PageFactory;
 use \Magento\Framework\View\Result\LayoutFactory;
 
+/**
+ * Comment is required here
+ */
 class Accounts extends Action
 {
     /**
@@ -22,7 +25,8 @@ class Accounts extends Action
     protected $resultLayoutFactory;
     /**
      * View constructor.
-     * @param Context $context
+     *
+     * @param Context     $context
      * @param JsonFactory $resultJsonFactory
      * @param PageFactory $resultPageFactory
      */
@@ -30,8 +34,7 @@ class Accounts extends Action
         Context $context,
         JsonFactory $resultJsonFactory,
         PageFactory $resultPageFactory
-    )
-    {
+    ) {
         $this->resultJsonFactory = $resultJsonFactory;
         $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);

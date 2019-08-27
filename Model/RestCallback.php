@@ -11,6 +11,9 @@ use Magento\Framework\Webapi\Rest\Request;
 
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
+/**
+ * Comment is required here
+ */
 class RestCallback implements RestCallbackInterface
 {
 
@@ -41,11 +44,12 @@ class RestCallback implements RestCallbackInterface
 
     /**
      * RestCallback constructor.
-     * @param \SalesAndOrders\FeedTool\Model\CronScheduler $cronScheduler
-     * @param ProductRepository $productRepository
-     * @param SearchCriteriaInterface $searchCriteria
-     * @param ServiceOutputProcessor $serviceOutputProcessor
-     * @param Request $request
+     *
+     * @param \SalesAndOrders\FeedTool\Model\CronScheduler         $cronScheduler
+     * @param ProductRepository                                    $productRepository
+     * @param SearchCriteriaInterface                              $searchCriteria
+     * @param ServiceOutputProcessor                               $serviceOutputProcessor
+     * @param Request                                              $request
      * @param \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook $webHookModel
      */
     public function __construct(
@@ -55,8 +59,7 @@ class RestCallback implements RestCallbackInterface
         ServiceOutputProcessor $serviceOutputProcessor,
         Request $request,
         WebHook $webHookModel
-    )
-    {
+    ) {
         $this->cronScheduler = $cronScheduler;
         $this->productRepository = $productRepository;
         $this->searchCriteria = $searchCriteria;
@@ -81,7 +84,11 @@ class RestCallback implements RestCallbackInterface
     {
         $search = $this->searchCriteria->setData('page_size', 2);
         $list = $this->productRepository->getList($search);
-        $output = $this->serviceOutputProcessor->process($list, 'Magento\Catalog\Api\ProductRepositoryInterface', 'getList');
+        $output = $this->serviceOutputProcessor->process(
+            $list,
+            Magento\Catalog\Api\ProductRepositoryInterface::class,
+            'getList'
+        );
         return $output;
     }
 

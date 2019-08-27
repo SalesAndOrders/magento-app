@@ -7,9 +7,15 @@ use \Magento\Framework\Model\ResourceModel\Db\Context;
 use \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as productCollection;
 use \Magento\Store\Model\StoreManagerInterface;
 
-class Product extends AbstractDb {
+/**
+ * Product
+ */
+class Product extends AbstractDb
+{
 
-    /**]
+    /**
+     * ]
+     *
      * @var productCollection
      */
     protected $productCollection;
@@ -21,20 +27,19 @@ class Product extends AbstractDb {
 
     /**
      * Product constructor.
-     * @param Context $context
+     *
+     * @param Context           $context
      * @param productCollection $productCollection
      */
     public function __construct(
         Context $context,
         productCollection $productCollection,
         StoreManagerInterface $storemanager
-    )
-    {
+    ) {
         $this->productCollection = $productCollection;
         $this->storemanager = $storemanager;
         parent::__construct($context);
     }
-
 
     protected function _construct()
     {
@@ -42,7 +47,7 @@ class Product extends AbstractDb {
     }
 
     /**
-     * @param $productData
+     * @param  $productData
      * @return bool
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Zend_Db_Statement_Exception
@@ -53,27 +58,33 @@ class Product extends AbstractDb {
         $store_code = isset($store_data['code']) ? $store_data['code'] : null;
         $store_id = isset($store_data['store_id']) ? $store_data['store_id'] : null;
         $storeBaseUrl = $this->storemanager->getStore($store_id)->getBaseUrl();
-        if (!$store_code){
+        if (!$store_code) {
             return false;
         }
 
-        $product = $this->getProductByFields([
+        $product = $this->getProductByFields(
+            [
             'product_id' => $productData->getId(),
             'store_code' => $store_code
-        ]);
+            ]
+        );
 
         if ($product) {
             $where = ['id = ?' => $product->id];
             $this->getConnection()
-                ->update($this->getMainTable(),
+                ->update(
+                    $this->getMainTable(),
                     [
                         'store_base_url' => $storeBaseUrl,
                         'edited' => date('Y-m-d H:i:s'),
                         'action' => $action
-                    ], $where);
+                    ],
+                    $where
+                );
         } else {
             $this->getConnection()
-                ->insert($this->getMainTable(),
+                ->insert(
+                    $this->getMainTable(),
                     [
                         'product_id' => $productData->getId(),
                         'product_sku' => $productData->getSku(),
@@ -81,15 +92,16 @@ class Product extends AbstractDb {
                         'store_base_url' => $storeBaseUrl,
                         'edited' => date('Y-m-d H:i:s'),
                         'action' => $action
-                    ]);
+                    ]
+                );
         }
 
         return true;
     }
 
     /**
-     * @param int $value
-     * @param string $field
+     * @param  int    $value
+     * @param  string $field
      * @return mixed|null
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Zend_Db_Statement_Exception
@@ -119,8 +131,8 @@ class Product extends AbstractDb {
     }
 
     /**
-     * @param int $value
-     * @param string $field
+     * @param  int    $value
+     * @param  string $field
      * @return bool
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -174,9 +186,9 @@ class Product extends AbstractDb {
     }
 
     /**
-     * @param $products
-     * @param $changedProducts
-     * @param $actions
+     * @param  $products
+     * @param  $changedProducts
+     * @param  $actions
      * @return array
      */
     public function dataGenetator($products, $changedProducts, $actions)
@@ -210,7 +222,7 @@ class Product extends AbstractDb {
     }
 
     /**
-     * @param $product
+     * @param  $product
      * @return string
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
@@ -219,7 +231,8 @@ class Product extends AbstractDb {
         $productImageUrl = '';
         if ($product->getImage()) {
             $store = $this->storemanager->getStore();
-            $productImageUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' .$product->getImage();
+            $productImageUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) .
+                 'catalog/product' .$product->getImage();
         }
         return $productImageUrl;
     }

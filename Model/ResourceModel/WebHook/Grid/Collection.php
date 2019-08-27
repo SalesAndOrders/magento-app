@@ -6,6 +6,9 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\Search\SearchResultInterface;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook\Collection as WebHookCollection;
 
+/**
+ * Comment is required here
+ */
 class Collection extends WebHookCollection implements SearchResultInterface
 {
     /**
@@ -14,7 +17,6 @@ class Collection extends WebHookCollection implements SearchResultInterface
      * @var AggregationInterface
      */
     protected $aggregations;
-
 
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
@@ -27,9 +29,8 @@ class Collection extends WebHookCollection implements SearchResultInterface
         $resourceModel,
         \Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
         \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null,
-        $model = 'Magento\Framework\View\Element\UiComponent\DataProvider\Document'
-    )
-    {
+        $model = Magento\Framework\View\Element\UiComponent\DataProvider\Document::class
+    ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_eventPrefix = $eventPrefix;
         $this->_eventObject = $eventObject;
@@ -46,7 +47,8 @@ class Collection extends WebHookCollection implements SearchResultInterface
         $this->getSelect()->joinLeft(
             ['stores' => $this->getTable('store')],
             'main_table.store_code = stores.code',
-            ['store_id', 'store_name'=>'name'])
+            ['store_id', 'store_name'=>'name']
+        )
             ->where('stores.store_id <> ?', '');
         return $this;
     }
@@ -60,7 +62,7 @@ class Collection extends WebHookCollection implements SearchResultInterface
     }
 
     /**
-     * @param AggregationInterface $aggregations
+     * @param  AggregationInterface $aggregations
      * @return $this
      */
     public function setAggregations($aggregations)
@@ -68,13 +70,12 @@ class Collection extends WebHookCollection implements SearchResultInterface
         $this->aggregations = $aggregations;
     }
 
-
     /**
      * Retrieve all ids for collection
      * Backward compatibility with EAV collection
      *
-     * @param int $limit
-     * @param int $offset
+     * @param  int $limit
+     * @param  int $offset
      * @return array
      */
     public function getAllIds($limit = null, $offset = null)
@@ -95,8 +96,8 @@ class Collection extends WebHookCollection implements SearchResultInterface
     /**
      * Set search criteria.
      *
-     * @param SearchCriteriaInterface $searchCriteria
-     * @return $this
+     * @param                                         SearchCriteriaInterface $searchCriteria
+     * @return                                        $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function setSearchCriteria(SearchCriteriaInterface $searchCriteria = null)
@@ -117,8 +118,8 @@ class Collection extends WebHookCollection implements SearchResultInterface
     /**
      * Set total count.
      *
-     * @param int $totalCount
-     * @return $this
+     * @param                                         int $totalCount
+     * @return                                        $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function setTotalCount($totalCount)
@@ -129,8 +130,8 @@ class Collection extends WebHookCollection implements SearchResultInterface
     /**
      * Set items list.
      *
-     * @param \Magento\Framework\Api\ExtensibleDataInterface[] $items
-     * @return $this
+     * @param                                         \Magento\Framework\Api\ExtensibleDataInterface[] $items
+     * @return                                        $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function setItems(array $items = null)

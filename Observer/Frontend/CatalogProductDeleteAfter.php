@@ -6,6 +6,9 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use SalesAndOrders\FeedTool\Model\ResourceModel\Product;
 
+/**
+ * Event for action after product delete
+ */
 class CatalogProductDeleteAfter implements ObserverInterface
 {
 
@@ -16,17 +19,17 @@ class CatalogProductDeleteAfter implements ObserverInterface
 
     /**
      * CatalogProductSaveAfter constructor.
+     *
      * @param Product $productResourceModel
      */
     public function __construct(
         Product $productResourceModel
-    )
-    {
+    ) {
         $this->productResourceModel = $productResourceModel;
     }
 
     /**
-     * @param Observer $observer
+     * @param  Observer $observer
      * @return bool|void
      */
     public function execute(Observer $observer)

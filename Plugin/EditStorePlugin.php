@@ -7,7 +7,11 @@ use Magento\Store\Model\StoreManagerInterface;
 use SalesAndOrders\FeedTool\Model\Transport;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
-class EditStorePlugin {
+/**
+ * Comment is required here
+ */
+class EditStorePlugin
+{
 
     protected $beforeStoreCode = null;
 
@@ -21,8 +25,7 @@ class EditStorePlugin {
         StoreManagerInterface $storeManager,
         Transport $transport,
         WebHook $webHookResource
-    )
-    {
+    ) {
         $this->storeManager = $storeManager;
         $this->transport = $transport;
         $this->webhookResource = $webHookResource;
@@ -30,7 +33,11 @@ class EditStorePlugin {
 
     public function beforeExecute(Save $subject)
     {
-        $storeID = isset($subject->getRequest()->getPost()['store']['store_id']) ? $subject->getRequest()->getPost()['store']['store_id'] : null;
+        $storeID = isset($subject->getRequest()
+            ->getPost()['store']['store_id'])
+                ? $subject->getRequest()->getPost()['store']['store_id']
+                : null
+        ;
 
         if ($storeID) {
             $store = $this->storeManager->getStore($storeID);
@@ -40,8 +47,13 @@ class EditStorePlugin {
 
     public function afterExecute(Save $subject, $result)
     {
-        $newStoreCode = isset($subject->getRequest()->getPost()['store']['code']) ? $subject->getRequest()->getPost()['store']['code'] : null;
-        $storeBaseUrl = $this->storeManager->getStore($subject->getRequest()->getPost()['store']['store_id'])->getBaseUrl();
+        $newStoreCode = isset($subject->getRequest()
+                    ->getPost()['store']['code'])
+                        ? $subject->getRequest()->getPost()['store']['code']
+                        : null;
+        $storeBaseUrl = $this->storeManager
+                ->getStore($subject->getRequest()->getPost()['store']['store_id'])
+                ->getBaseUrl();
 
         if ($this->beforeStoreCode && $newStoreCode && $this->beforeStoreCode != $newStoreCode) {
             $webhook = $this->webhookResource->getWebhookByStoreCode($this->beforeStoreCode);

@@ -5,6 +5,9 @@ namespace SalesAndOrders\FeedTool\Test\Unit\Ui\Component\Listing\Column;
 use \PHPUnit\Framework\TestCase;
 use SalesAndOrders\FeedTool\Ui\Component\Listing\Column\SalesAndOrdersActions;
 
+/**
+ * Comment is required here
+ */
 class SalesAndOrdersActionsTest extends TestCase
 {
 
@@ -45,11 +48,11 @@ class SalesAndOrdersActionsTest extends TestCase
     {
         return [[
                 ['data' =>
-                    array (
+                     [
                         'items' =>
-                            array (
+                             [
                                 0 =>
-                                    array (
+                                     [
                                         'id_field_name' => 'id',
                                         'id' => '30',
                                         'integration_id' => '50',
@@ -58,17 +61,16 @@ class SalesAndOrdersActionsTest extends TestCase
                                         'verify_url_endpoint' => 'test',
                                         'store_code' => 'default1',
                                         'is_deleted' => '0',
-                                        'products_webhook_url' => NULL,
-                                        'account_update_url' => NULL,
-                                        'uninstall_url' => NULL,
+                                        'products_webhook_url' => null,
+                                        'account_update_url' => null,
+                                        'uninstall_url' => null,
                                         'store_id' => '1',
                                         'store_name' => 'Default Store View',
-                                        'orig_data' => NULL,
-                                    ),
-                            ),
+                                        'orig_data' => null,
+                                     ],
+                             ],
                         'totalRecords' => 1,
-                    )]
+                     ]]
         ]];
     }
-
 }

@@ -6,7 +6,11 @@ use Magento\Backend\Controller\Adminhtml\System\Store\DeleteStorePost;
 use Magento\Store\Model\StoreManagerInterface;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
-class DeleteStore{
+/**
+ * Comment is required here
+ */
+class DeleteStore
+{
 
     protected $storeManager;
 
@@ -17,8 +21,7 @@ class DeleteStore{
     public function __construct(
         StoreManagerInterface $storeManager,
         WebHook $webHookModel
-    )
-    {
+    ) {
         $this->storeManager = $storeManager;
         $this->webHookModel = $webHookModel;
     }

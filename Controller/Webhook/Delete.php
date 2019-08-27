@@ -6,6 +6,9 @@ use \Magento\Framework\App\Action\Action;
 use \SalesAndOrders\FeedTool\Model\WebHookFactory;
 use \SalesAndOrders\FeedTool\Model\Logger;
 
+/**
+ * Comment is required here
+ */
 class Delete extends Action
 {
     /**
@@ -18,7 +21,7 @@ class Delete extends Action
     protected $logger;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context            $context
      * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
      */
     public function __construct(
@@ -26,8 +29,7 @@ class Delete extends Action
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         WebHookFactory $webHookFactory,
         Logger $logger
-    )
-    {
+    ) {
         $this->resultJsonFactory = $resultJsonFactory;
         $this->webhookFactory = $webHookFactory;
         $this->logger = $logger;
@@ -56,11 +58,11 @@ class Delete extends Action
                 $webhook->save();
                 $text = __('Webhook with ID=%1 deleted', $webhookID);
                 $logger->info('Change deteted floag is_deleted to 1');
-            }else{
+            } else {
                 $text = __('Webhook with ID=%1 s doesnt exist', $webhookID);
                 $logger->info('Webhook with ID=' . $webhookID . ' is doesnt exist');
             }
-        }else{
+        } else {
             $text = __('Webhook params is doesnt exist');
             $logger->info('Webhook params is doesnt exist');
         }

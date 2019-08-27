@@ -5,6 +5,9 @@ namespace SalesAndOrders\FeedTool\Model;
 use \Magento\Framework\App\Cache\TypeListInterface;
 use \Magento\Framework\App\Cache\Frontend\Pool;
 
+/**
+ * Comment is required here
+ */
 class Cache
 {
     /**
@@ -19,21 +22,22 @@ class Cache
 
     /**
      * Cache constructor.
+     *
      * @param TypeListInterface $cacheTypeList
-     * @param Pool $cacheFrontendPool
+     * @param Pool              $cacheFrontendPool
      */
     public function __construct(
         TypeListInterface $cacheTypeList,
         Pool $cacheFrontendPool
-    )
-    {
+    ) {
         $this->cacheTypeList = $cacheTypeList;
         $this->cacheFrontendPool = $cacheFrontendPool;
     }
 
     /**
      * types[] = 'config','block_html' ... etc
-     * @param null $types
+     *
+     * @param  null $types
      * @return bool
      */
     public function cleanCahes($types = null)

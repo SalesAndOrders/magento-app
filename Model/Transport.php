@@ -2,19 +2,21 @@
 
 namespace SalesAndOrders\FeedTool\Model;
 
-
+/**
+ * Comment is required here
+ */
 class Transport
 {
     /**
-     * @param $endpointUrl
-     * @param array $postData
+     * @param  $endpointUrl
+     * @param  array       $postData
      * @return array
      */
     public function sendData($endpointUrl, $postData = [])
     {
         $curl = curl_init();
 
-        $curlOptions = array(
+        $curlOptions = [
             CURLOPT_URL => $endpointUrl,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
@@ -24,11 +26,11 @@ class Transport
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => json_encode($postData),
-            CURLOPT_HTTPHEADER => array(
+            CURLOPT_HTTPHEADER => [
                 "Content-Type: application/json",
                 "cache-control: no-cache"
-            ),
-        );
+            ],
+        ];
 
         curl_setopt_array($curl, $curlOptions);
 

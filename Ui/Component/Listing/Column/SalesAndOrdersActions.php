@@ -7,14 +7,21 @@ use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
 use Magento\Framework\UrlInterface;
 
+/**
+ * Admin page view column
+ */
 class SalesAndOrdersActions extends Column
 {
 
-    /** Url path */
+    /**
+ * Url path
+*/
     const URL_PATH_DELETE   = 'integration_module/page_accounts/uninstall';
     const URL_PATH_EDIT     = '';
 
-    /** @var UrlInterface */
+    /**
+     * @var UrlInterface
+     */
     protected $urlBuilder;
 
     /**
@@ -38,7 +45,7 @@ class SalesAndOrdersActions extends Column
     /**
      * Prepare Data Source
      *
-     * @param array $dataSource
+     * @param  array $dataSource
      * @return array
      */
     public function prepareDataSource(array $dataSource)
@@ -48,7 +55,10 @@ class SalesAndOrdersActions extends Column
                 $name = $this->getData('name');
                 if (isset($item['store_id'])) {
                     $item[$name]['delete'] = [
-                        'href' => $this->urlBuilder->getUrl(self::URL_PATH_DELETE, ['store_id' => $item['store_id'], 'store_code' => $item['store_code']]),
+                        'href' => $this->urlBuilder->getUrl(
+                            self::URL_PATH_DELETE,
+                            ['store_id' => $item['store_id'], 'store_code' => $item['store_code']]
+                        ),
                         'label' => __('Delete'),
                         'confirm' => [
                             'title' => __('Delete "${ $.$data.store_name }"'),

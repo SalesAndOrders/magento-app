@@ -10,6 +10,9 @@ use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook\Collection as WebhookCol
 use SalesAndOrders\FeedTool\Model\Transport;
 use SalesAndOrders\FeedTool\Model\Logger;
 
+/**
+ * Comment is required here
+ */
 class CronScheduler
 {
 
@@ -65,8 +68,7 @@ class CronScheduler
         Transport $transport,
         StoreManagerInterface $storeManger,
         Logger $logger
-    )
-    {
+    ) {
         $this->productResource = $productResource;
         $this->productFactory = $productFactory;
         $this->webHook = $webHook;
@@ -87,7 +89,7 @@ class CronScheduler
     }
 
     /**
-     * @param $productsData
+     * @param  $productsData
      * @return bool|string
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -104,10 +106,10 @@ class CronScheduler
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_POST,           true );
-        curl_setopt($ch, CURLOPT_POSTFIELDS,     $dataJson);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataJson);
 
         $response = curl_exec($ch);
         $info = curl_getinfo($ch);
@@ -120,8 +122,8 @@ class CronScheduler
     }
 
     /**
-     * @param bool $response
-     * @param array $info
+     * @param  bool  $response
+     * @param  array $info
      * @return bool
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -144,15 +146,14 @@ class CronScheduler
      * @return array
      *
      * sendStoresActions send cURL pages per store
-     *
      */
     public function sendStoresActions()
     {
         $logger = $this->logger->create('log_prod_actions', 'products');
         $logger->info('Begint to log all actions');
-        try{
+        try {
             $globalStore = $this->storeManger->getStore(self::GLOBAL_ALL_STORE_VIEWS_ADMIN_ID);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $globalStore = false;
         }
 
@@ -188,15 +189,16 @@ class CronScheduler
                     $result = [];
                     for ($i = $currentPage; $i <= (int)$count; $i ++) {
                         $collection = $this->productFactory->create()->getCollection()
-                            ->addFieldToFilter('store_code',
+                            ->addFieldToFilter(
+                                'store_code',
                                 [
                                     ['eq' => $storeCode],
                                     $condition
                                 ]
-                                )
+                            )
                             ->setPageSize(self::ACTION_ITEMS_PER_PAGE)
                             ->setCurPage($i)
-                            ->setOrder('store_code','asc');
+                            ->setOrder('store_code', 'asc');
 
                         foreach ($collection as $item) {
 
@@ -211,10 +213,14 @@ class CronScheduler
                     // send to store product url his pages
                     if (isset($result['pages'])) {
                         foreach ($result['pages'] as $page) {
-                            if (isset($webhooksData[$storeCode]) &&
-                                isset($webhooksData[$storeCode]['products_webhook_url']) &&
-                                $webhooksData[$storeCode]['products_webhook_url']) {
-                                $logger->info('Try to send page to store: ' . $storeCode . ' on URL ' . $webhooksData[$storeCode]['products_webhook_url']);
+                            if (isset($webhooksData[$storeCode])
+                                && isset($webhooksData[$storeCode]['products_webhook_url'])
+                                && $webhooksData[$storeCode]['products_webhook_url']
+                            ) {
+                                $logger->info('Try to send page to store: ' .
+                                $storeCode .
+                                ' on URL ' .
+                                $webhooksData[$storeCode]['products_webhook_url']);
                                 // send curl
                                 $this->transport->sendData($webhooksData[$storeCode]['products_webhook_url'], $page);
                             }

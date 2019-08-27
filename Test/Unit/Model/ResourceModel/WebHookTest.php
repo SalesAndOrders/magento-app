@@ -1,6 +1,5 @@
 <?php
 
-
 namespace SalesAndOrders\FeedTool\Test\Unit\Model\ResourceModel;
 
 use Magento\Framework\App\ResourceConnection;
@@ -10,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 use SalesAndOrders\FeedTool\Model\Integration\Activation;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
+/**
+ * Comment is required here
+ */
 class WebHookTest extends TestCase
 {
 
@@ -51,13 +53,14 @@ class WebHookTest extends TestCase
         $this->transport = $this->createMock(\SalesAndOrders\FeedTool\Model\Transport::class);
         $this->cacheModel = $this->createMock(\SalesAndOrders\FeedTool\Model\Cache::class);
         $this->integrationModel = $this->getMockBuilder(\Magento\Integration\Model\Integration::class)
-            ->setMethods(['load', 'setSetupType', 'save', 'delete', 'getId', 'getName', 'getStatus', 'setStatus', 'getConsumerId', 'setConsumerId'])
+            ->setMethods(['load', 'setSetupType', 'save', 'delete', 'getId', 'getName',
+                'getStatus', 'setStatus', 'getConsumerId', 'setConsumerId'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->integrationFactory->expects($this->any())->method('create')->with()->willReturn($this->integrationModel);
-        $this->integrationModel->expects($this->any())->method('load')->with(Activation::INTEGRATION_NAME, 'name')->willReturn($this->integrationModel);
-
+        $this->integrationModel->expects($this->any())->method('load')->with(Activation::INTEGRATION_NAME, 'name')
+                ->willReturn($this->integrationModel);
 
         $select = $this->getMockBuilder(\Magento\Framework\DB\Select::class)
             ->disableOriginalConstructor()
@@ -91,14 +94,16 @@ class WebHookTest extends TestCase
         $this->object = $this->getMockBuilder(
             WebHook::class
         )
-            ->setMethods([
+            ->setMethods(
+                [
                 'getWebHookData',
                 'getIntegration',
                 'getConnection',
                 'getWebHookWithUninstallUrl',
                 'deleteWebHookByIntegration',
                 'getAuthorizedWebhooks'
-            ])
+                ]
+            )
             ->setConstructorArgs(
                 [
                     $this->context,
@@ -123,7 +128,6 @@ class WebHookTest extends TestCase
             ->method('getWebHookData')
             ->will($this->returnValue([]));
 
-
         parent::setUp();
     }
 
@@ -131,7 +135,8 @@ class WebHookTest extends TestCase
     {
         $this->integrationModel->expects($this->any())->method('getId')->with()->willReturn(null);
         $this->integrationFactory->expects($this->any())->method('create')->with()->willReturn($this->integrationModel);
-        $this->integrationModel->expects($this->any())->method('load')->with(Activation::INTEGRATION_NAME, 'name')->willReturn($this->integrationModel);
+        $this->integrationModel->expects($this->any())->method('load')->with(Activation::INTEGRATION_NAME, 'name')
+        ->willReturn($this->integrationModel);
 
         $this->assertEquals($this->integrationModel, $this->object->getIntegration());
     }
@@ -143,10 +148,10 @@ class WebHookTest extends TestCase
     {
         $this->integrationModel->expects($this->any())->method('getId')->with()->willReturn(10);
         $this->connection->expects($this->any())->method('insert')->will($this->returnValue($this->connection));
-        $this->cacheModel->expects($this->any())->method('cleanCahes')->with(['config', 'block_html'])->will($this->returnValue(true));
+        $this->cacheModel->expects($this->any())->method('cleanCahes')->with(['config', 'block_html'])
+            ->will($this->returnValue(true));
         $this->assertEquals(true, $this->object->addIntegrationWebHook($data, 1));
     }
-
 
     /**
      * @dataProvider dataProvider

@@ -5,7 +5,11 @@ namespace SalesAndOrders\FeedTool\Model;
 use \Magento\Framework\Model\AbstractModel;
 use \Magento\Framework\DataObject\IdentityInterface;
 
-class Product extends AbstractModel implements IdentityInterface{
+/**
+ * Comment is required here
+ */
+class Product extends AbstractModel implements IdentityInterface
+{
 
     const CACHE_TAG = 'perspective_products';
 
@@ -15,7 +19,7 @@ class Product extends AbstractModel implements IdentityInterface{
 
     protected function _construct()
     {
-        $this->_init('SalesAndOrders\FeedTool\Model\ResourceModel\Product');
+        $this->_init(SalesAndOrders\FeedTool\Model\ResourceModel\Product::class);
     }
 
     public function getIdentities()

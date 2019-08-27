@@ -5,7 +5,11 @@ namespace SalesAndOrders\FeedTool\Model;
 use \Magento\Framework\Model\AbstractModel;
 use \Magento\Framework\DataObject\IdentityInterface;
 
-class WebHook extends AbstractModel implements IdentityInterface{
+/**
+ * Webhook
+ */
+class WebHook extends AbstractModel implements IdentityInterface
+{
 
     const CACHE_TAG = 'perspective_webhooks';
 
@@ -15,7 +19,7 @@ class WebHook extends AbstractModel implements IdentityInterface{
 
     protected function _construct()
     {
-        $this->_init('SalesAndOrders\FeedTool\Model\ResourceModel\WebHook');
+        $this->_init(SalesAndOrders\FeedTool\Model\ResourceModel\WebHook::class);
     }
 
     public function getIdentities()
