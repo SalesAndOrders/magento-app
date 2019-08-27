@@ -7,6 +7,9 @@ use Magento\Store\Model\ScopeInterface;
 use PHPUnit\Framework\TestCase;
 use SalesAndOrders\FeedTool\Helper\System\Config;
 
+/**
+ * Comment is required here
+ */
 class ConfigTest extends TestCase
 {
 
@@ -36,9 +39,11 @@ class ConfigTest extends TestCase
         $this->object = $this->getMockBuilder(
             Config::class
         )
-            ->setMethods([
+            ->setMethods(
+                [
                 'getSecureBaseUrl'
-            ])
+                ]
+            )
             ->setConstructorArgs(
                 [
                     $this->context,

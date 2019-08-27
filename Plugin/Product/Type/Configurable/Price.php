@@ -2,12 +2,14 @@
 
 namespace SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable;
 
-
+/**
+ * Comment is required here
+ */
 class Price
 {
     public function aroundGetPrice($subject, $proceed, $product)
     {
-        if ($product->getTypeId() == "configurable"){
+        if ($product->getTypeId() == "configurable") {
             $price = $product->getFinalPrice() ? $product->getFinalPrice() : 0;
             if (!$price || $price == 0) {
                 $childrenProducts = $product->getTypeInstance()->getUsedProducts($product);
@@ -19,8 +21,7 @@ class Price
                     }
                 }
             }
-        }
-        else {
+        } else {
             $returnValue = $proceed($product);
             $price = $returnValue;
         }

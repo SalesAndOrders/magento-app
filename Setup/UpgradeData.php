@@ -19,21 +19,21 @@ class UpgradeData implements UpgradeDataInterface
 
     private $integrationFactory;
 
-
     public function __construct(
         ConfigBasedIntegrationManager $integrationManager,
         IntegrationFactory $integrationFactory
-)
-    {
+    ) {
         $this->integrationManager = $integrationManager;
         $this->integrationFactory = $integrationFactory;
     }
     /**
      * {@inheritdoc}
+     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
-
+        $cnxt = $context;    // dummy
+    // implemt on update
     }
 }

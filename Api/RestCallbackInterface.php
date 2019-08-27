@@ -2,6 +2,9 @@
 
 namespace SalesAndOrders\FeedTool\Api;
 
+/**
+ * Comment is required here
+ */
 interface RestCallbackInterface
 {
     /**

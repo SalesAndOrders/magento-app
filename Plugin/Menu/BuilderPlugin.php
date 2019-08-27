@@ -8,6 +8,9 @@ use Magento\Backend\Model\Menu\ItemFactory;
 use SalesAndOrders\FeedTool\Model\Integration\Activation;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
+/**
+ * Comment is required here
+ */
 class BuilderPlugin
 {
     protected $menuItemFactory;
@@ -39,7 +42,8 @@ class BuilderPlugin
         }
 
         $parent = 'SalesAndOrders_FeedTool::integration_module';
-        $item = $this->menuItemFactory->create([
+        $item = $this->menuItemFactory->create(
+            [
             'data' => [
                 'parent_id' => $parent,
                 'id' => 'SalesAndOrders_FeedTool::integration',
@@ -49,10 +53,12 @@ class BuilderPlugin
                 'sortOrder' => 71,
                 'module' => 'SalesAndOrders_FeedTool'
             ]
-        ]);
+            ]
+        );
         $menu->add($item, $parent);
 
-        $item = $this->menuItemFactory->create([
+        $item = $this->menuItemFactory->create(
+            [
             'data' => [
                 'parent_id' => $parent,
                 'id' => 'SalesAndOrders_FeedTool::accounts',
@@ -62,7 +68,8 @@ class BuilderPlugin
                 'sortOrder' => 72,
                 'module' => 'SalesAndOrders_FeedTool'
             ]
-        ]);
+            ]
+        );
         $menu->add($item, $parent);
 
         return $menu;

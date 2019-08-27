@@ -9,6 +9,9 @@ use \Magento\Framework\View\Result\PageFactory;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation;
 use \Magento\Framework\Controller\ResultFactory;
 
+/**
+ * Comment is required here
+ */
 class Activate extends Action
 {
 
@@ -23,14 +26,14 @@ class Activate extends Action
 
     /**
      * Activate constructor.
-     * @param Context $context
+     *
+     * @param Context    $context
      * @param Activation $activation
      */
     public function __construct(
         Context $context,
         Activation $activation
-    )
-    {
+    ) {
         $this->activationModel = $activation;
         $this->resultFactory = $context->getResultFactory();
         parent::__construct($context);
@@ -46,12 +49,16 @@ class Activate extends Action
     {
         $data = $this->activationModel->runActivation();
 
-        /** @var \Magento\Framework\Controller\Result\Json $result */
+        /**
+ * @var \Magento\Framework\Controller\Result\Json $result
+*/
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
-        $result->setData([
+        $result->setData(
+            [
             'status' => $data,
             'response' => $data
-        ]);
+            ]
+        );
         return $result;
     }
 }

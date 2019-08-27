@@ -6,7 +6,11 @@ use Magento\Integration\Controller\Adminhtml\Integration\Delete as DeleteIntegra
 use Magento\Store\Model\StoreManagerInterface;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
-class Delete{
+/**
+ * Comment is required here
+ */
+class Delete
+{
 
     protected $storeManager;
 
@@ -17,8 +21,7 @@ class Delete{
     public function __construct(
         StoreManagerInterface $storeManager,
         WebHook $webHookModel
-    )
-    {
+    ) {
         $this->storeManager = $storeManager;
         $this->webHookModel = $webHookModel;
     }

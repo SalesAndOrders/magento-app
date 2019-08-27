@@ -2,11 +2,14 @@
 
 namespace SalesAndOrders\FeedTool\Plugin\Product\Type\Bundle;
 
+/**
+ * Comment is required here
+ */
 class Price
 {
     public function aroundGetPrice($subject, $proceed, $product)
     {
-        if($product->getTypeId() == "bundle"){
+        if ($product->getTypeId() == "bundle") {
             $price = 0;
             if (!$price || $price == 0) {
                 $childrenProducts = $product->getTypeInstance(true)
@@ -20,8 +23,7 @@ class Price
                     }
                 }
             }
-        }
-        else {
+        } else {
             $returnValue = $proceed($product);
             $price = $returnValue;
         }

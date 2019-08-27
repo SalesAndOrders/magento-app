@@ -8,7 +8,11 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use SalesAndOrders\FeedTool\Model\Transport;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
-class EditConfigPlugin {
+/**
+ * Comment is required here
+ */
+class EditConfigPlugin
+{
 
     protected $beforeSaveStoreName;
 
@@ -35,8 +39,7 @@ class EditConfigPlugin {
         ScopeConfigInterface $scopeConfig,
         Transport $transport,
         WebHook $webHookResource
-    )
-    {
+    ) {
         $this->storeManager = $storeManager;
         $this->scopeConfig = $scopeConfig;
         $this->transport = $transport;
@@ -48,25 +51,44 @@ class EditConfigPlugin {
         $storeID = $subject->getRequest()->getParam('store');
         if ($storeID) {
             $this->beforeBaseUrl = $this->scopeConfig->getValue(
-                'web/unsecure/base_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeID);
+                'web/unsecure/base_url',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeID
+            );
 
             $this->beforeSecureUrl = $this->scopeConfig->getValue(
-                'web/secure/base_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeID);
+                'web/secure/base_url',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeID
+            );
 
             $this->beforeStoreName = $this->scopeConfig->getValue(
-                'general/store_information/name', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeID);
+                'general/store_information/name',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeID
+            );
 
             $this->beforeTimeZone = $this->scopeConfig->getValue(
-                'general/locale/timezone', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                'general/locale/timezone',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
 
             $this->beforeLocale = $this->scopeConfig->getValue(
-                'general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeID);
+                'general/locale/code',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeID
+            );
 
             $this->beforeBaseCurrency = $this->scopeConfig->getValue(
-                'currency/options/base', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                'currency/options/base',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
 
             $this->beforeDisplayCurrency = $this->scopeConfig->getValue(
-                'currency/options/default', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeID);
+                'currency/options/default',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeID
+            );
         }
     }
 
@@ -75,25 +97,44 @@ class EditConfigPlugin {
         $storeID = $subject->getRequest()->getParam('store');
 
         $baseUrl = $this->scopeConfig->getValue(
-            'web/unsecure/base_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeID);
+            'web/unsecure/base_url',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeID
+        );
 
         $secureUrl = $this->scopeConfig->getValue(
-            'web/secure/base_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeID);
+            'web/secure/base_url',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeID
+        );
 
         $storeName = $this->scopeConfig->getValue(
-            'general/store_information/name', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeID);
+            'general/store_information/name',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeID
+        );
 
         $timeZone = $this->scopeConfig->getValue(
-            'general/locale/timezone', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            'general/locale/timezone',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         $locale = $this->scopeConfig->getValue(
-            'general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeID);
+            'general/locale/code',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeID
+        );
 
         $baseCurrency = $this->scopeConfig->getValue(
-            'currency/options/base', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            'currency/options/base',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         $displayCurrency = $this->scopeConfig->getValue(
-            'currency/options/default', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeID);
+            'currency/options/default',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeID
+        );
 
         if ($baseUrl != $this->beforeBaseUrl) {
             $this->isChanged = true;
@@ -126,7 +167,6 @@ class EditConfigPlugin {
                 $this->transport->sendData($webhook->account_update_url, $data);
             }
         }
-
 
         return $result;
     }

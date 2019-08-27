@@ -12,6 +12,9 @@ use \SalesAndOrders\FeedTool\Helper\Config;
 use \Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\DeploymentConfig\Reader;
 
+/**
+ * Comment is required here
+ */
 class View extends Template
 {
 
@@ -35,8 +38,7 @@ class View extends Template
         Config $configHelper,
         StoreManagerInterface $storeManager,
         Reader $reader
-    )
-    {
+    ) {
         $this->integrationFactory = $integrationFactory;
         $this->webHookModel = $webHookModel;
         $this->activationModel = $activation;
@@ -66,7 +68,7 @@ class View extends Template
                     'content' => 'login_iframe',
                     'url' => $webHook->verify_url_endpoint
                 ];
-            }else{
+            } else {
                 $integration->delete();
             }
 
@@ -96,13 +98,12 @@ class View extends Template
         return $fullLoadUrl;
     }
 
-    public function getAdminBaseUrl(){
+    public function getAdminBaseUrl()
+    {
         $config = $this->_configReader->load();
         $adminSuffix = $config['backend']['frontName'];
         $store = $this->storeManager->getStore();
         $baseUrl = $store->getBaseUrl();
         return  $baseUrl . $adminSuffix . '/';
     }
-
 }
-

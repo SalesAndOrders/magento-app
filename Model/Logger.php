@@ -6,7 +6,11 @@ use \Psr\Log\LoggerInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Io\File;
 
-class Logger {
+/**
+ * Comment is required here
+ */
+class Logger
+{
 
     /**
      * @var LoggerInterface
@@ -45,25 +49,25 @@ class Logger {
 
     /**
      * Logger constructor.
+     *
      * @param LoggerInterface $logger
-     * @param DirectoryList $directoryList
-     * @param File $file
+     * @param DirectoryList   $directoryList
+     * @param File            $file
      */
     public function __construct(
         LoggerInterface $logger,
         DirectoryList $directoryList,
         File $file
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->directoryList = $directoryList;
         $this->file = $file;
     }
 
     /**
-     * @param string $log_name
-     * @param string $fileFolder
-     * @param string $type
+     * @param  string $log_name
+     * @param  string $fileFolder
+     * @param  string $type
      * @return \Zend\Log\Logger
      * @throws \Magento\Framework\Exception\FileSystemException
      */
@@ -85,7 +89,7 @@ class Logger {
     }
 
     /**
-     * @param $messageData
+     * @param  $messageData
      * @return array|bool
      */
     public function log($messageData)
@@ -100,11 +104,10 @@ class Logger {
                 $this->customLogger->info('Key: ' . $key . ' Value: ' . $value);
             }
             $this->customLogger->info('Log DATA end');
-        }elseif($messageData){
+        } elseif ($messageData) {
             $this->customLogger->info('Log info: ' . $messageData);
         }
 
         return $this->logPath;
     }
-
 }

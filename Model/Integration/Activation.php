@@ -19,7 +19,9 @@ use \SalesAndOrders\FeedTool\Model\Logger;
 use Magento\Integration\Model\ConfigBasedIntegrationManager;
 use SalesAndOrders\FeedTool\Model\Cache;
 
-
+/**
+ * Comment is required here
+ */
 class Activation extends AbstractDb
 {
 
@@ -109,21 +111,22 @@ class Activation extends AbstractDb
 
     /**
      * Activation constructor.
-     * @param Context $context
-     * @param IntegrationFactory $integrationFactory
-     * @param OauthService $oauthService
-     * @param AuthorizationService $authorizationService
-     * @param Token $token
-     * @param TokenFactory $tokenFactory
-     * @param StoreManagerInterface $storeManager
-     * @param Session $authSession
-     * @param IntegrationOauthHelper $_dataHelper
-     * @param ZendClient $_httpClient
-     * @param WebHook $webHookModel
-     * @param Transport $transport
-     * @param Logger $logger
+     *
+     * @param Context                       $context
+     * @param IntegrationFactory            $integrationFactory
+     * @param OauthService                  $oauthService
+     * @param AuthorizationService          $authorizationService
+     * @param Token                         $token
+     * @param TokenFactory                  $tokenFactory
+     * @param StoreManagerInterface         $storeManager
+     * @param Session                       $authSession
+     * @param IntegrationOauthHelper        $_dataHelper
+     * @param ZendClient                    $_httpClient
+     * @param WebHook                       $webHookModel
+     * @param Transport                     $transport
+     * @param Logger                        $logger
      * @param ConfigBasedIntegrationManager $integrationManager
-     * @param Cache $cacheModel
+     * @param Cache                         $cacheModel
      */
     public function __construct(
         Context $context,
@@ -141,8 +144,7 @@ class Activation extends AbstractDb
         Logger $logger,
         ConfigBasedIntegrationManager $integrationManager,
         Cache $cacheModel
-    )
-    {
+    ) {
         $this->integrationFactory = $integrationFactory;
         $this->oauthService = $oauthService;
         $this->authorizationService = $authorizationService;
@@ -163,9 +165,9 @@ class Activation extends AbstractDb
         parent::__construct($context);
     }
 
-
     public function _construct()
-    {}
+    {
+    }
 
     /**
      * @return bool
@@ -199,7 +201,7 @@ class Activation extends AbstractDb
             // clear cache
             $this->cacheModel->cleanCahes(['config', 'block_html']);
             return $result->detail;
-        }else{
+        } else {
             $this->logger->log('Error from endpoint');
             return false;
         }
@@ -280,7 +282,7 @@ class Activation extends AbstractDb
             $token->setType('access');
             $token->save();
             $result = true;
-        }else{
+        } else {
             $this->logger->log('Cant activate the integration? already activated');
             $result = false;
         }
@@ -351,11 +353,10 @@ class Activation extends AbstractDb
         return $this->_storeManager->getStore()->getBaseUrl();
     }
 
-
     /**
-     * @param $url
-     * @param $secret
-     * @param $queryParams
+     * @param  $url
+     * @param  $secret
+     * @param  $queryParams
      * @return string
      */
     public function getHmac($url, $secret, $queryParams)

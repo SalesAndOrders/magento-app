@@ -2,7 +2,7 @@
   "name": "salesandorders/magento-app",
   "description": "Feed Tool",
   "type": "magento2-module",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "authors": [
     {

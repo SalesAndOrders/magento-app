@@ -8,6 +8,7 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
 
 use Magento\Integration\Model\ConfigBasedIntegrationManager;
 use \Magento\Integration\Model\IntegrationFactory;
+
 /**
  * @codeCoverageIgnore
  */
@@ -23,13 +24,13 @@ class InstallData implements InstallDataInterface
     public function __construct(
         ConfigBasedIntegrationManager $integrationManager,
         IntegrationFactory $integrationFactory
-    )
-    {
+    ) {
         $this->integrationManager = $integrationManager;
         $this->integrationFactory = $integrationFactory;
     }
     /**
      * {@inheritdoc}
+     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.NPathComplexity)

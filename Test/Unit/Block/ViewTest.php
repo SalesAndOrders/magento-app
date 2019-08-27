@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 use SalesAndOrders\FeedTool\Block\Adminhtml\Page\View;
 use SalesAndOrders\FeedTool\Model\Integration\Activation;
 
+/**
+ * Comment is required here
+ */
 class ViewTest extends TestCase
 {
 
@@ -56,16 +59,16 @@ class ViewTest extends TestCase
 
     public function testGetIframeLoadUrl()
     {
-        $this->configHelper->expects($this->any())->method('getIframeLoadUrl')->will($this->returnValue('some_load_url'));
+        $this->configHelper->expects($this->any())->method('getIframeLoadUrl')
+        ->will($this->returnValue('some_load_url'));
         $this->activation->expects($this->any())->method('getConsumer')
             ->will($this->returnValue($this->createMock(\Magento\Integration\Model\Oauth\Consumer::class)));
-        $this->activation->expects($this->any())->method('getStoreBaseUrl')->will($this->returnValue('https://baseUrl.com'));
+        $this->activation->expects($this->any())->method('getStoreBaseUrl')
+        ->will($this->returnValue('https://baseUrl.com'));
         $this->activation->expects($this->any())->method('getHmac')->will($this->returnValue('some_hmac_str'));
         $result = $this->object->getIframeLoadUrl();
         $this->assertEquals('some_hmac_str', $result);
     }
-
-
 
     public function testGetIframeLinkData()
     {
@@ -87,7 +90,6 @@ class ViewTest extends TestCase
 
         $this->assertArrayHasKey('url', $this->object->getIframeLinkData());
     }
-
 
     public function testGetAdminBaseUrl()
     {

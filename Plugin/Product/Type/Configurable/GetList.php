@@ -4,14 +4,16 @@ namespace SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable;
 
 use Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable;
 
+/**
+ * Comment is required here
+ */
 class GetList
 {
     protected $configurableProduct;
 
     public function __construct(
         Configurable $configurableProduct
-    )
-    {
+    ) {
         $this->configurableProduct = $configurableProduct;
     }
 

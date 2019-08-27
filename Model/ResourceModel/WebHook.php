@@ -11,6 +11,9 @@ use \SalesAndOrders\FeedTool\Model\Integration\Activation as IntegrationActivati
 use \SalesAndOrders\FeedTool\Model\Transport;
 use SalesAndOrders\FeedTool\Model\Cache;
 
+/**
+ * Webhook
+ */
 class WebHook extends AbstractDb
 {
     /**
@@ -36,10 +39,10 @@ class WebHook extends AbstractDb
 
     protected $cacheModel;
 
-
     /**
      * WebHook constructor.
-     * @param Context $context
+     *
+     * @param Context            $context
      * @param IntegrationFactory $integrationFactory
      */
     public function __construct(
@@ -48,8 +51,7 @@ class WebHook extends AbstractDb
         StoreManagerInterface $storeManager,
         Transport $transport,
         Cache $cacheModel
-    )
-    {
+    ) {
         $this->integrationFactory = $integrationFactory;
         $this->storeManager = $storeManager;
         $this->transport = $transport;
@@ -64,22 +66,24 @@ class WebHook extends AbstractDb
 
     public function getIntegration()
     {
-        if (!$this->integration || !$this->integration->getId()){
-            $this->integration = $this->integrationFactory->create()->load(IntegrationActivation::INTEGRATION_NAME, 'name');
+        if (!$this->integration || !$this->integration->getId()) {
+            $this->integration =   $this->integrationFactory->create()
+                    ->load(IntegrationActivation::INTEGRATION_NAME, 'name');
         }
         $integration = $this->integration;
         return $integration;
     }
     /**
-     * @param array $insertData
-     * @param int $authorize_flag
+     * @param  array $insertData
+     * @param  int   $authorize_flag
      * @return bool
      */
     public function addIntegrationWebHook($insertData = [], $authorize_flag = 0)
     {
         $this->integration = $this->getIntegration();
         if ($this->integration && $this->integration->getId()) {
-            $insertData['store_code'] = isset($insertData['store_code']) ? $insertData['store_code'] : $this->storeManager->getStore()->getCode();
+            $insertData['store_code'] = isset($insertData['store_code']) ? $insertData['store_code']
+                                     : $this->storeManager->getStore()->getCode();
             $integrationWebHook = $this->getWebHookData($this->integration->getId(), $insertData['store_code']);
             $insertData += [
                 'integration_id' => $this->integration->getId(),
@@ -88,7 +92,7 @@ class WebHook extends AbstractDb
             ];
             if (!$integrationWebHook) {
                 $this->getConnection()->insert($this->_mainTable, $insertData);
-            }else{
+            } else {
                 $store_code = $insertData['store_code'];
                 unset($insertData['store_code']);
                 $where[] = $this->getConnection()->quoteInto('integration_id = ?', $this->integration->getId());
@@ -105,7 +109,7 @@ class WebHook extends AbstractDb
     }
 
     /**
-     * @param int $integrationId
+     * @param  int $integrationId
      * @return mixed
      * @throws \Zend_Db_Statement_Exception
      */
@@ -234,8 +238,10 @@ class WebHook extends AbstractDb
     public function getAuthorizedWebhooks()
     {
         $integration = $this->getIntegration();
-        $select = $this->getConnection()->select()->from('perspective_webhooks',
-            array('webhook_count' => 'COUNT(id)'))
+        $select = $this->getConnection()->select()->from(
+            'perspective_webhooks',
+            ['webhook_count' => 'COUNT(id)']
+        )
             ->where('integration_id = ?', $this->integration->getId())
             ->where('is_oath_authorized = ?', '1')
             ->where('is_deleted = ?', '0');
@@ -246,8 +252,10 @@ class WebHook extends AbstractDb
     public function getEnabledWebhooks()
     {
         $integration = $this->getIntegration();
-        $select = $this->getConnection()->select()->from('perspective_webhooks',
-            array('webhook_count' => 'COUNT(id)'))
+        $select = $this->getConnection()->select()->from(
+            'perspective_webhooks',
+            ['webhook_count' => 'COUNT(id)']
+        )
             ->where('integration_id = ?', $this->integration->getId())
             ->where('is_deleted = ?', '0');
 

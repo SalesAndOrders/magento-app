@@ -4,6 +4,9 @@ namespace SalesAndOrders\FeedTool\Model\ResourceModel\Product;
 
 use \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
+/**
+ * Comment is required here
+ */
 class Collection extends AbstractCollection
 {
     protected $_idFieldName = 'id';
@@ -17,6 +20,9 @@ class Collection extends AbstractCollection
      */
     protected function _construct()
     {
-        $this->_init('SalesAndOrders\FeedTool\Model\Product', 'SalesAndOrders\FeedTool\Model\ResourceModel\Product');
+        $this->_init(
+            SalesAndOrders\FeedTool\Model\Product::class,
+            SalesAndOrders\FeedTool\Model\ResourceModel\Product::class
+        );
     }
 }

@@ -7,17 +7,22 @@ use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
+/**
+ * Install Schema
+ */
 class InstallSchema implements InstallSchemaInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context) {
+    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    {
 
         /**
          * Table - perspective_products
          */
-        $table_perspective_perspective_products = $setup->getConnection()->newTable($setup->getTable('perspective_products'));
+        $table_perspective_perspective_products = $setup->getConnection()
+                            ->newTable($setup->getTable('perspective_products'));
 
         $table_perspective_perspective_products->addColumn(
             'id',
@@ -40,7 +45,6 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             255,
             [],
-
             'sku of edited product'
         );
 
@@ -49,7 +53,6 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             255,
             [],
-
             'store_code of product event'
         );
 
@@ -58,7 +61,6 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             255,
             [],
-
             'storestore_base_url_code of product event'
         );
 
@@ -67,7 +69,6 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
             null,
             [],
-
             'edit date and time'
         );
 
@@ -76,7 +77,6 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             255,
             [],
-
             'action of product event'
         );
 
@@ -124,7 +124,6 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             '2M',
             ['nullable' => false],
-
             'url'
         );
 
@@ -141,7 +140,6 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             11,
             ['nullable' => true, 'default' => '0'],
-
             'if deleted - CRON not used'
         );
 
@@ -150,7 +148,6 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             '2M',
             ['nullable' => true],
-
             'url'
         );
 
@@ -159,7 +156,6 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             '2M',
             ['nullable' => true],
-
             'url'
         );
 
@@ -168,13 +164,9 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             '2M',
             ['nullable' => true],
-
             'url'
         );
 
-
         $setup->getConnection()->createTable($table_perspective_webhook);
-
-
     }
 }

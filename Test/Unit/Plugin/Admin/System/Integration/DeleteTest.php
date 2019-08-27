@@ -7,6 +7,9 @@ use Magento\Store\Api\Data\StoreInterface;
 use PHPUnit\Framework\TestCase;
 use SalesAndOrders\FeedTool\Plugin\Admin\System\Integration\Delete;
 
+/**
+ * Comment is required here
+ */
 class DeleteTest extends TestCase
 {
 
@@ -38,9 +41,11 @@ class DeleteTest extends TestCase
         $this->object = $this->getMockBuilder(
             Delete::class
         )
-            ->setMethods([
+            ->setMethods(
+                [
                 'getRequest'
-            ])
+                ]
+            )
             ->setConstructorArgs(
                 [
                     $this->storeManager,

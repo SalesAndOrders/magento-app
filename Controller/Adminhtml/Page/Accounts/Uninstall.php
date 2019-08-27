@@ -10,6 +10,9 @@ use \Magento\Framework\View\Result\LayoutFactory;
 use \Magento\Framework\Controller\ResultFactory;
 use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
 
+/**
+ * Comment is required here
+ */
 class Uninstall extends Action
 {
     /**
@@ -28,7 +31,8 @@ class Uninstall extends Action
     protected $resultFactory;
     /**
      * View constructor.
-     * @param Context $context
+     *
+     * @param Context     $context
      * @param JsonFactory $resultJsonFactory
      * @param PageFactory $resultPageFactory
      */
@@ -38,8 +42,7 @@ class Uninstall extends Action
         PageFactory $resultPageFactory,
         WebHook $webHookModel,
         ResultFactory $resultFactory
-    )
-    {
+    ) {
         $this->resultJsonFactory = $resultJsonFactory;
         $this->resultPageFactory = $resultPageFactory;
         $this->webHookModel = $webHookModel;

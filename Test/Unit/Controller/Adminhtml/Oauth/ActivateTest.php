@@ -8,6 +8,9 @@ use \Magento\Framework\App\Action\Context;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation;
 use SalesAndOrders\FeedTool\Controller\Adminhtml\Oauth\Activate;
 
+/**
+ * Comment is required here
+ */
 class ActivateTest extends TestCase
 {
     protected $object;
@@ -38,9 +41,11 @@ class ActivateTest extends TestCase
         $this->object = $this->getMockBuilder(
             Activate::class
         )
-            ->setMethods([
+            ->setMethods(
+                [
                 'getRequest'
-            ])
+                ]
+            )
             ->setConstructorArgs(
                 [
                     $this->context,
@@ -67,7 +72,6 @@ class ActivateTest extends TestCase
 
         $this->assertSame($this->resultFactoryMock, $this->object->execute());
     }
-
 
     public function dataProvider()
     {
