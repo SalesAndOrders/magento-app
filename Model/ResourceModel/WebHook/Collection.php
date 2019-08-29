@@ -22,8 +22,8 @@ class Collection extends AbstractCollection
     protected function _construct()
     {
         $this->_init(
-            SalesAndOrders\FeedTool\Model\WebHook::class,
-            SalesAndOrders\FeedTool\Model\ResourceModel\WebHook::class
+            \SalesAndOrders\FeedTool\Model\WebHook::class,
+            \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook::class
         );
     }
 }

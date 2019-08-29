@@ -1,6 +1,6 @@
 <integrations>
     <integration name="sales_and_orders">
-        <email>akosovilka@salesandorders.com</email>
+        <email>someone@example.com</email>
         <endpoint_url>https://app1.staging.salesandorders.com/api/magento/auth</endpoint_url>
         <identity_link_url>https://app1.staging.salesandorders.com</identity_link_url>
     </integration>

@@ -19,7 +19,7 @@ class Product extends AbstractModel implements IdentityInterface
 
     protected function _construct()
     {
-        $this->_init(SalesAndOrders\FeedTool\Model\ResourceModel\Product::class);
+        $this->_init(\SalesAndOrders\FeedTool\Model\ResourceModel\Product::class);
     }
 
     public function getIdentities()
