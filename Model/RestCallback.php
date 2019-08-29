@@ -86,7 +86,7 @@ class RestCallback implements RestCallbackInterface
         $list = $this->productRepository->getList($search);
         $output = $this->serviceOutputProcessor->process(
             $list,
-            Magento\Catalog\Api\ProductRepositoryInterface::class,
+            \Magento\Catalog\Api\ProductRepositoryInterface::class,
             'getList'
         );
         return $output;

@@ -19,7 +19,7 @@ class WebHook extends AbstractModel implements IdentityInterface
 
     protected function _construct()
     {
-        $this->_init(SalesAndOrders\FeedTool\Model\ResourceModel\WebHook::class);
+        $this->_init(\SalesAndOrders\FeedTool\Model\ResourceModel\WebHook::class);
     }
 
     public function getIdentities()

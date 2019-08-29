@@ -29,7 +29,7 @@ class Collection extends WebHookCollection implements SearchResultInterface
         $resourceModel,
         \Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
         \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null,
-        $model = Magento\Framework\View\Element\UiComponent\DataProvider\Document::class
+        $model = \Magento\Framework\View\Element\UiComponent\DataProvider\Document::class
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_eventPrefix = $eventPrefix;

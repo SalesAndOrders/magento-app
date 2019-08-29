@@ -21,8 +21,8 @@ class Collection extends AbstractCollection
     protected function _construct()
     {
         $this->_init(
-            SalesAndOrders\FeedTool\Model\Product::class,
-            SalesAndOrders\FeedTool\Model\ResourceModel\Product::class
+            \SalesAndOrders\FeedTool\Model\Product::class,
+            \SalesAndOrders\FeedTool\Model\ResourceModel\Product::class
         );
     }
 }
