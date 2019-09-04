@@ -39,7 +39,7 @@ require(
                         }
                     }
                 ).fail(
-                    e, function (resp) {
+                    function (resp) {
                         headLoader.hide();
                         headActivate.show();
                     }

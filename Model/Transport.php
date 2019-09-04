@@ -14,8 +14,8 @@ class Transport
      */
     public function sendData($endpointUrl, $postData = [])
     {
+        $endpointUrl = preg_replace("(^https?://)", "", $endpointUrl);
         $curl = curl_init();
-
         $curlOptions = [
             CURLOPT_URL => $endpointUrl,
             CURLOPT_RETURNTRANSFER => true,
@@ -23,7 +23,6 @@ class Transport
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_TIMEOUT => 10,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => json_encode($postData),
             CURLOPT_HTTPHEADER => [
