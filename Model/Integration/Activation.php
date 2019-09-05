@@ -192,19 +192,27 @@ class Activation extends AbstractDb
         $result = json_decode($response['response']);
         $this->logger->log($result);
         if (isset($result->status) && $result->status == self::END_POINT_SUCCESS_CODE) {
-            $this->logger->log('Try to activation integration');
-            $this->activateIntegration();
-            $this->logger->log('Creating webhook field');
-            $this->webHookModel->addIntegrationWebHook(['verify_url_endpoint' => $result->detail], 0);
-            $this->logger->log('Webhook field created');
-            $this->logger->log('End activationg');
-            // clear cache
-            $this->cacheModel->cleanCahes(['config', 'block_html']);
-            return $result->detail;
+            if ($this->isValidURL($result->detail)) {
+                $this->logger->log('Try to activation integration');
+                $this->activateIntegration();
+                $this->logger->log('Creating webhook field');
+                $this->webHookModel->addIntegrationWebHook(['verify_url_endpoint' => $result->detail], 0);
+                $this->logger->log('Webhook field created');
+                $this->logger->log('End activationg');
+                // clear cache
+                $this->cacheModel->cleanCahes(['config', 'block_html']);
+                $resultData = $result->detail;
+            } else {
+                $this->deleteIntegration();
+                $this->logger->log('Error, verify_url_endpoint is not URL');
+                $resultData = false;
+            }
         } else {
+            $this->deleteIntegration();
             $this->logger->log('Error from endpoint');
-            return false;
+            $resultData = false;
         }
+        return $resultData;
     }
 
     /**
@@ -293,11 +301,14 @@ class Activation extends AbstractDb
      * @return bool
      * @throws \Exception
      */
-    public function deleteIntegration()
+    public function deleteIntegration($clearCaches = false)
     {
         if ($this->integration && $this->integration->getName()) {
             $this->webHookModel->deleteWebHook($this->integration->getId());
             $this->integration->delete();
+            if ($clearCaches) {
+                $this->cacheModel->cleanCahes(['config', 'block_html']);
+            }
             return true;
         }
         return false;
@@ -392,5 +403,13 @@ class Activation extends AbstractDb
         // @todo delete this line, it's for testing only
         $compareQueryString = $cleanUrl . '?' . $dataString . '&hmac=' . $hmac;
         return $queryString;
+    }
+
+    public function isValidURL($url)
+    {
+        if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
+            return false;
+        }
+        return true;
     }
 }

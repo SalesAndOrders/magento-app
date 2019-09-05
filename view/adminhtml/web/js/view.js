@@ -31,17 +31,18 @@ require(
                     function (data) {
                         headLoader.hide();
                         if (data.status) {
-                            alert('Successfully activated');
+                            alert(data.message);
                             window.location.href = ''
                         } else {
                             headActivate.show();
-                            alert('Error, try later');
+                            alert(data.message);
                         }
                     }
                 ).fail(
                     function (resp) {
                         headLoader.hide();
                         headActivate.show();
+                        alert('Error, plese try install later');
                     }
                 );
             }
