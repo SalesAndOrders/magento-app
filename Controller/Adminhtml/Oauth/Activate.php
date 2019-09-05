@@ -50,13 +50,14 @@ class Activate extends Action
         $data = $this->activationModel->runActivation();
 
         /**
- * @var \Magento\Framework\Controller\Result\Json $result
-*/
+         * @var \Magento\Framework\Controller\Result\Json $result
+         */
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $result->setData(
             [
-            'status' => $data,
-            'response' => $data
+                'status' => $data,
+                'response' => $data,
+                'message' => !$data ? "Error creating integration, try again later" : "Successfully activated"
             ]
         );
         return $result;
