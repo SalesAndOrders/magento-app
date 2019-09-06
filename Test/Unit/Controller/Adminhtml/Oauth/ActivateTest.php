@@ -77,7 +77,7 @@ class ActivateTest extends TestCase
     {
         return [
             [
-                ['status' => true, 'response' => true]
+                ['status' => true, 'response' => true, 'message' => 'Successfully activated']
             ]
         ];
     }
