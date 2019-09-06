@@ -2,7 +2,7 @@
   "name": "salesandorders/magento-app",
   "description": "A magento extension for SalesAndOrders marketing platform",
   "type": "magento2-module",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "license": "MIT",
   "authors": [
     {
