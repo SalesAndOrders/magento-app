@@ -166,6 +166,14 @@ class Activation extends AbstractDb
     }
 
     /**
+     * This function is required by abstract class
+     */
+    public function _construct()
+    {
+        // todo fix this empty function
+    }
+
+    /**
      * @return bool
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
