@@ -88,6 +88,9 @@ class ViewTest extends TestCase
         $integrationModel->expects($this->any())->method('delete')->with()->willReturnSelf();
         $this->testGetIframeLoadUrl();
 
+        $this->activation->expects($this->any())->method('isValidURL')
+            ->withAnyParameters()->will($this->returnValue(true));
+
         $this->assertArrayHasKey('url', $this->object->getIframeLinkData());
     }
 

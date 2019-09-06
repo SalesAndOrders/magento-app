@@ -20,7 +20,6 @@ class CronScheduler
 
     const GLOBAL_ALL_STORE_VIEWS_ADMIN_ID = 0;
 
-
     /**
      * @var Product
      */
@@ -101,74 +100,74 @@ class CronScheduler
         $pagesCount = [];
         $webhooksData = [];
         $logger->info('Get all webhooks collection');
-        if ($webhooksCollection) {
-            $logger->info('Get all pages / webhook (store)');
-            foreach ($webhooksCollection as $webHook) {
-                $pageCount = $this->productFactory->create()
-                    ->getCollection()
-                    ->addFieldToFilter('store_code', ['eq' => $webHook->getStoreCode()])
+        if (!$webhooksCollection) {
+            $logger->info('WebhooksCollection is empty. ' . date('d.m.Y H:i:s'));
+            return [];
+        }
+        $logger->info('Get all pages / webhook (store)');
+        foreach ($webhooksCollection as $webHook) {
+            $pageCount = $this->productFactory->create()
+                ->getCollection()
+                ->addFieldToFilter('store_code', ['eq' => $webHook->getStoreCode()])
+                ->setPageSize(self::ACTION_ITEMS_PER_PAGE)
+                ->getLastPageNumber();
+            $pagesCount[$webHook->getStoreCode()] = $pageCount;
+            $webhooksData[$webHook->getStoreCode()] = $webHook->getData();
+        }
+        $logger->info('Pages data: ');
+        $this->logger->log($pagesCount);
+
+        $allResult = [];
+        $collections = null;
+        foreach ($pagesCount as $storeCode => $count) {
+            $logger->info('Begin generate collection for Store: ' . $storeCode);
+            $currentPage = 1;
+            $result = [];
+            for ($i = $currentPage; $i <= (int)$count; $i ++) {
+                $collection = $this->productFactory->create()->getCollection()
+                    ->addFieldToFilter(
+                        'store_code',
+                        [
+                            ['eq' => $storeCode],
+                            $condition
+                        ]
+                    )
                     ->setPageSize(self::ACTION_ITEMS_PER_PAGE)
-                    ->getLastPageNumber();
-                $pagesCount[$webHook->getStoreCode()] = $pageCount;
-                $webhooksData[$webHook->getStoreCode()] = $webHook->getData();
+                    ->setCurPage($i)
+                    ->setOrder('store_code', 'asc');
+
+                foreach ($collection as $item) {
+
+                    if ($item->getStoreCode() && $item->getAction()) {
+                        $result['pages'][$i]['base_store_url'] = $item->getStoreBaseUrl();
+                        $result['pages'][$i]['store_code'] = $item->getStoreCode();
+                        $result['pages'][$i]['actions'][$item->getAction()][] = $item->getId();
+                    }
+                }
+                $collections[] = $collection;
             }
-            $logger->info('Pages data: ');
-            $this->logger->log($pagesCount);
-
-            $allResult = [];
-            $collections = null;
-            if (!empty($pagesCount)) {
-                foreach ($pagesCount as $storeCode => $count) {
-                    $logger->info('Begin generate collection for Store: ' . $storeCode);
-                    $currentPage = 1;
-                    $result = [];
-                    for ($i = $currentPage; $i <= (int)$count; $i ++) {
-                        $collection = $this->productFactory->create()->getCollection()
-                            ->addFieldToFilter(
-                                'store_code',
-                                [
-                                    ['eq' => $storeCode],
-                                    $condition
-                                ]
-                            )
-                            ->setPageSize(self::ACTION_ITEMS_PER_PAGE)
-                            ->setCurPage($i)
-                            ->setOrder('store_code', 'asc');
-
-                        foreach ($collection as $item) {
-
-                            if ($item->getStoreCode() && $item->getAction()) {
-                                $result['pages'][$i]['base_store_url'] = $item->getStoreBaseUrl();
-                                $result['pages'][$i]['store_code'] = $item->getStoreCode();
-                                $result['pages'][$i]['actions'][$item->getAction()][] = $item->getId();
-                            }
-                        }
-                        $collections[] = $collection;
-                    }
-                    // send to store product url his pages
-                    if (isset($result['pages'])) {
-                        foreach ($result['pages'] as $page) {
-                            if (isset($webhooksData[$storeCode])
-                                && isset($webhooksData[$storeCode]['products_webhook_url'])
-                                && $webhooksData[$storeCode]['products_webhook_url']
-                            ) {
-                                $logger->info('Try to send page to store: ' .
-                                $storeCode .
-                                ' on URL ' .
-                                $webhooksData[$storeCode]['products_webhook_url']);
-                                // send curl
-                                $this->transport->sendData($webhooksData[$storeCode]['products_webhook_url'], $page);
-                            }
-                        }
-                    }
-
-                    if (!empty($result)) {
-                        $allResult[$storeCode] = $result;
+            // send to store product url his pages
+            if (isset($result['pages'])) {
+                foreach ($result['pages'] as $page) {
+                    if (isset($webhooksData[$storeCode])
+                        && isset($webhooksData[$storeCode]['products_webhook_url'])
+                        && $webhooksData[$storeCode]['products_webhook_url']
+                    ) {
+                        $logger->info('Try to send page to store: ' .
+                        $storeCode .
+                        ' on URL ' .
+                        $webhooksData[$storeCode]['products_webhook_url']);
+                        // send curl
+                        $this->transport->sendData($webhooksData[$storeCode]['products_webhook_url'], $page);
                     }
                 }
             }
-            $this->productResource->removeProductsCollections($collections);
+
+            if (!empty($result)) {
+                $allResult[$storeCode] = $result;
+            }
         }
+        $this->productResource->removeProductsCollections($collections);
         $logger->info('End of sending product actions at ' . date('d.m.Y H:i:s'));
         return $allResult;
     }

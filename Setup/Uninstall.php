@@ -27,7 +27,6 @@ class Uninstall implements UninstallInterface
             $setup->getTable('perspective_webhooks')
         );
 
-
         $setup->endSetup();
     }
 }

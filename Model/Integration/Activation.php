@@ -165,10 +165,6 @@ class Activation extends AbstractDb
         parent::__construct($context);
     }
 
-    public function _construct()
-    {
-    }
-
     /**
      * @return bool
      * @throws \Magento\Framework\Exception\LocalizedException

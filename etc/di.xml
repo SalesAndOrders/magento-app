@@ -17,7 +17,7 @@
     <virtualType name="SalesAndOrdersAcc" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">perspective_webhooks</argument>
-            <argument name="resourceModel" xsi:type="string">\SalesAndOrders\FeedTool\Model\ResourceModel\WebHook</argument>
+            <argument name="resourceModel" xsi:type="string">SalesAndOrders\FeedTool\Model\ResourceModel\WebHook</argument>
         </arguments>
     </virtualType>
     <type name="Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price">
