@@ -154,11 +154,17 @@ class CronScheduler
                         && $webhooksData[$storeCode]['products_webhook_url']
                     ) {
                         $logger->info('Try to send page to store: ' .
-                        $storeCode .
-                        ' on URL ' .
-                        $webhooksData[$storeCode]['products_webhook_url']);
+                            $storeCode .
+                            ' on URL ' .
+                            $webhooksData[$storeCode]['products_webhook_url']);
                         // send curl
-                        $this->transport->sendData($webhooksData[$storeCode]['products_webhook_url'], $page);
+                        $response = $this->transport->sendData($webhooksData[$storeCode]['products_webhook_url'], $page, false);
+                        if (!empty($response['err'])) {
+                            $logger->info('Error sending web-hooks: ' . $response['err']);
+                        }
+                        if (!empty($response['response'])) {
+                            $logger->info('Response from sending web-hooks: ' . $response['response']);
+                        }
                     }
                 }
             }
