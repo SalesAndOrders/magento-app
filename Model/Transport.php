@@ -10,11 +10,14 @@ class Transport
     /**
      * @param  $endpointUrl
      * @param  array       $postData
+     * @param  bool       $checkUrl
      * @return array
      */
-    public function sendData($endpointUrl, $postData = [])
+    public function sendData($endpointUrl, $postData = [], $checkUrl = true)
     {
-        $endpointUrl = preg_replace("(^https?://)", "", $endpointUrl);
+        if ($checkUrl) {
+            $endpointUrl = preg_replace("(^https?://)", "", $endpointUrl);
+        }
         //ob_start();
         //$out = fopen('php://output', 'w');
         $curl = curl_init();
@@ -29,7 +32,7 @@ class Transport
             CURLOPT_VERBOSE => true,
             //CURLOPT_STDERR => $out,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_PORT => 80,
+            //CURLOPT_PORT => 80,
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => json_encode($postData),
             CURLOPT_HTTPHEADER => [
@@ -37,6 +40,9 @@ class Transport
                 "Cache-Control: no-cache"
             ],
         ];
+        if ($checkUrl) {
+            $curlOption[CURLOPT_PORT] = 80;
+        }
 
         curl_setopt_array($curl, $curlOptions);
 
@@ -45,6 +51,9 @@ class Transport
         $err = curl_error($curl);
         //fclose($out);
         //$debug = ob_get_clean();
+        //if (empty($response) && empty($err)) {
+        //    $err = $debug;
+        //}
         curl_close($curl);
         return ['response' => $response, 'err' => $err];
     }
