@@ -109,7 +109,6 @@ class WebHook extends AbstractDb
                 $this->getConnection()->insert($this->_mainTable, $insertData);
             } else {
                 $store_code = $initial ? '' : $insertData['store_code'];
-                //unset($insertData['store_code']);
                 $where[] = $this->getConnection()->quoteInto('integration_id = ?', $this->integration->getId());
                 $where[] = $this->getConnection()->quoteInto('store_code = ?', $store_code);
                 $this->getConnection()->update($this->_mainTable, $insertData, $where);
