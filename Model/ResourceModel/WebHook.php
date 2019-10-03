@@ -64,15 +64,19 @@ class WebHook extends AbstractDb
         $this->_init('perspective_webhooks', 'id');
     }
 
+    /**
+     * @return \Magento\Integration\Model\Integration
+     */
     public function getIntegration()
     {
         if (!$this->integration || !$this->integration->getId()) {
-            $this->integration =   $this->integrationFactory->create()
-                    ->load(IntegrationActivation::INTEGRATION_NAME, 'name');
+            $this->integration = $this->integrationFactory->create()
+                ->load(IntegrationActivation::INTEGRATION_NAME, 'name');
         }
         $integration = $this->integration;
         return $integration;
     }
+
     /**
      * @param  array $insertData
      * @param  int   $authorize_flag
@@ -82,19 +86,30 @@ class WebHook extends AbstractDb
     {
         $this->integration = $this->getIntegration();
         if ($this->integration && $this->integration->getId()) {
-            $insertData['store_code'] = isset($insertData['store_code']) ? $insertData['store_code']
-                                     : $this->storeManager->getStore()->getCode();
-            $integrationWebHook = $this->getWebHookData($this->integration->getId(), $insertData['store_code']);
+            $insertData['store_code'] = isset($insertData['store_code']) ? $insertData['store_code'] : '';
+            $initial = !empty($insertData['initial']);
+            unset($insertData['initial']);
+            $integrationWebHook = $this->getWebHookData(
+                $this->integration->getId(),
+                $insertData['store_code'],
+                $initial
+            );
             $insertData += [
                 'integration_id' => $this->integration->getId(),
                 'consumer_id' => $this->integration->getConsumerId(),
                 'is_oath_authorized' => $authorize_flag
             ];
+
+            if (!isset($insertData['verify_url_endpoint'])) {
+                $insertData['verify_url_endpoint'] =
+                    $this->getVerifyUrlEndpointByIntegrationId($this->integration->getId());
+            }
+
             if (!$integrationWebHook) {
                 $this->getConnection()->insert($this->_mainTable, $insertData);
             } else {
-                $store_code = $insertData['store_code'];
-                unset($insertData['store_code']);
+                $store_code = $initial ? '' : $insertData['store_code'];
+                //unset($insertData['store_code']);
                 $where[] = $this->getConnection()->quoteInto('integration_id = ?', $this->integration->getId());
                 $where[] = $this->getConnection()->quoteInto('store_code = ?', $store_code);
                 $this->getConnection()->update($this->_mainTable, $insertData, $where);
@@ -109,12 +124,14 @@ class WebHook extends AbstractDb
     }
 
     /**
-     * @param  int $integrationId
+     * @param int $integrationId
+     * @param string $store_code
+     * @param bool $initial
      * @return mixed
-     * @throws \Zend_Db_Statement_Exception
      */
-    public function getWebHookData($integrationId = 0, $store_code = '')
+    public function getWebHookData($integrationId = 0, $store_code = '', $initial = false)
     {
+        $store_code = $initial ? '' : $store_code;
         $select = $this->getConnection()->select()
             ->from($this->_mainTable)
             ->where('integration_id = ?', $integrationId)
@@ -123,6 +140,10 @@ class WebHook extends AbstractDb
         return $this->getConnection()->query($select)->fetchObject();
     }
 
+    /**
+     * @param int $integrationId
+     * @return mixed
+     */
     public function getCustomWebHookData($integrationId = 0)
     {
         $select = $this->getConnection()->select()
@@ -130,6 +151,20 @@ class WebHook extends AbstractDb
             ->where('integration_id = ?', $integrationId);
 
         return $this->getConnection()->query($select)->fetchObject();
+    }
+
+    /**
+     * @param $integrationId
+     * @return string
+     */
+    public function getVerifyUrlEndpointByIntegrationId($integrationId)
+    {
+        $select = $this->getConnection()->select()
+            ->from($this->_mainTable)
+            ->where('integration_id = ?', $integrationId)
+            ->where('verify_url_endpoint IS NOT NULL OR verify_url_endpoint != ?', '');
+        $result = $this->getConnection()->query($select)->fetchObject();
+        return empty($result->verify_url_endpoint) ? '' : $result->verify_url_endpoint;
     }
 
     /**
@@ -141,6 +176,11 @@ class WebHook extends AbstractDb
         return true;
     }
 
+    /**
+     * @param int $integrationId
+     * @param string $store_code
+     * @return bool
+     */
     public function deleteWebHookByStoreCode($integrationId = 0, $store_code = '')
     {
         $where[] = $this->getConnection()->quoteInto('integration_id = ?', $integrationId);
@@ -149,6 +189,10 @@ class WebHook extends AbstractDb
         return true;
     }
 
+    /**
+     * @param int $integrationId
+     * @return bool
+     */
     public function deleteWebHookByIntegration($integrationId = 0)
     {
         $where[] = $this->getConnection()->quoteInto('integration_id = ?', $integrationId);
@@ -156,6 +200,10 @@ class WebHook extends AbstractDb
         return true;
     }
 
+    /**
+     * @param null $store_code
+     * @return bool
+     */
     public function uninstall($store_code = null)
     {
         $integration = $this->getIntegration();
@@ -196,6 +244,10 @@ class WebHook extends AbstractDb
         return $result;
     }
 
+    /**
+     * @param null $integrationID
+     * @return bool
+     */
     public function uninstallAll($integrationID = null)
     {
         $webHook = $this->getWebHookWithUninstallUrl($integrationID);
@@ -220,6 +272,10 @@ class WebHook extends AbstractDb
         return true;
     }
 
+    /**
+     * @param $storeCode
+     * @return mixed
+     */
     public function getWebhookByStoreCode($storeCode)
     {
         $select = $this->getConnection()->select()->from($this->getMainTable())
@@ -228,6 +284,12 @@ class WebHook extends AbstractDb
         return $this->getConnection()->query($select)->fetchObject();
     }
 
+    /**
+     * @param $field
+     * @param $value
+     * @param array $data
+     * @return bool
+     */
     public function updateWebhook($field, $value, $data = [])
     {
         $where[] = $this->getConnection()->quoteInto($field . ' = ?', $value);
@@ -235,6 +297,9 @@ class WebHook extends AbstractDb
         return true;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAuthorizedWebhooks()
     {
         $integration = $this->getIntegration();
@@ -249,6 +314,9 @@ class WebHook extends AbstractDb
         return $this->getConnection()->query($select)->fetchObject();
     }
 
+    /**
+     * @return mixed
+     */
     public function getEnabledWebhooks()
     {
         $integration = $this->getIntegration();
@@ -262,6 +330,10 @@ class WebHook extends AbstractDb
         return $this->getConnection()->query($select)->fetchObject();
     }
 
+    /**
+     * @param null $integrationID
+     * @return mixed
+     */
     public function getWebHookWithUninstallUrl($integrationID = null)
     {
         $select = $this->getConnection()->select()->from($this->getMainTable())
