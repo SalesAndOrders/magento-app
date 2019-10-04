@@ -14,7 +14,6 @@ use SalesAndOrders\FeedTool\Model\ResourceModel\WebHook;
  */
 class WebHookTest extends TestCase
 {
-
     protected $object;
 
     protected $context;
@@ -57,20 +56,16 @@ class WebHookTest extends TestCase
                 'getStatus', 'setStatus', 'getConsumerId', 'setConsumerId'])
             ->disableOriginalConstructor()
             ->getMock();
-
         $this->integrationFactory->expects($this->any())->method('create')->with()->willReturn($this->integrationModel);
         $this->integrationModel->expects($this->any())->method('load')->with(Activation::INTEGRATION_NAME, 'name')
-                ->willReturn($this->integrationModel);
-
+            ->willReturn($this->integrationModel);
         $select = $this->getMockBuilder(\Magento\Framework\DB\Select::class)
             ->disableOriginalConstructor()
             ->getMock();
-
         $this->connection = $this->getMockBuilder(\Magento\Framework\DB\Adapter\Pdo\Mysql::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->connection->expects($this->any())->method('select')->willReturn($select);
-
         $this->resource = $this->getMockBuilder(\Magento\Framework\Model\ResourceModel\Db\AbstractDb::class)
             ->disableOriginalConstructor()
             ->setMethods(
@@ -80,28 +75,26 @@ class WebHookTest extends TestCase
                     'getTable',
                     'deleteSessionsOlderThen',
                     'updateStatusByUserId'
-                    ]
+                ]
             )
             ->getMockForAbstractClass();
-
         $this->resource->expects($this->any())
             ->method('getConnection')
             ->will($this->returnValue($this->connection));
-
         $this->resource->expects($this->any())->method('getMainTable')->willReturn('table_test');
         $this->resource->expects($this->any())->method('getTable')->willReturn('test');
-
         $this->object = $this->getMockBuilder(
             WebHook::class
         )
             ->setMethods(
                 [
-                'getWebHookData',
-                'getIntegration',
-                'getConnection',
-                'getWebHookWithUninstallUrl',
-                'deleteWebHookByIntegration',
-                'getAuthorizedWebhooks'
+                    'getWebHookData',
+                    'getIntegration',
+                    'getConnection',
+                    'getWebHookWithUninstallUrl',
+                    'deleteWebHookByIntegration',
+                    'getAuthorizedWebhooks',
+                    'getVerifyUrlEndpointByIntegrationId'
                 ]
             )
             ->setConstructorArgs(
@@ -115,19 +108,18 @@ class WebHookTest extends TestCase
             )
             //->disableOriginalConstructor()
             ->getMock();
-
         $this->object->expects($this->any())
             ->method('getConnection')
             ->will($this->returnValue($this->connection));
-
         $this->object->expects($this->any())
             ->method('getIntegration')
             ->will($this->returnValue($this->integrationModel));
-
         $this->object->expects($this->any())
             ->method('getWebHookData')
             ->will($this->returnValue([]));
-
+        $this->object->expects($this->any())
+            ->method('getVerifyUrlEndpointByIntegrationId')
+            ->will($this->returnValue(''));
         parent::setUp();
     }
 
@@ -136,8 +128,7 @@ class WebHookTest extends TestCase
         $this->integrationModel->expects($this->any())->method('getId')->with()->willReturn(null);
         $this->integrationFactory->expects($this->any())->method('create')->with()->willReturn($this->integrationModel);
         $this->integrationModel->expects($this->any())->method('load')->with(Activation::INTEGRATION_NAME, 'name')
-        ->willReturn($this->integrationModel);
-
+            ->willReturn($this->integrationModel);
         $this->assertEquals($this->integrationModel, $this->object->getIntegration());
     }
 
@@ -167,7 +158,6 @@ class WebHookTest extends TestCase
         $this->storeMock->expects($this->any())->method('getCode')->with()->willReturn('default');
         $this->object->expects($this->any())->method('getAuthorizedWebhooks')->with()
             ->willReturn((object)['webhook_count' => 0]);
-
         $this->assertEquals(true, $this->object->uninstallAll($data['integration_id']));
     }
 
