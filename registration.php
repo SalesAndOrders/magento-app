@@ -1,7 +1,12 @@
 <?php
 /**
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
+ * Sales And Orders Feed Tool
+ * Copyright © 2019 S&O LLC. All rights reserved.
+ * See LICENSE.txt for license details.
+ *//**
+ * Sales And Orders Feed Tool
+ * Copyright © 2019 S&O LLC. All rights reserved.
+ * See LICENSE.txt for license details.
  */
 
 \Magento\Framework\Component\ComponentRegistrar::register(
