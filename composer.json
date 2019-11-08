@@ -1,5 +1,5 @@
 {
-  "name": "salesandorders/magento-app",
+  "name": "sales_and_orders/magento-app",
   "description": "A magento extension for SalesAndOrders marketing platform",
   "type": "magento2-module",
   "version": "1.0.16",
