@@ -14,7 +14,7 @@ Installation
 Composer
 
 ```shell 
-$ composer require salesandorders/magento-app
+$ composer require sales_and_orders/magento-app
 ``` 
 
 Git
