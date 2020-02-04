@@ -1,7 +1,7 @@
 Sales & Orders Feed Tool 
 ===================
 
-Magento 2 Extension for Sales And Orders platform integration 
+Magento 2 Extension for Sales And Orders platform integration.
 
 Requirements 
 -------------
