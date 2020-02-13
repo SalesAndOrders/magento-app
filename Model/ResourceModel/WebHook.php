@@ -111,12 +111,12 @@ class WebHook extends AbstractDb
             }
 
             if (!$integrationWebHook) {
-                $this->getConnection()->insert($this->_mainTable, $insertData);
+                $this->getConnection()->insert($this->getMainTable(), $insertData);
             } else {
                 $store_code = $initial ? '' : $insertData['store_code'];
                 $where[] = $this->getConnection()->quoteInto('integration_id = ?', $this->integration->getId());
                 $where[] = $this->getConnection()->quoteInto('store_code = ?', $store_code);
-                $this->getConnection()->update($this->_mainTable, $insertData, $where);
+                $this->getConnection()->update($this->getMainTable(), $insertData, $where);
             }
 
             if ($authorize_flag == 1) {
@@ -137,7 +137,7 @@ class WebHook extends AbstractDb
     {
         $store_code = $initial ? '' : $store_code;
         $select = $this->getConnection()->select()
-            ->from($this->_mainTable)
+            ->from($this->getMainTable())
             ->where('integration_id = ?', $integrationId)
             ->where('store_code = ?', $store_code);
 
@@ -151,7 +151,7 @@ class WebHook extends AbstractDb
     public function getCustomWebHookData($integrationId = 0)
     {
         $select = $this->getConnection()->select()
-            ->from($this->_mainTable)
+            ->from($this->getMainTable())
             ->where('integration_id = ?', $integrationId);
 
         return $this->getConnection()->query($select)->fetchObject();
@@ -164,7 +164,7 @@ class WebHook extends AbstractDb
     public function getVerifyUrlEndpointByIntegrationId($integrationId)
     {
         $select = $this->getConnection()->select()
-            ->from($this->_mainTable)
+            ->from($this->getMainTable())
             ->where('integration_id = ?', $integrationId)
             ->where('verify_url_endpoint IS NOT NULL OR verify_url_endpoint != ?', '');
         $result = $this->getConnection()->query($select)->fetchObject();
@@ -189,7 +189,7 @@ class WebHook extends AbstractDb
     {
         $where[] = $this->getConnection()->quoteInto('integration_id = ?', $integrationId);
         $where[] = $this->getConnection()->quoteInto('store_code = ?', $store_code);
-        $this->getConnection()->delete($this->_mainTable, $where);
+        $this->getConnection()->delete($this->getMainTable(), $where);
         return true;
     }
 
@@ -200,7 +200,7 @@ class WebHook extends AbstractDb
     public function deleteWebHookByIntegration($integrationId = 0)
     {
         $where[] = $this->getConnection()->quoteInto('integration_id = ?', $integrationId);
-        $this->getConnection()->delete($this->_mainTable, $where);
+        $this->getConnection()->delete($this->getMainTable(), $where);
         return true;
     }
 
@@ -308,7 +308,7 @@ class WebHook extends AbstractDb
     {
         $integration = $this->getIntegration();
         $select = $this->getConnection()->select()->from(
-            'perspective_webhooks',
+            $this->getMainTable(),
             ['webhook_count' => 'COUNT(id)']
         )
             ->where('integration_id = ?', $this->integration->getId())
@@ -325,7 +325,7 @@ class WebHook extends AbstractDb
     {
         $integration = $this->getIntegration();
         $select = $this->getConnection()->select()->from(
-            'perspective_webhooks',
+            $this->getMainTable(),
             ['webhook_count' => 'COUNT(id)']
         )
             ->where('integration_id = ?', $this->integration->getId())
