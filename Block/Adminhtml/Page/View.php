@@ -84,7 +84,7 @@ class View extends Template
                 ];
             }
 
-            if ($webHook && isset($webHook->verify_url_endpoint)) {
+            if (isset($webHook) && $webHook && isset($webHook->verify_url_endpoint)) {
                 if (!$this->activationModel->isValidURL($webHook->verify_url_endpoint)) {
                     $this->activationModel->deleteIntegration(true);
                     return $this->getIframeLinkData();
