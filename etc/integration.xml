@@ -1,5 +1,16 @@
-<integrations>
+<?xml version="1.0"?>
+<!--
+/**
+ * Sales And Orders Feed Tool
+ * Copyright © 2019 S&O LLC. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Integration:etc/integration/integration.xsd">
     <integration name="sales_and_orders">
+        <email>someone@example.com</email>
+        <endpoint_url>https://app1.salesandorders.com/api/magento/auth</endpoint_url>
+        <identity_link_url>https://app1.salesandorders.com</identity_link_url>
         <resources>
             <!-- To grant permission to Magento_Log::online, its parent Magento_Customer::customer needs to be declared as well-->
             <resource name="Magento_Customer::customer" />
@@ -31,4 +42,4 @@
             <resource name="Magento_Sales::cancel" />
         </resources>
     </integration>
-</integrations>
+</config>

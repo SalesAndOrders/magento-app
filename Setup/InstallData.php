@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Sales And Orders Feed Tool
+ * Copyright © 2019 S&O LLC. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
 namespace SalesAndOrders\FeedTool\Setup;
 
 use Magento\Framework\Setup\InstallDataInterface;
@@ -23,8 +27,7 @@ class InstallData implements InstallDataInterface
     public function __construct(
         ConfigBasedIntegrationManager $integrationManager,
         IntegrationFactory $integrationFactory
-    )
-    {
+    ) {
         $this->integrationManager = $integrationManager;
         $this->integrationFactory = $integrationFactory;
     }
@@ -36,7 +39,8 @@ class InstallData implements InstallDataInterface
      */
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
-        $this->integrationManager->processIntegrationConfig([$this->integrationName]);
+        // integration is being created by \Magento\Integration\Setup\Recurring::install
+        //        $this->integrationManager->processIntegrationConfig([$this->integrationName]);
         $integration = $this->integrationFactory->create()->load($this->integrationName, 'name');
         if ($integration && $integration->getId()) {
             /**
