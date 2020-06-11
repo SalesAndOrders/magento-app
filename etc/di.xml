@@ -24,6 +24,12 @@
     <type name="Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price">
         <plugin name="feedtool_configurable_product_price" type="SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable\Price"/>
     </type>
+    <type name="Magento\ConfigurableProduct\Pricing\Price\ConfigurablePriceResolver">
+        <plugin
+            name="feedtool_configurable_product_price_resolver"
+            type="SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable\PriceResolver"
+        />
+    </type>
     <type name="Magento\Bundle\Model\Product\Price">
         <plugin name="feedtool_bundle_product_price" type="SalesAndOrders\FeedTool\Plugin\Product\Type\Bundle\Price"/>
     </type>
