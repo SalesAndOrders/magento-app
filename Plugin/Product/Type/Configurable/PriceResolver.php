@@ -7,6 +7,7 @@
 
 namespace SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable;
 
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\App\Action\Context;
 
 /**
@@ -57,7 +58,8 @@ class PriceResolver
             $actionName == 'view'
             && $moduleName == 'catalog'
             && $controllerName == 'product'
-            && $product->getTypeId() == "configurable"
+            && $product->getTypeId() == Configurable::TYPE_CODE
+
             && $product->getId() == $this->getRequest()->getParam('id')
             && !is_null($this->getRequest()->getParam('oid'))
         ){
