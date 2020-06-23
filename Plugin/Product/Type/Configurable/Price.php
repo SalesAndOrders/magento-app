@@ -8,7 +8,8 @@
 namespace SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable;
 
 /**
- * Comment is required here
+ * Avoid 0$ price value for a configuralbe product
+ * Price takes as a minimal value of varian/option (ralated simple product)
  */
 class Price
 {
@@ -20,8 +21,8 @@ class Price
                 $childrenProducts = $product->getTypeInstance()->getUsedProducts($product);
                 if ($childrenProducts && !empty($childrenProducts)) {
                     foreach ($childrenProducts as $childrenProduct) {
-                        if ($price == 0 || $price > $childrenProduct->getPrice()) {
-                            $price = $childrenProduct->getPrice();
+                        if ($price == 0 || $price > $childrenProduct->getPrice()) {     // avoid 0$ price value
+                            $price = $childrenProduct->getPrice();                      // get mimimal price value
                         }
                     }
                 }
