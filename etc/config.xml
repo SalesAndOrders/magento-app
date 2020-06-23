@@ -2,10 +2,28 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <oauth_configs>
+            <deploy>
+                <mode>0</mode>
+            </deploy>
             <custom_config>
                 <load_iframe>https://app1.salesandorders.com/magento/load</load_iframe>
             </custom_config>
         </oauth_configs>
+        <sando_filters>
+            <filter>
+                <is_salable>1</is_salable>
+                <is_price>1</is_price>
+            </filter>
+        </sando_filters>
+        <sando_develop>
+            <environment_develop></environment_develop>
+            <environment_staging>
+                <load_iframe>https://app1.salesandorders.com/magento/load</load_iframe>
+                <integration_email>someone@example.com</integration_email>
+                <integration_endpoint_url>https://app.dev.salesandorders.com/api/magento/auth</integration_endpoint_url>
+                <integration_identity_link_url>https://app.dev.salesandorders.com</integration_identity_link_url>
+            </environment_staging>
+        </sando_develop>
         <oauth>
             <consumer>
                 <expiration_period>1000000000000</expiration_period>

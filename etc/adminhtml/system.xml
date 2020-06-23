@@ -2,19 +2,99 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
     <system>
         <tab id="custom_options" translate="label" sortOrder="1000001">
-            <label>Custom options</label>
+            <label><![CDATA[Sales & Orders]]></label>
         </tab>
-        <section id="oauth_configs" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+
+        <section id="sando_filters" translate="label" type="text" showInDefault="1" showInWebsite="0" showInStore="0">
             <class>separator-top</class>
-            <label>Options</label>
+            <label>Filters</label>
+            <tab>custom_options</tab>
+            <resource>SalesAndOrders_FeedTool::config</resource>
+                <group id="filter" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Filters</label>
+
+                    <field id="is_salable" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" type="select">
+                        <label>Salable products only</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="is_price" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" type="select">
+                        <label>Price more than 1 cent</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+
+                </group>
+        </section>
+
+        <section id="sando_develop" translate="label" type="text" showInDefault="1" showInWebsite="0" showInStore="0">
+            <class>separator-top</class>
+            <label>Development</label>
+            <tab>custom_options</tab>
+            <resource>SalesAndOrders_FeedTool::config</resource>
+
+            <group id="environment_develop" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Development environment</label>
+                <depends>
+                    <field id="oauth_configs/deploy/mode">1</field>
+                </depends>
+
+                <field id="load_iframe" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Load iframe URL</label>
+                </field>
+
+                <field id="integration_email" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Integration Email</label>
+                </field>
+                <field id="integration_endpoint_url" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Integration Endpoint URL</label>
+                </field>
+                <field id="integration_identity_link_url" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Integration Identity Link URL</label>
+                </field>
+            </group>
+            <group id="environment_staging" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Staging environment</label>
+                <depends>
+                    <field id="oauth_configs/deploy/mode">2</field>
+                </depends>
+                <field id="load_iframe" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Load iframe URL</label>
+                </field>
+
+                <field id="integration_email" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Integration Email</label>
+                </field>
+                <field id="integration_endpoint_url" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Integration Endpoint URL</label>
+                </field>
+                <field id="integration_identity_link_url" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Integration Identity Link URL</label>
+                </field>
+
+            </group>
+        </section>
+        <section id="oauth_configs" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="10">
+            <class>separator-top</class>
+            <label>Settings</label>
             <tab>custom_options</tab>
             <resource>SalesAndOrders_FeedTool::config</resource>
             <group id="custom_config" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Oauth configurations</label>
-                <field id="load_iframe" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="load_iframe" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Load iframe URL</label>
                 </field>
             </group>
+
+            <group id="deploy" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Systems</label>
+                <field id="mode" type="select" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" >
+                    <label>Sando mode</label>
+                    <comment>Possible values default, develop, staging</comment>
+                    <can_be_empty>0</can_be_empty>
+                    <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Mode</source_model>
+                </field>
+            </group>
+
         </section>
+
     </system>
 </config>
