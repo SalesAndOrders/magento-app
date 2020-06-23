@@ -51,4 +51,12 @@
     <type name="Magento\Integration\Controller\Adminhtml\Integration\Delete">
         <plugin name="delete_integration_plugin" type="SalesAndOrders\FeedTool\Plugin\Admin\System\Integration\Delete" />
     </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="sandoMode" xsi:type="object">SalesAndOrders\FeedTool\Console\Mode</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
