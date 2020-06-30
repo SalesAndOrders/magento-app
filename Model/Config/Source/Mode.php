@@ -6,7 +6,7 @@
  */
 namespace SalesAndOrders\FeedTool\Model\Config\Source;
 
-class Mode implements \Magento\Framework\Option\ArrayInterface
+class Mode implements \Magento\Framework\Data\OptionSourceInterface
 {
     /**
      * @return array

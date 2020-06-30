@@ -11,7 +11,7 @@
             <tab>custom_options</tab>
             <resource>SalesAndOrders_FeedTool::config</resource>
                 <group id="filter" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Filters</label>
+                    <label>Common</label>
 
                     <field id="is_salable" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" type="select">
                         <label>Salable products only</label>
@@ -20,6 +20,144 @@
                     <field id="is_price" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" type="select">
                         <label>Price more than 1 cent</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+
+                    <field id="attribute_set" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" type="multiselect">
+                        <label>Product Attribute Set</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute\Set</source_model>
+                    </field>
+                    <field id="product_type" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" type="multiselect">
+                        <label>Products Types</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Type</source_model>
+                    </field>
+                </group>
+                <group id="product" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Products</label>
+
+                    <field id="exclude_id"  type="text" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Exclude products by id</label>
+                    </field>
+                </group>
+                <group id="category" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Categories</label>
+
+                    <field id="cat_id"  type="multiselect" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Exclude products related to the selected categories</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Category</source_model>
+                    </field>
+                </group>
+                <group id="attribute" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom attribute</label>
+
+                    <field id="label_1"  type="label" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label># 1</label>
+                    </field>
+
+                    <field id="field_1"  type="select" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Attribute</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute</source_model>
+                    </field>
+                    <field id="condition_1"  type="select" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Condition</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute\Condition</source_model>
+                    </field>
+                    <field id="value_1"  type="text" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Value</label>
+                    </field>
+
+                    <field id="label_2"  type="label" translate="label" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label># 2</label>
+                    </field>
+
+                    <field id="field_2"  type="select" translate="label" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Attribute</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute</source_model>
+                    </field>
+                    <field id="condition_2"  type="select" translate="label" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Condition</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute\Condition</source_model>
+                    </field>
+                    <field id="value_2"  type="text" translate="label" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Value</label>
+                    </field>
+
+                    <field id="label_3"  type="label" translate="label" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label># 3</label>
+                    </field>
+
+                    <field id="field_3"  type="select" translate="label" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Attribute</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute</source_model>
+                    </field>
+                    <field id="condition_3"  type="select" translate="label" sortOrder="23" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Condition</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute\Condition</source_model>
+                    </field>
+                    <field id="value_3"  type="text" translate="label" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Value</label>
+                    </field>
+
+                    <field id="label_4"  type="label" translate="label" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label># 4</label>
+                    </field>
+
+                    <field id="field_4"  type="select" translate="label" sortOrder="42" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Attribute</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute</source_model>
+                    </field>
+                    <field id="condition_4"  type="select" translate="label" sortOrder="43" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Condition</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute\Condition</source_model>
+                    </field>
+                    <field id="value_4"  type="text" translate="label" sortOrder="44" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Value</label>
+                    </field>
+                    <field id="label_5"  type="label" translate="label" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label># 5</label>
+                    </field>
+
+                    <field id="field_5"  type="select" translate="label" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Attribute</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute</source_model>
+                    </field>
+                    <field id="condition_5"  type="select" translate="label" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Condition</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute\Condition</source_model>
+                    </field>
+                    <field id="value_5" type="text" translate="label" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Value</label>
+                    </field>
+
+                    <field id="label_6"  type="label" translate="label" sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label># 6</label>
+                    </field>
+
+                    <field id="field_6"  type="select" translate="label" sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Attribute</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute</source_model>
+                    </field>
+                    <field id="condition_6"  type="select" translate="label" sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Condition</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute\Condition</source_model>
+                    </field>
+                    <field id="value_6" type="text" translate="label" sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Value</label>
+                    </field>
+
+                    <field id="label_7"  type="label" translate="label" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label># 7</label>
+                    </field>
+
+                    <field id="field_7"  type="select" translate="label" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Attribute</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute</source_model>
+                    </field>
+                    <field id="condition_7"  type="select" translate="label" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Condition</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Product\Attribute\Condition</source_model>
+                    </field>
+                    <field id="value_7" type="text" translate="label" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="1" >
+                        <label>Value</label>
                     </field>
 
                 </group>

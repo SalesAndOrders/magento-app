@@ -26,7 +26,19 @@ class ProductRepository //extends \Magento\Catalog\Model\ProductRepository
      * @var \Magento\Catalog\Api\Data\ProductSearchResultsInterfaceFactory
      */
     protected $searchResultsFactory;
+    /**
+     * @var \Magento\Catalog\Api\Data\FilterBuilder
+     */
+    protected $filterBuilder;
+    /**
+     * @var \Magento\Catalog\Api\Data\FilterGroupBuilder
+     */
+    protected $filterGroupBuilder;
 
+    /**
+     * @var \SalesAndOrders\FeedTool\Helper\Config
+     */
+    protected $configHelper;
     /**
      * * @param \Magento\Catalog\Api\Data\ProductSearchResultsInterfaceFactory $searchResultsFactory
     */
@@ -34,10 +46,18 @@ class ProductRepository //extends \Magento\Catalog\Model\ProductRepository
          \Magento\Catalog\Model\ProductRepository  $productRepositoory
         ,\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
         ,\Magento\Catalog\Api\Data\ProductSearchResultsInterfaceFactory $searchResultsFactory
+        ,\Magento\Framework\Api\FilterBuilder $filterBuilder
+        ,\Magento\Framework\Api\Search\FilterGroupBuilder $filterGroupBuilder
+        ,\SalesAndOrders\FeedTool\Helper\Config $configHelper
     ){
         $this->productRepositoory = $productRepositoory;
         $this->scopeConfig = $scopeConfig;
         $this->searchResultsFactory = $searchResultsFactory;
+
+        $this->filterBuilder         = $filterBuilder;
+        $this->filterGroupBuilder    = $filterGroupBuilder;
+
+        $this->configHelper = $configHelper;
     }
 
     /**
@@ -45,10 +65,20 @@ class ProductRepository //extends \Magento\Catalog\Model\ProductRepository
      */
     public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
+        $this->filterByConfiguration($searchCriteria);  //filter by cofig values by selected scope store
+        // Get Product List by Search criteria
+        // runs original method
+        $searchResult = $this->productRepositoory->getList($searchCriteria);
+        $searchResult = $this->reduceAttributes($searchResult);
+        return $searchResult;
+    }
 
-                        // Get Product List by Search criteria
-        return $searchResult = $this->productRepositoory->getList($searchCriteria);
-
+    /**
+     * Returns much lighter amount of data
+     * @param Magento\Catalog\Model\ProductSearchResults $searchResult
+     * @return Magento\Catalog\Model\ProductSearchResults
+     */
+    protected function reduceAttributes(\Magento\Catalog\Model\ProductSearchResults $searchResult){
 
         $res = [];
         $seoUrlSuffix = $this->scopeConfig->getValue(
@@ -76,6 +106,109 @@ class ProductRepository //extends \Magento\Catalog\Model\ProductRepository
         $searchResult = $this->searchResultsFactory->create();
         $searchResult->setItems($items);
         return $searchResult;
-
     }
+    /**
+     * Filters repository by module settings
+    */
+    protected  function filterByConfiguration(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria){
+        $arrFilterGroup = [];
+        foreach ($searchCriteria->getFilterGroups() as $group){
+            $arrFilterGroup[] = $group;
+        }
+        $this->conf_filterByProductType($arrFilterGroup);
+        $this->conf_filterByProductExcludeId($arrFilterGroup);
+        $this->conf_filterByCategory($arrFilterGroup);
+        $this->conf_filterByAttribute($arrFilterGroup);
+
+        $searchCriteria->setFilterGroups($arrFilterGroup);
+        return $searchCriteria;
+    }
+    protected function conf_filterByProductType(array &$arrFilterGroup){
+        $value = $this->configHelper->getFiltersFilterProductType();
+        if(empty($value)){
+            return null;
+        }
+        $filter =   $this->filterBuilder
+            ->setField('type_id')
+            ->setValue($value)
+            ->setConditionType('in')
+            ->create();
+
+        $filter_group = $this->filterGroupBuilder
+            ->addFilter( $filter )
+            ->create();
+
+        $arrFilterGroup[] = $filter_group;
+    }
+    protected function conf_filterByAttributeSet(array &$arrFilterGroup){
+        $value = $this->configHelper->getFiltersFilterAttributeSet();
+        if(empty($value)){
+            return null;
+        }
+        $filter =   $this->filterBuilder
+            ->setField('attribute_set_id')
+            ->setValue($value)
+            ->setConditionType('in')
+            ->create();
+
+        $filter_group = $this->filterGroupBuilder
+            ->addFilter( $filter )
+            ->create();
+
+        $arrFilterGroup[] = $filter_group;
+    }
+    protected function conf_filterByProductExcludeId(array &$arrFilterGroup){
+        $value = $this->configHelper->getFiltersFilterProductExcludeId();
+        if(empty($value)){
+            return null;
+        }
+        $filter =   $this->filterBuilder
+            ->setField('entity_id')
+            ->setValue($value)
+            ->setConditionType('nin')
+            ->create();
+
+        $filter_group = $this->filterGroupBuilder
+            ->addFilter( $filter )
+            ->create();
+
+        $arrFilterGroup[] = $filter_group;
+    }
+    protected function conf_filterByCategory(array &$arrFilterGroup){
+        $value = $this->configHelper->getFiltersCategoryCatId();
+        if(empty($value)){
+            return null;
+        }
+        $filter =   $this->filterBuilder
+            ->setField('category_id')
+            ->setValue($value)
+            ->setConditionType('in')
+            ->create();
+
+        $filter_group = $this->filterGroupBuilder
+            ->addFilter( $filter )
+            ->create();
+
+        $arrFilterGroup[] = $filter_group;
+    }
+    protected function conf_filterByAttribute(array &$arrFilterGroup){
+        $value = $this->configHelper->getFiltersAttribute();
+        if(empty($value)){
+            return null;
+        }
+        foreach ($value as $attribute){
+            $filter =   $this->filterBuilder
+                ->setField($attribute['field'])
+                ->setValue($attribute['value'])
+                ->setConditionType($attribute['condition'])
+                ->create();
+
+            $filter_group = $this->filterGroupBuilder
+                ->addFilter( $filter )
+                ->create();
+
+            $arrFilterGroup[] = $filter_group;
+        }
+    }
+
 }

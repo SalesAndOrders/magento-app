@@ -33,6 +33,16 @@ class Config extends AbstractHelper
     // filters
     const XML_FILTERS_FILTER_IS_SALABLE = 'sando_filters/filter/is_salable';
     const XML_FILTERS_FILTER_IS_PRICE = 'sando_filters/filter/is_price';
+    const XML_FILTERS_FILTER_ATTRIBUTE_SET = 'sando_filters/filter/attribute_set';
+    const XML_FILTERS_FILTER_PRODUCT_TYPE = 'sando_filters/filter/product_type';
+    const XML_FILTERS_FILTER_PRODUCT_EXCLUDE_ID = 'sando_filters/product/exclude_id';
+
+    const XML_FILTERS_CATEGORY_CAT_ID = 'sando_filters/category/cat_id';
+    // custom attribute
+    const XML_FILTERS_ATTRIBUTE_FIELD       = 'sando_filters/attribute/field_';
+    const XML_FILTERS_ATTRIBUTE_CONDITION   = 'sando_filters/attribute/condition_';
+    const XML_FILTERS_ATTRIBUTE_VALUE       = 'sando_filters/attribute/value_';
+    protected $custom_poduct_attribute_count = 7;   // from 1 to 7
 
     protected $deployMode = null;   // 0 - default, 1 develop 2 staging
 
@@ -211,6 +221,107 @@ class Config extends AbstractHelper
             self::XML_FILTERS_FILTER_IS_PRICE,
             ScopeInterface::SCOPE_STORE
         );
+    }
+    /**
+     * @return string
+     */
+    public function getFiltersFilterProductType()
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_FILTERS_FILTER_PRODUCT_TYPE,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+    /**
+     * @return string
+     */
+    public function getFiltersFilterAttributeSet()
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_FILTERS_FILTER_ATTRIBUTE_SET,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+    /**
+     * @return string
+     */
+    public function getFiltersFilterProductExcludeId()
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_FILTERS_FILTER_PRODUCT_EXCLUDE_ID,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+    /**
+     * @return string
+     */
+    public function getFiltersCategoryCatId()
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_FILTERS_CATEGORY_CAT_ID,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+    /**
+     * Retrieves custom attribute by index ar all
+     * retrieves only validated :  field, value,  condition are filled
+     *
+     * 0 - retrieves all
+     * 0 < - retrieves specific
+     * @param int $index
+     * @return array
+     */
+    public function getFiltersAttribute($index = 0)
+    {
+        $res = [];
+        if( $index > 0 ){
+            $field     =  (string)$this->scopeConfig->getValue(
+                                    self::XML_FILTERS_ATTRIBUTE_FIELD.$index,
+                                    ScopeInterface::SCOPE_STORE
+                                );
+            $condition =  (string)$this->scopeConfig->getValue(
+                                    self::XML_FILTERS_ATTRIBUTE_CONDITION.$index,
+                                    ScopeInterface::SCOPE_STORE
+                                );
+            $value    =  (string)$this->scopeConfig->getValue(
+                                    self::XML_FILTERS_ATTRIBUTE_VALUE.$index,
+                                    ScopeInterface::SCOPE_STORE
+                                );
+            if($field && $condition && $value){
+                $res = [
+                    'field' =>  $field,
+                    'condition'=>   $condition,
+                    'value' =>  $value
+                ];
+            }
+
+        }else{
+            for ($i = 0; $i < $this->custom_poduct_attribute_count; $i++ ){
+
+                $field     =  (string)$this->scopeConfig->getValue(
+                    self::XML_FILTERS_ATTRIBUTE_FIELD.$i,
+                    ScopeInterface::SCOPE_STORE
+                );
+                $condition =  (string)$this->scopeConfig->getValue(
+                    self::XML_FILTERS_ATTRIBUTE_CONDITION.$i,
+                    ScopeInterface::SCOPE_STORE
+                );
+                $value    =  (string)$this->scopeConfig->getValue(
+                    self::XML_FILTERS_ATTRIBUTE_VALUE.$i,
+                    ScopeInterface::SCOPE_STORE
+                );
+
+                if($field && $condition && $value){
+                    $res[] = [
+                        'field' =>  $field,
+                        'condition'=>   $condition,
+                        'value' =>  $value
+                    ];
+                }
+
+            }
+        }
+        return $res;
     }
 
     /**
