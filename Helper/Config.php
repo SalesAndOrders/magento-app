@@ -38,6 +38,8 @@ class Config extends AbstractHelper
     const XML_FILTERS_FILTER_PRODUCT_EXCLUDE_ID = 'sando_filters/product/exclude_id';
 
     const XML_FILTERS_CATEGORY_CAT_ID = 'sando_filters/category/cat_id';
+    /* exclude / include - default */
+    const XML_FILTERS_CATEGORY_IN_EX_CLUDE_PRODUCTS = 'sando_filters/category/in_ex_clude_products';
     // custom attribute
     const XML_FILTERS_ATTRIBUTE_FIELD       = 'sando_filters/attribute/field_';
     const XML_FILTERS_ATTRIBUTE_CONDITION   = 'sando_filters/attribute/condition_';
@@ -259,6 +261,16 @@ class Config extends AbstractHelper
     {
         return (string)$this->scopeConfig->getValue(
             self::XML_FILTERS_CATEGORY_CAT_ID,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+    /**
+     * @return string
+     */
+    public function getFiltersCategoryInExCludeProducts()
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_FILTERS_CATEGORY_IN_EX_CLUDE_PRODUCTS,
             ScopeInterface::SCOPE_STORE
         );
     }

@@ -14,6 +14,9 @@
                 <is_salable>1</is_salable>
                 <is_price>1</is_price>
             </filter>
+            <category>
+                <in_ex_clude_products>include</in_ex_clude_products>
+            </category>
         </sando_filters>
         <sando_develop>
             <environment_develop></environment_develop>

@@ -39,12 +39,17 @@
                     </field>
                 </group>
                 <group id="category" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Categories</label>
+                    <label>Products related to the categories</label>
 
+                    <field id="in_ex_clude_products"  type="radios" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Choose the condition</label>
+                        <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Category\InEx</source_model>
+                    </field>
                     <field id="cat_id"  type="multiselect" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Exclude products related to the selected categories</label>
+                        <label>Categories</label>
                         <source_model>SalesAndOrders\FeedTool\Model\Config\Source\Filter\Category</source_model>
                     </field>
+
                 </group>
                 <group id="attribute" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Custom attribute</label>
