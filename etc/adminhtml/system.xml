@@ -14,11 +14,11 @@
                     <label>Common</label>
 
                     <field id="is_salable" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" type="select">
-                        <label>Salable products only</label>
+                        <label>Available Products Only</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     </field>
                     <field id="is_price" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" type="select">
-                        <label>Price more than 1 cent</label>
+                        <label>Price greater than 0</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     </field>
 

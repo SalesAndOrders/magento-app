@@ -154,9 +154,14 @@ class ProductRepository
         $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner');
 
         if( (int)$this->configHelper->getFiltersFilterIsSalable() ){
-            $collection->getSelect()->where(
-                '`extension_attribute_stock_item`.`is_in_stock`'
-            );
+            $collection->getSelect()
+                ->where(
+                '`extension_attribute_stock_item`.`is_in_stock` = 1'
+                )
+            ;
+            //filter by an image. If image are present in the product
+            $items = $this->isSaleProductsWithImages();
+            $collection->addAttributeToFilter('entity_id',['in' => $items] );
         }
         $this->collectionProcessor->process($searchCriteria, $collection);
 
@@ -386,6 +391,33 @@ class ProductRepository
             ->addFilter( $filter3 )
             ->create();
 */
+    }
+    protected function isSaleProductsWithImages(){
+        $mCollection = $this->collectionFactory->create();
+        $mCollection->getSelect()
+            ->join(
+                array('images_value_entity' => $mCollection->getTable('catalog_product_entity_media_gallery_value')),
+                'e.entity_id = images_value_entity.entity_id',
+                array('value_id')
+            )
+            ->reset(\Zend_Db_Select::COLUMNS)
+            ->columns('e.entity_id')
+            ->join(
+                array('images_value_data' => $mCollection->getTable('catalog_product_entity_media_gallery')),
+                'images_value_entity.value_id = images_value_data.value_id',
+                array('count( images_value_data.value ) AS images_count')
+            )
+            ->group('e.entity_id')
+            ->having('`images_count` > 0')
+        ;
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+        $connection = $objectManager->get('Magento\Framework\App\ResourceConnection')->getConnection();
+        $resultRows = $connection->fetchAll($mCollection->getSelect()); // gives associated array, table fields as key in array.
+        $ids = [];
+        foreach($resultRows as $row){
+            $ids[] = $row['entity_id'];
+        }
+        return $ids;
     }
     protected function conf_filterByProductType(array &$arrFilterGroup){
         $value = $this->configHelper->getFiltersFilterProductType();
