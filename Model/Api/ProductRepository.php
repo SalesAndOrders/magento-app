@@ -171,7 +171,11 @@ class ProductRepository
         $this->addExtensionAttributes($collection);
 
         $nonSalableIds = [];
-        foreach ($collection->getItems() as $key => $product) {
+        foreach ($collection->getItems() as $key => &$product) {
+            if( !$product->isSalable() ){
+                $nonSalableIds[] = $key;
+                continue;
+            }
             $this->cacheProduct(
                 $this->getCacheKey(
                     [
@@ -181,9 +185,10 @@ class ProductRepository
                 ),
                 $product
             );
-            if( $product->isSalable() ){
-                $nonSalableIds[] = $key;
-            }
+            // set full url
+            //$this->_storeManager->getStore()->getUrl('product/33');
+            $fullURL = $product->getProductUrl();
+            $product->getExtensionAttributes()->setFullUrl($fullURL);
         }
         /* This will make an issue. If searchCriteria will contain pageSize
             the actual result count could be less than expected.
@@ -197,6 +202,7 @@ class ProductRepository
         $searchResult->setSearchCriteria($searchCriteria);
         $searchResult->setItems($collection->getItems());
         $searchResult->setTotalCount($collection->getSize());
+
 
         return $searchResult;
     }

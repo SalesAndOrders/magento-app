@@ -39,7 +39,7 @@
     <type name="Magento\Catalog\Api\ProductRepositoryInterface">
         <plugin name="feedtool_rest_product_get" type="SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable\Get"/>
     </type>
-    <type name="Magento\Catalog\Api\ProductRepositoryInterface">
+    <type name="SalesAndOrders\FeedTool\Model\Api\ProductRepository">
         <plugin name="feedtool_rest_product_getlist" type="SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable\GetList"/>
     </type>
     <type name="Magento\Backend\Model\Menu\Builder">

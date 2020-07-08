@@ -31,5 +31,7 @@
         </attribute>
         <attribute code="is_variant" type="string">
         </attribute>
+        <attribute code="full_url" type="string">
+        </attribute>
     </extension_attributes>
 </config>
