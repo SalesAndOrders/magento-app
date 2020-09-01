@@ -42,10 +42,11 @@ class GetList
 
         $productItems = $searchResult->getItems();
         foreach ($productItems as $key => $product){
+            $extensionAttributes  = $product->getExtensionAttributes();
+            $fullUrlKey = $this->getFullProductUrlKey($domainUrl,$product->getProductUrl() );
+            $extensionAttributes->setFullUrlKey($fullUrlKey);
+
             if($product->getTypeId() == "configurable"){
-                $extensionAttributes  = $product->getExtensionAttributes();
-                $fullUrlKey = $this->getFullProductUrlKey($domainUrl,$product->getProductUrl() );
-                $extensionAttributes->setFullUrlKey($fullUrlKey);
                 $simpleProductList = $extensionAttributes->getConfigurableProductLinks();
                 //TODO: optimization is required
                 $collection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory')->create();
