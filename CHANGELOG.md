@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 ### [1.0.30] 2020-09-02
 
   * Added: CHANGELOG.md file
+  * Added: Full product URL returns by API call 
+      - full_url - in extension attribtues contains the product link in response by API call 
+  * Added: SalesAndOrders_FeedTool module version - returns by API call.
+      - REST API call  *store/getStoresConfigs* - returns module version in extension_attribtutes section  
   * Added: full_url_key to each product in response
       - this is the product url key with modifications of the Magento according to SEO settings instead of default *url_key*;
   * Added: Configurable product change price plugin. 
@@ -23,7 +27,13 @@ All notable changes to this project will be documented in this file.
   * Added: extension attributes:
       - child_product
           - Contains child products for Configurable products type 
+      - full_url
+          - Contains full product url with url rewrite with domain
       - full_url_key
           - Contains product url_rewrite URL key with SEO language prefix and '.html' postfix
      - configurable_option_url
          - contains an array of built URLs like  in the *parent_url*
+     - sales_and_orders_feed_tool_version
+         - Contains the versions of this module.
+     
+      

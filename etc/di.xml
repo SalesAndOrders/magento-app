@@ -51,4 +51,7 @@
     <type name="Magento\Integration\Controller\Adminhtml\Integration\Delete">
         <plugin name="delete_integration_plugin" type="SalesAndOrders\FeedTool\Plugin\Admin\System\Integration\Delete" />
     </type>
+    <type name="Magento\Store\Model\Service\StoreConfigManager">
+        <plugin name="store_configs_add_module_version" type="SalesAndOrders\FeedTool\Plugin\Store\ConfigManager\GetStoreConfigs" />
+    </type>
 </config>

@@ -43,7 +43,9 @@ class GetList
         $productItems = $searchResult->getItems();
         foreach ($productItems as $key => $product){
             $extensionAttributes  = $product->getExtensionAttributes();
-            $fullUrlKey = $this->getFullProductUrlKey($domainUrl,$product->getProductUrl() );
+            $fullUrl =  $product->getProductUrl();
+            $extensionAttributes->setFullUrl($fullUrl);
+            $fullUrlKey = $this->getFullProductUrlKey($domainUrl,$fullUrl);
             $extensionAttributes->setFullUrlKey($fullUrlKey);
 
             if($product->getTypeId() == "configurable"){

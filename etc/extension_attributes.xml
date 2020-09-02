@@ -32,6 +32,10 @@
         <attribute code="is_variant" type="string"></attribute>
         <attribute code="child_product" type="string"></attribute>
         <attribute code="configurable_option_url" type="string"></attribute>
+        <attribute code="full_url" type="string"></attribute>
         <attribute code="full_url_key" type="string"></attribute>
+    </extension_attributes>
+    <extension_attributes for="Magento\Store\Api\Data\StoreConfigInterface">
+        <attribute code="sales_and_orders_feed_tool_version" type="string"></attribute>
     </extension_attributes>
 </config>
