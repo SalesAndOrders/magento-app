@@ -82,7 +82,12 @@ class GetList
      */
     protected function getFullProductUrlKey($domainUrl, $productUrl){
         $fullUrlKey = explode($domainUrl,$productUrl)[1];       // exclude from Domain URl
-        return explode('index.php/',$fullUrlKey)[1];    // exclude index.php
+        if( is_bool( strpos($fullUrlKey,'index.php/')) ){
+            $urlKey = $fullUrlKey;
+        }else{
+            $urlKey = explode('index.php/',$fullUrlKey)[1];    // exclude index.php;
+        }
+        return $urlKey;
     }
 
     /**
