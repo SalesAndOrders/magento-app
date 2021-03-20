@@ -1,7 +1,16 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
+### [1.0.31] 2021-03-02
 
+  * Added: Attributes *status* and *visibility* joined
+      - "status": 1,
+      - "visibility": 4,
+  * Added: Stock data for products 
+      - stock_item - additional field with sotck data
+  * Added: In stock filter
+      - is_in_stock - equal true
+        
 ### [1.0.30] 2020-09-02
 
   * Added: CHANGELOG.md file

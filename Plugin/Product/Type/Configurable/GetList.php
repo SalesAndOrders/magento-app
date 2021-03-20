@@ -24,6 +24,7 @@ class GetList
 
     public function afterGetList($subject, $products, $searchCriteria)
     {
+        //todo: A fix are required. All rest api requests will go through this plugin.
         $productsData = $products->getItems();
         if (!empty($productsData)) {
             foreach ($productsData as $id => $product) {
@@ -53,6 +54,11 @@ class GetList
                 //TODO: optimization is required
                 $collection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory')->create();
                 $collection->addAttributeToSelect('*');
+
+                $collection->joinField(
+                        'stock_status', 'cataloginventory_stock_status', 'stock_status', 'product_id=entity_id', '{{table}}.stock_id=1', 'left'
+                    )->addFieldToFilter('stock_status', array('eq' => \Magento\CatalogInventory\Model\Stock\Status::STATUS_IN_STOCK));
+                ;
                 $collection->addFieldToFilter('entity_id',$simpleProductList);
 
                 $storeId  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface')
@@ -62,7 +68,13 @@ class GetList
 
                 $collection->addStoreFilter( $storeId );
                 $collection->addUrlRewrite();
+                $collection->addCategoryIds();
+
+                $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner');
+                $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner');
                 $collection->load();
+
+                $collectionStockData = $this->getStockData($collection->getAllIds());
                 $this->addParentProductUrl($collection,$extensionAttributes,$fullUrlKey);
 
                 $productArray = $collection->toArray();
@@ -73,6 +85,29 @@ class GetList
         }
 
         return $searchResult;
+    }
+
+    /**
+     * Retrieves stock data according to to the product collection
+    */
+    protected function getStockData(array $productIdList):array
+    {
+        $res = [];
+        return $res;
+
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+         $objectManager->get('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+
+        /*Get in stock product collection*/
+        $collection = $this->productCollection->create()->addFieldToSelect('*')
+            ->setFlag('has_stock_status_filter', false)
+            ->joinField('stock_item', 'cataloginventory_stock_item', 'is_in_stock', 'product_id=entity_id', 'is_in_stock=1');
+        //debug
+        //echo "<pre>";
+        //print_r($collection->getData());
+        //exit();
+
+        return $res;
     }
 
     /**
