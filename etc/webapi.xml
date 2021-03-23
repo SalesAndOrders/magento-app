@@ -18,6 +18,13 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+
+    <route url="/V1/sando/feed-tool/integration/remove/all" method="POST">
+        <service class="SalesAndOrders\FeedTool\Api\RestCallbackInterface" method="webhooks_remove_all"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
     <route url="/V1/sando/feed-tool/catalog/products" method="GET">
         <service class="SalesAndOrders\FeedTool\Api\ProductRepositoryInterface" method="getList"/>
         <resources>
