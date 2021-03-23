@@ -1,6 +1,11 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
+
+### [1.0.32] 2021-03-24
+ * Added: Delete integrations enpoint added
+ * Fixed: Admin -> Install button url on store code in URL enabled
+
 ### [1.0.31] 2021-03-02
 
   * Added: Attributes *status* and *visibility* joined
