@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-### [1.0.33] 2021-03-24
+### [1.0.33] 2021-03-25
  * Fixed: Affecting product collection by API if no SandO request
 
 ### [1.0.32] 2021-03-24
