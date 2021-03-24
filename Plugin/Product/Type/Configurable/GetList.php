@@ -8,6 +8,8 @@
 namespace SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable;
 
 use Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable;
+use Magento\Framework\Webapi\Rest\Request as RestRequest;
+use Magento\Webapi\Model\ConfigInterface as ModelConfigInterface;
 
 /**
  * Comment is required here
@@ -15,16 +17,33 @@ use Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable;
 class GetList
 {
     protected $configurableProduct;
+    protected $_config;
+    protected $_apiConfig;
+    protected $request;
 
     public function __construct(
         Configurable $configurableProduct
+        ,ModelConfigInterface $_config
+        ,\Magento\Webapi\Model\Rest\Config $_apiConfig
+        ,RestRequest $request
     ) {
         $this->configurableProduct = $configurableProduct;
+        $this->_config = $_config;
+        $this->_apiConfig = $_apiConfig;
+        $this->request = $request;
+    }
+    protected function isSandORequest(){
+        $routes = $this->_apiConfig->getRestRoutes($this->request);
+        $route = $routes[0];
+        $vendorName = explode('\\',$route->getServiceClass() )[0];
+        return  $vendorName == 'SalesAndOrders';
     }
 
     public function afterGetList($subject, $products, $searchCriteria)
     {
-        //todo: A fix are required. All rest api requests will go through this plugin.
+        if (!$this->isSandORequest()){  //affects only from sando requests
+            return $products;
+        }
         $productsData = $products->getItems();
         if (!empty($productsData)) {
             foreach ($productsData as $id => $product) {
