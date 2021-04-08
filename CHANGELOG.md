@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.0.34] 2021-03-31
+ * Fixed: Admin pages restricted by admin user access
+ * Fixed: In *Stores* -> *Configuration* page changed titles of the module
 ### [1.0.33] 2021-03-25
  * Fixed: Affecting product collection by API if no SandO request
 
