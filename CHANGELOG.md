@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ### [1.0.35] 2021-04-13
 * Fixed: WebHook resource model getting table.
+* Fixed: Remove Integrtion changed method from **POST** to **DELETE**.
 
 ### [1.0.34] 2021-03-31
  * Fixed: Admin pages restricted by admin user access
