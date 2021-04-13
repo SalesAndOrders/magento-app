@@ -20,9 +20,9 @@ class Transport
      */
     public function sendData($endpointUrl, $postData = [], $checkUrl = true)
     {
-        //if ($checkUrl) {
-        //    $endpointUrl = preg_replace("(^https?://)", "", $endpointUrl);
-        //}
+        if ($checkUrl) {
+            $endpointUrl = preg_replace("(^https?://)", "", $endpointUrl);
+        }
         //ob_start();
         //$out = fopen('php://output', 'w');
         $curl = curl_init();
@@ -44,9 +44,9 @@ class Transport
                 "Cache-Control: no-cache"
             ],
         ];
-        //if ($checkUrl) {
-        //    $curlOption[CURLOPT_PORT] = 80;
-        //}
+        if ($checkUrl) {
+            $curlOption[CURLOPT_PORT] = 80;
+        }
 
         curl_setopt_array($curl, $curlOptions);
 
@@ -55,9 +55,10 @@ class Transport
         $err = curl_error($curl);
         //fclose($out);
         //$debug = ob_get_clean();
-        //if (empty($response) && empty($err)) {
-        //    $err = $debug;
-        //}
+//       if (empty($response) && empty($err)) {
+//           $err = $debug;
+            //todo write error to file log instead of printing
+//       }
         curl_close($curl);
         return ['response' => $response, 'err' => $err];
     }
