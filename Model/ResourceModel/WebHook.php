@@ -203,10 +203,28 @@ class WebHook extends AbstractDb
         $this->getConnection()->delete($this->getMainTable(), $where);
         return true;
     }
-
-    public function deleteWebHookAllIntegrations(){
+    /**
+     * Removes integration for All stores
+     * @return int
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function deleteWebHookAllIntegrations(): int
+    {
         $where = [];// = $this->getConnection()->quoteInto('integration_id = ?', '');
         $res = $this->getConnection()->delete($this->getMainTable(), $where);
+        return $res;
+    }
+
+    /**
+     * Removes integration per store_code
+     * @param string $store_code
+     * @return int
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function deleteWebHookStoreIntegrations(string $store_code): int
+    {
+        $where = $this->getConnection()->quoteInto('store_code = ?', $store_code);
+         $res = $this->getConnection()->delete($this->getMainTable(), $where);
         return $res;
     }
 
