@@ -19,7 +19,7 @@
         </resources>
     </route>
 
-    <route url="/V1/sando/feed-tool/integration/remove/all" method="POST">
+    <route url="/V1/sando/feed-tool/integration/remove/all" method="DELETE">
         <service class="SalesAndOrders\FeedTool\Api\RestCallbackInterface" method="webhooks_remove_all"/>
         <resources>
             <resource ref="anonymous"/>
