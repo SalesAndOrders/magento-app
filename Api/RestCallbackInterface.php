@@ -28,4 +28,8 @@ interface RestCallbackInterface
      * @return mixed
      */
     public function webhooks_remove_all();
+    /**
+     * @return mixed
+     */
+    public function webhooks_remove_store();
 }

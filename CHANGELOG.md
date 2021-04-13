@@ -3,9 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 ### [1.0.35] 2021-04-13
-* Fixed: WebHook resource model getting table.
-* Fixed: Remove Integrtion changed method from **POST** to **DELETE**.
-
+ * Fixed: WebHook resource model getting table.
+ * Fixed: Remove Integrtion changed method from **POST** to **DELETE**.
+ * Added: Added Api endpoint to remove integration per store
+    - /V1/sando/feed-tool/integration/remove/store
+        - *store_id* is in SOAP URL
+    - Method **DELETE**
+    - no params
+    
 ### [1.0.34] 2021-03-31
  * Fixed: Admin pages restricted by admin user access
  * Fixed: In *Stores* -> *Configuration* page changed titles of the module
