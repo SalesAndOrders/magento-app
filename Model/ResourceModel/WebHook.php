@@ -176,7 +176,7 @@ class WebHook extends AbstractDb
      */
     public function deleteWebHook($integrationId = 0)
     {
-        $this->getConnection()->delete($this->_mainTable, ['integration_id = ?' => $integrationId]);
+        $this->getConnection()->delete($this->getMainTable(), ['integration_id = ?' => $integrationId]);
         return true;
     }
 
