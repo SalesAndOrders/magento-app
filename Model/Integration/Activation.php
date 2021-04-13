@@ -207,7 +207,7 @@ class Activation extends AbstractDb
                 $this->logger->log('Creating webhook field');
                 $this->webHookModel->addIntegrationWebHook(['verify_url_endpoint' => $result->detail], 0);
                 $this->logger->log('Webhook field created');
-                $this->logger->log('End activationg');
+                $this->logger->log('End activation');
                 // clear cache
                 $this->cacheModel->cleanCahes(['config', 'block_html']);
                 $resultData = $result->detail;
