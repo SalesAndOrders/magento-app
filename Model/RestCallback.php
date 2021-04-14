@@ -114,7 +114,7 @@ class RestCallback implements RestCallbackInterface
      * @return int|mixed
     */
     public function webhooks_remove_all(){
-        $params = $this->_request->getRequestData();
+        //$params = $this->_request->getRequestData();
         return $this->webHookModel->deleteWebHookAllIntegrations();
     }
     /**
