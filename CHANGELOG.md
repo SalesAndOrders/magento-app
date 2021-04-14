@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
         - *store_id* is in SOAP URL
     - Method **DELETE**
     - no params
+ * Added: Log transfer data to the file in the Model/Transport
+ * Restored: HTTPS request to the SandO app 
     
 ### [1.0.34] 2021-03-31
  * Fixed: Admin pages restricted by admin user access
