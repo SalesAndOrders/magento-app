@@ -7,6 +7,7 @@
 namespace SalesAndOrders\FeedTool\Model\System\Message;
 
 use Magento\Framework\Notification\MessageInterface;
+use Magento\Framework\Notification\NotifierInterface as NotifierPool;
 
 /**
  * Class CustomNotification
@@ -14,9 +15,25 @@ use Magento\Framework\Notification\MessageInterface;
 class NewVersionSystemMessage implements MessageInterface
 {
     /**
+     * Notifier Pool
+     *
+     * @var NotifierPool
+     */
+    protected $notifierPool;
+    /**
      * Message identity
      */
     const MESSAGE_IDENTITY = 'new_version_sando_feedTool_system_message';
+
+    /***
+     *
+     * @param NotifierPool $notifierPool
+     */
+    public function __construct(
+        NotifierPool $notifierPool
+    ) {
+        $this->notifierPool = $notifierPool;
+    }
 
     /**
      * Retrieve unique system message identity
@@ -41,6 +58,18 @@ class NewVersionSystemMessage implements MessageInterface
 //        if($isNewerVersionAvailable){
             $isNewerVersionAvailable = !$isNewerVersionAvailable;
 //        }
+        /**
+         * Sample system config url will be used for "Read Details" link in notification message
+         *
+         * @var string $sampleUrl
+         */
+        //$sampleUrl = $this->getUrl('adminhtml/integration_module/notification/version');
+        $sampleUrl = "https://marketplace.magento.com/sales-and-orders-magento-app.html";
+
+        // Add notice
+        $this->notifierPool->addNotice('Notice Title', 'Notice description text.',
+            // Add "Read Details" link
+            $sampleUrl);
         return $isNewerVersionAvailable;
     }
 
