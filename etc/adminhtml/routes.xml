@@ -1,8 +1,14 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * @copyright Copyright (c) 2021
+ * @package Atwix_AdminNotifications
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
 <router id="admin">
     <route id="integration_module" frontName="integration_module">
-        <module name="SalesAndOrders_FeedTool"/>
+        <module name="SalesAndOrders_FeedTool" before="Magento_Backend"/>
     </route>
 </router>
 </config>
