@@ -19,6 +19,7 @@ class Config extends AbstractHelper
 {
 
     const XML_OPTIONS_IFRAME_LOAD_URL = 'oauth_configs/custom_config/load_iframe';
+    const XML_CONFIG_NOTIFICATION_UPDATE_URL  = 'notification/check_update_url';
 
     /**
      * @var ObjectManagerInterface
@@ -46,6 +47,16 @@ class Config extends AbstractHelper
     {
         return (string)$this->scopeConfig->getValue(
             self::XML_OPTIONS_IFRAME_LOAD_URL,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+    /**
+     * @return string
+     */
+    public function getUpdateURL(): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_CONFIG_NOTIFICATION_UPDATE_URL,
             ScopeInterface::SCOPE_STORE
         );
     }

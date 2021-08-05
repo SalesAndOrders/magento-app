@@ -8,6 +8,7 @@ namespace SalesAndOrders\FeedTool\Model\System\Message;
 
 use Magento\Framework\Notification\MessageInterface;
 use Magento\Framework\Notification\NotifierInterface as NotifierPool;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class CustomNotification
@@ -15,24 +16,45 @@ use Magento\Framework\Notification\NotifierInterface as NotifierPool;
 class NewVersionSystemMessage implements MessageInterface
 {
     /**
+     * Message identity
+     */
+
+    const MESSAGE_IDENTITY = 'new_version_sando_feedTool_system_message';
+    /**
+     * @var ObjectManagerInterface
+     */
+    protected $_objectManager;
+    /**
+     * @var  \Magento\Framework\HTTP\Client\Curl $curl
+     */
+    protected $curl;
+    /**
+     * @var \SalesAndOrders\FeedTool\Helper\Config $config
+     */
+    protected $config;
+    /**
      * Notifier Pool
      *
      * @var NotifierPool
      */
     protected $notifierPool;
-    /**
-     * Message identity
-     */
-    const MESSAGE_IDENTITY = 'new_version_sando_feedTool_system_message';
 
     /***
      *
      * @param NotifierPool $notifierPool
+     * @param \SalesAndOrders\FeedTool\Helper\Config $config
+     * @param \Magento\Framework\HTTP\Client\Curl $curl
      */
     public function __construct(
-        NotifierPool $notifierPool
+        NotifierPool $notifierPool,
+        \SalesAndOrders\FeedTool\Helper\Config $config,
+        \Magento\Framework\HTTP\Client\Curl $curl,
+        ObjectManagerInterface $objectManager
     ) {
         $this->notifierPool = $notifierPool;
+        $this->config = $config;
+        $this->curl = $curl;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -52,35 +74,31 @@ class NewVersionSystemMessage implements MessageInterface
      */
     public function isDisplayed()
     {
-        // The message will be shown
-        //todo check new version availability
-        $isNewerVersionAvailable = false;
-//        if($isNewerVersionAvailable){
-            $isNewerVersionAvailable = !$isNewerVersionAvailable;
-//        }
-        /**
-         * Sample system config url will be used for "Read Details" link in notification message
-         *
-         * @var string $sampleUrl
-         */
-        //$sampleUrl = $this->getUrl('adminhtml/integration_module/notification/version');
-        $sampleUrl = "https://marketplace.magento.com/sales-and-orders-magento-app.html";
+        $isNewerVersionAvailable = $this->isNewerVersion();     //todo check new version availability
+
+        /** @var string $sampleUrl */
+        //Sample system config url will be used for "Read Details" link in notification message
+        $readDetailsUrl = "https://marketplace.magento.com/sales-and-orders-magento-app.html#product.info.details.release_notes";
 
         // Add notice
-        $this->notifierPool->addNotice('Notice Title', 'Notice description text.',
-            // Add "Read Details" link
-            $sampleUrl);
+        $this->notifierPool->addNotice(
+            'New version of Sales and Orders deliver important updates'
+            , 'The latest release of Sales and Orders is now generally available. Includes code enhancements along with new functionality and quality improvements.',
+            $readDetailsUrl
+        );
         return $isNewerVersionAvailable;
     }
 
-    /**
+    /*
      * Retrieve system message text
      *
      * @return \Magento\Framework\Phrase
      */
     public function getText()
     {
-        return __('New Version of module <a href="https://marketplace.magento.com/sales-and-orders-magento-app.html" ><img alt="logo" src="https://marketplace.magento.com/media/catalog/product/cache/cc46e20e0a519cf92e024f4762fc8af3/c/1/c186_240x240-glyph-logo.png"> Sales and Orders available </a>. Please update');
+        return __(
+            '<a target="_blank" href="https://www.salesandorders.com/" ><img alt="&nbsp;&nbsp; Sales and Orders logo" style="height: 25px; position: relative; top: 5px; margin-right: 20px; margin-left: 10px;" src="https://www.salesandorders.com/images/logo.png"></a> New version of <a target="_blank" href="https://marketplace.magento.com/sales-and-orders-magento-app.html">Sales and Orders available</a> deliver important updates. <a target="_blank" href="https://marketplace.magento.com/sales-and-orders-magento-app.html#product.info.details.release_notes">More details...</a>'
+        );
     }
 
     /**
@@ -96,5 +114,21 @@ class NewVersionSystemMessage implements MessageInterface
     public function getSeverity()
     {
         return self::SEVERITY_NOTICE;
+    }
+    protected function isNewerVersion():bool
+    {
+        //get current module version
+        $currentVersion = $this->objectManager
+                                    ->get('\Magento\Framework\Module\ResourceInterface')
+                                    ->getDbVersion('SalesAndOrders_FeedTool')
+        ;
+        $this->curl->get( $this->config->getUpdateURL() );  // get method
+        $this->curl->addHeader("Content-Type", "application/json");
+        $this->curl->addHeader("Content-Length", 200);
+        $result = json_decode($this->curl->getBody(),true );      // output of curl request
+                                                                            // get version from result
+        $receivedVersion = $result['packages']['sales_and_orders/magento-app'][0]['version'];
+        //var_dump( $currentVersion < $receivedVersion );die;
+        return $currentVersion < $receivedVersion;
     }
 }
