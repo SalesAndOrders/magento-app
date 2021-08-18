@@ -1,10 +1,12 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
-
+### [1.0.37] 2021-08-18
+* Added: Check model to prevent logic execution if not SandO API request
+  - SalesAndOrders\FeedTool\Model\Occupy.php
 ### [1.0.35] 2021-04-13
  * Fixed: WebHook resource model getting table.
- * Fixed: Remove Integrtion changed method from **POST** to **DELETE**.
+ * Fixed: Remove Integration changed method from **POST** to **DELETE**.
  * Added: Added Api endpoint to remove integration per store
     - /V1/sando/feed-tool/integration/remove/store
         - *store_id* is in SOAP URL
@@ -20,7 +22,7 @@ All notable changes to this project will be documented in this file.
  * Fixed: Affecting product collection by API if no SandO request
 
 ### [1.0.32] 2021-03-24
- * Added: Delete integrations enpoint added
+ * Added: Delete integrations endpoint added
  * Fixed: Admin -> Install button url on store code in URL enabled
 
 ### [1.0.31] 2021-03-02
@@ -29,7 +31,7 @@ All notable changes to this project will be documented in this file.
       - "status": 1,
       - "visibility": 4,
   * Added: Stock data for products 
-      - stock_item - additional field with sotck data
+      - stock_item - additional field with stock data
   * Added: In stock filter
       - is_in_stock - equal true
         
@@ -37,7 +39,7 @@ All notable changes to this project will be documented in this file.
 
   * Added: CHANGELOG.md file
   * Added: Full product URL returns by API call 
-      - full_url - in extension attribtues contains the product link in response by API call 
+      - full_url - in extension attributes contains the product link in response by API call 
   * Added: SalesAndOrders_FeedTool module version - returns by API call.
       - REST API call  *store/getStoresConfigs* - returns module version in extension_attribtutes section  
   * Added: full_url_key to each product in response
@@ -48,7 +50,7 @@ All notable changes to this project will be documented in this file.
       - Price changes to selected child product id price for non JavaScript pages only. 
   * Added: Child products with data for the configurable products
   * Added: Child products urls for the parent configurable product
-      - *configurable_option_url*  - contains an array of built URLs like  in the *parent_url* child produc attribute
+      - *configurable_option_url*  - contains an array of built URLs like  in the *parent_url* child product attribute
   * Added: Each child product contains attribute *parent_url* 
       - *parent_url* - is a combination of *product_url_key* , oid query parameter with *child_product_id* value and hash configurable product attributes options.
       - Formula:
