@@ -12,9 +12,19 @@ namespace SalesAndOrders\FeedTool\Plugin\Product\Type\Grouped;
  */
 class Price
 {
+    /* @var \SalesAndOrders\FeedTool\Model\Occupy $_occupy    */
+    protected $_occupy;
+    public function __construct(
+        \SalesAndOrders\FeedTool\Model\Occupy $_occupy
+    ) {
+        $this->_occupy = $_occupy;
+    }
     public function aroundGetPrice($subject, $proceed, $product)
     {
-        if ($product->getTypeId() == "grouped") {
+        if (
+            $product->getTypeId() == "grouped"
+            && $this->_occupy->isSandORequest()     //executes only if called by API
+        ) {
             $price = 0;
             if (!$price || $price == 0) {
                 $childProductCollection = $product->getTypeInstance()->getAssociatedProducts($product);

@@ -13,9 +13,19 @@ namespace SalesAndOrders\FeedTool\Plugin\Product\Type\Configurable;
  */
 class Price
 {
+    /* @var \SalesAndOrders\FeedTool\Model\Occupy $_occupy    */
+    protected $_occupy;
+    public function __construct(
+        \SalesAndOrders\FeedTool\Model\Occupy $_occupy
+    ) {
+        $this->_occupy = $_occupy;
+    }
     public function aroundGetPrice($subject, $proceed, $product)
     {
-        if ($product->getTypeId() == "configurable") {
+        if (
+                $product->getTypeId() == "configurable"
+                && $this->_occupy->isSandORequest()     //executes only if called by API
+        ) {
             $price = $product->getFinalPrice() ? $product->getFinalPrice() : 0;
             if (!$price || $price == 0) {
                 $childrenProducts = $product->getTypeInstance()->getUsedProducts($product);

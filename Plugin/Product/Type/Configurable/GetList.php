@@ -20,28 +20,26 @@ class GetList
     protected $_config;
     protected $_apiConfig;
     protected $request;
+    /* @var \SalesAndOrders\FeedTool\Model\Occupy $_occupy    */
+    protected $_occupy;
 
     public function __construct(
         Configurable $configurableProduct
         ,ModelConfigInterface $_config
         ,\Magento\Webapi\Model\Rest\Config $_apiConfig
         ,RestRequest $request
+        ,\SalesAndOrders\FeedTool\Model\Occupy $_occupy
     ) {
         $this->configurableProduct = $configurableProduct;
+        $this->_occupy = $_occupy;
         $this->_config = $_config;
         $this->_apiConfig = $_apiConfig;
         $this->request = $request;
     }
-    protected function isSandORequest(){
-        $routes = $this->_apiConfig->getRestRoutes($this->request);
-        $route = $routes[0];
-        $vendorName = explode('\\',$route->getServiceClass() )[0];
-        return  $vendorName == 'SalesAndOrders';
-    }
 
     public function afterGetList($subject, $products, $searchCriteria)
     {
-        if (!$this->isSandORequest()){  //affects only from sando requests
+        if (!$this->_occupy->isSandORequest()){  //affects only from sando requests
             return $products;
         }
         $productsData = $products->getItems();
