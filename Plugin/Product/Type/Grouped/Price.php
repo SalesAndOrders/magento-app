@@ -21,8 +21,7 @@ class Price
     }
     public function aroundGetPrice($subject, $proceed, $product)
     {
-        if (
-            $product->getTypeId() == "grouped"
+        if ($product->getTypeId() == "grouped"
             && $this->_occupy->isSandORequest()     //executes only if called by API
         ) {
             $price = 0;

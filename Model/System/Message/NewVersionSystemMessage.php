@@ -6,6 +6,7 @@
  */
 namespace SalesAndOrders\FeedTool\Model\System\Message;
 
+use Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\Notification\MessageInterface;
 use Magento\Framework\Notification\NotifierInterface as NotifierPool;
 use Magento\Framework\ObjectManagerInterface;
@@ -16,9 +17,8 @@ use Magento\Framework\ObjectManagerInterface;
 class NewVersionSystemMessage implements MessageInterface
 {
     /**
-     * Message identity
+     * Message identity for sando magento app
      */
-
     const MESSAGE_IDENTITY = 'new_version_sando_feedTool_system_message';
     /**
      * @var ObjectManagerInterface
@@ -74,19 +74,21 @@ class NewVersionSystemMessage implements MessageInterface
      */
     public function isDisplayed()
     {
-        $isNewerVersionAvailable = $this->isNewerVersion();     //todo check new version availability
+        if ($this->isNewerVersion()) {
+            /** @var string $sampleUrl */
+            //Sample system config url will be used for "Read Details" link in notification message
+            // phpcs:ignore Generic.Files.LineLength.TooLong
+            $readDetailsUrl = "https://marketplace.magento.com/sales-and-orders-magento-app.html#product.info.details.release_notes";
 
-        /** @var string $sampleUrl */
-        //Sample system config url will be used for "Read Details" link in notification message
-        $readDetailsUrl = "https://marketplace.magento.com/sales-and-orders-magento-app.html#product.info.details.release_notes";
-
-        // Add notice
-        $this->notifierPool->addNotice(
-            'New version of Sales and Orders deliver important updates'
-            , 'The latest release of Sales and Orders is now generally available. Includes code enhancements along with new functionality and quality improvements.',
-            $readDetailsUrl
-        );
-        return $isNewerVersionAvailable;
+            // Add notice
+            $this->notifierPool->addNotice(
+                'New version of Sales and Orders deliver important updates',
+                // phpcs:ignore Generic.Files.LineLength.TooLong
+                'The latest release of Sales and Orders is now generally available. Includes code enhancements along with new functionality and quality improvements.',
+                $readDetailsUrl
+            );
+        }
+        return $this->isNewerVersion();
     }
 
     /*
@@ -97,6 +99,7 @@ class NewVersionSystemMessage implements MessageInterface
     public function getText()
     {
         return __(
+            // phpcs:ignore Generic.Files.LineLength.TooLong
             '<a target="_blank" href="https://www.salesandorders.com/" ><img alt="&nbsp;&nbsp; Sales and Orders logo" style="height: 25px; position: relative; top: 5px; margin-right: 20px; margin-left: 10px;" src="https://www.salesandorders.com/images/logo.png"></a> New version of <a target="_blank" href="https://marketplace.magento.com/sales-and-orders-magento-app.html">Sales and Orders available</a> deliver important updates. <a target="_blank" href="https://marketplace.magento.com/sales-and-orders-magento-app.html#product.info.details.release_notes">More details...</a>'
         );
     }
@@ -115,20 +118,26 @@ class NewVersionSystemMessage implements MessageInterface
     {
         return self::SEVERITY_NOTICE;
     }
+
+    /**
+     * @return bool
+     */
     protected function isNewerVersion():bool
     {
         //get current module version
         $currentVersion = $this->objectManager
-                                    ->get('\Magento\Framework\Module\ResourceInterface')
+                                    ->get(ResourceInterface::class)
                                     ->getDbVersion('SalesAndOrders_FeedTool')
         ;
-        $this->curl->get( $this->config->getUpdateURL() );  // get method
+        $this->curl->get($this->config->getUpdateURL());  // get method
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Content-Length", 200);
-        $result = json_decode($this->curl->getBody(),true );      // output of curl request
-                                                                            // get version from result
-        $receivedVersion = $result['packages']['sales_and_orders/magento-app'][0]['version'];
-        //var_dump( $currentVersion < $receivedVersion );die;
-        return $currentVersion < $receivedVersion;
+        $result = json_decode($this->curl->getBody(), true);      // output of curl request
+
+        //for now don't notify user of a new version, maybe in the future ;)
+        //print_r($result['packages']['sales_and_orders/magento-app'][0]['version']);die;
+        //$receivedVersion = $result['packages']['sales_and_orders/magento-app'][0]['version'] ?? 0;
+        //return $currentVersion < $receivedVersion;
+        return false;
     }
 }

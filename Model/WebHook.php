@@ -11,11 +11,10 @@ use \Magento\Framework\Model\AbstractModel;
 use \Magento\Framework\DataObject\IdentityInterface;
 
 /**
- * Webhook
+ * Class Webhook Model
  */
 class WebHook extends AbstractModel implements IdentityInterface
 {
-
     const CACHE_TAG = 'perspective_webhooks';
 
     protected $_cacheTag = 'perspective_webhooks';

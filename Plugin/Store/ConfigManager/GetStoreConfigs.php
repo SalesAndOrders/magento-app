@@ -7,6 +7,7 @@
 
 namespace SalesAndOrders\FeedTool\Plugin\Store\ConfigManager;
 
+use Magento\Framework\Module\ResourceInterface;
 use mysql_xdevapi\Result;
 
 /**
@@ -14,11 +15,12 @@ use mysql_xdevapi\Result;
  */
 class GetStoreConfigs
 {
-    public function afterGetStoreConfigs($subject, $result, $storeCodes){
+    public function afterGetStoreConfigs($subject, $result, $storeCodes)
+    {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
-        $version = $objectManager->get('\Magento\Framework\Module\ResourceInterface')->getDbVersion('SalesAndOrders_FeedTool');
-        if(is_array($result)){
-            foreach ($result as $storeConfig){
+        $version = $objectManager->get(ResourceInterface::class)->getDbVersion('SalesAndOrders_FeedTool');
+        if (is_array($result)) {
+            foreach ($result as $storeConfig) {
                 $storeConfig->getExtensionAttributes()->setSalesAndOrdersFeedToolVersion($version);
             }
         }

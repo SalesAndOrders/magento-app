@@ -54,9 +54,12 @@ class Version extends BackendAction
         $sampleUrl = "https://marketplace.magento.com/sales-and-orders-magento-app.html";
 
         // Add notice
-        $this->notifierPool->addNotice('Notice Title', 'Notice description text.',
+        $this->notifierPool->addNotice(
+            'Notice Title',
+            'Notice description text.',
             // Add "Read Details" link
-            $sampleUrl);
+            $sampleUrl
+        );
 
         /** @var ResultRedirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();

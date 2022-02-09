@@ -112,15 +112,17 @@ class RestCallback implements RestCallbackInterface
     }
     /**
      * @return int|mixed
-    */
-    public function webhooks_remove_all(){
+     */
+    public function webhooks_remove_all() // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    {
         //$params = $this->_request->getRequestData();
         return $this->webHookModel->deleteWebHookAllIntegrations();
     }
     /**
      * @return int|mixed
      */
-    public function webhooks_remove_store(){
+    public function webhooks_remove_store() // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    {
         $params = $this->_request->getRequestData();
         $store_code =  $this->_storeManager->getStore()->getCode();
         return $this->webHookModel->deleteWebHookStoreIntegrations($store_code);

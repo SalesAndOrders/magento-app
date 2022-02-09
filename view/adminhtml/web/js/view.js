@@ -23,8 +23,8 @@ require(
                 headLoader.show();
                 headActivate.hide();
 
-                //var urlStr = url.build('integration_module/oauth/activate');
-                var urlStr = BASE_URL+'oauth/activate';
+                var urlStr = url.build('integration_module/oauth/activate');
+                //var urlStr = BASE_URL+'oauth/activate';
                 $.post(
                     urlStr, {
                         'test': 3,

@@ -3,7 +3,7 @@
     <default>
         <oauth_configs>
             <custom_config>
-                <load_iframe>https://app1.salesandorders.com/magento/load</load_iframe>
+                <load_iframe>http://app1.staging.salesandorders.com/magento/load</load_iframe>
             </custom_config>
         </oauth_configs>
         <oauth>

@@ -9,7 +9,6 @@ namespace SalesAndOrders\FeedTool\Model\ResourceModel;
 
 use \Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use \Magento\Framework\Model\ResourceModel\Db\Context;
-
 use \Magento\Integration\Model\IntegrationFactory;
 use Magento\Store\Model\StoreManagerInterface;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation as IntegrationActivation;
@@ -17,7 +16,7 @@ use \SalesAndOrders\FeedTool\Model\Transport;
 use SalesAndOrders\FeedTool\Model\Cache;
 
 /**
- * Webhook
+ * Class Webhook Resource Model
  */
 class WebHook extends AbstractDb
 {

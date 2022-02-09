@@ -9,19 +9,16 @@ namespace SalesAndOrders\FeedTool\Model\ResourceModel;
 
 use \Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use \Magento\Framework\Model\ResourceModel\Db\Context;
-use \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as productCollection;
+use \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollection;
 use \Magento\Store\Model\StoreManagerInterface;
 
 /**
- * Product
+ * Class Product Resource Model
  */
 class Product extends AbstractDb
 {
-
     /**
-     * ]
-     *
-     * @var productCollection
+     * @var ProductCollection
      */
     protected $productCollection;
 
@@ -34,11 +31,11 @@ class Product extends AbstractDb
      * Product constructor.
      *
      * @param Context           $context
-     * @param productCollection $productCollection
+     * @param ProductCollection $productCollection
      */
     public function __construct(
         Context $context,
-        productCollection $productCollection,
+        ProductCollection $productCollection,
         StoreManagerInterface $storemanager
     ) {
         $this->productCollection = $productCollection;

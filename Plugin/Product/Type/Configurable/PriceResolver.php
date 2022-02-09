@@ -30,8 +30,8 @@ class PriceResolver
      * @param \Magento\Catalog\Model\ProductFactory $_productloader
      */
     public function __construct(
-        Context $context
-        ,\Magento\Catalog\Model\ProductFactory $_productloader
+        Context $context,
+        \Magento\Catalog\Model\ProductFactory $_productloader
     ) {
         $this->_request = $context->getRequest();
         $this->_productloader = $_productloader;
@@ -43,29 +43,27 @@ class PriceResolver
      *
      * @return float
      *
-    */
+     */
     public function afterResolvePrice(
         \Magento\ConfigurableProduct\Pricing\Price\ConfigurablePriceResolver\Interceptor $subject,
         $result,
         \Magento\Framework\Pricing\SaleableInterface $product
-    )
-    {
+    ) {
         $moduleName = $this->getRequest()->getModuleName();
         $controllerName = $this->getRequest()->getControllerName();
         $actionName = $this->getRequest()->getActionName();
-        if(
-            $actionName == 'view'
+        if ($actionName == 'view'
             && $moduleName == 'catalog'
             && $controllerName == 'product'
             && $product->getTypeId() == "configurable"
             && $product->getId() == $this->getRequest()->getParam('id')
-            && !is_null($this->getRequest()->getParam('oid'))
-        ){
+            && !is_null($this->getRequest()->getParam('oid')) // phpcs:ignore
+        ) {
             $childProductId = (int) $this->getRequest()->getParam('oid');           // oid - option id
             $childrenProducts = $product->getTypeInstance()->getUsedProducts($product);  // get linked product
-            if(is_null($this->optionPrice)){
-                foreach ($childrenProducts as $child){
-                    if($childProductId == $child->getId() ){
+            if (is_null($this->optionPrice)) { // phpcs:ignore
+                foreach ($childrenProducts as $child) {
+                    if ($childProductId == $child->getId()) {
                         $childProduct = $this->_productloader->create()->load($childProductId);
                         $this->optionPrice = $childProduct->getFinalPrice();
                     }
@@ -76,7 +74,8 @@ class PriceResolver
         return $result;
     }
 
-    public function getRequest(){
+    public function getRequest()
+    {
         return $this->_request;
     }
 }

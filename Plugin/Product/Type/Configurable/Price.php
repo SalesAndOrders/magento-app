@@ -22,8 +22,7 @@ class Price
     }
     public function aroundGetPrice($subject, $proceed, $product)
     {
-        if (
-                $product->getTypeId() == "configurable"
+        if ($product->getTypeId() == "configurable"
                 && $this->_occupy->isSandORequest()     //executes only if called by API
         ) {
             $price = $product->getFinalPrice() ? $product->getFinalPrice() : 0;

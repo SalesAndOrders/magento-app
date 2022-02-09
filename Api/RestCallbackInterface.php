@@ -27,9 +27,9 @@ interface RestCallbackInterface
     /**
      * @return mixed
      */
-    public function webhooks_remove_all();
+    public function webhooks_remove_all(); // phpcs:ignore
     /**
      * @return mixed
      */
-    public function webhooks_remove_store();
+    public function webhooks_remove_store(); // phpcs:ignore
 }

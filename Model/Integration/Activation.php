@@ -173,7 +173,7 @@ class Activation extends AbstractDb
     /**
      * This function is required by abstract class
      */
-    public function _construct()
+    public function _construct() // phpcs:ignore
     {
         // todo fix this empty function
     }
@@ -382,7 +382,9 @@ class Activation extends AbstractDb
     public function getHmac($url, $secret, $queryParams)
     {
         //first get params from url string
+        // phpcs:ignore
         $paramsStr = parse_url($url, PHP_URL_QUERY);
+        // phpcs:ignore
         parse_str($paramsStr, $decomposedParams);
 
         if (!empty($decomposedParams)) {
@@ -416,7 +418,7 @@ class Activation extends AbstractDb
 
     public function isValidURL($url)
     {
-        if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
+        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
             return false;
         }
         return true;

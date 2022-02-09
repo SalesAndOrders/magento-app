@@ -8,6 +8,7 @@
 namespace SalesAndOrders\FeedTool\Model;
 
 use SalesAndOrders\FeedTool\Model\Logger;
+
 /**
  * Comment is required here
  */
@@ -35,6 +36,7 @@ class Transport
         //if ($checkUrl) {
         //    $endpointUrl = preg_replace("(^https?://)", "", $endpointUrl);
         //}
+        // phpcs:disable
         ob_start();
         $out = fopen('php://output', 'w');
         $curl = curl_init();
@@ -69,16 +71,19 @@ class Transport
         $debug = ob_get_clean();
 
         $logger->info('Response from  ' . $endpointUrl . ' URL');
-        $logger->info(print_r(json_decode($response),1 ));
-       if (empty($response) && empty($err)) {
-           $err = $debug;
-           $logger->err('ERROR');
-           $logger->err($err); // write error to file log instead of printing
-       }else{
-           $logger->err('Info');
-           $logger->info($info);
-       }
+        $logger->info($response);
+        $logger->info('Error');
+        $logger->info($err);
+        if (empty($response) && empty($err)) {
+            $err = $debug;
+            $logger->err('ERROR');
+            $logger->err($err); // write error to file log instead of printing
+        } else {
+            $logger->err('Info');
+            $logger->info($info);
+        }
         curl_close($curl);
+        // phpcs:enable
         return ['response' => $response, 'err' => $err];
     }
 }
