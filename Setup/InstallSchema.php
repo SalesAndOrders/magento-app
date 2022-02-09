@@ -12,7 +12,7 @@ use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
 /**
- * Install Schema
+ * Install Schema Class for db tables
  */
 class InstallSchema implements InstallSchemaInterface
 {
@@ -21,7 +21,6 @@ class InstallSchema implements InstallSchemaInterface
      */
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
-
         /**
          * Table - perspective_products
          */

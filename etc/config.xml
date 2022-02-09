@@ -11,5 +11,8 @@
                 <expiration_period>1000000000000</expiration_period>
             </consumer>
         </oauth>
+        <notification>
+            <check_update_url>https://repo.packagist.org/p2/sales_and_orders/magento-app.json</check_update_url>
+        </notification>
     </default>
 </config>

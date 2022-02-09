@@ -66,8 +66,8 @@ class SalesAndOrdersActions extends Column
                         ),
                         'label' => __('Delete'),
                         'confirm' => [
-                            'title' => __('Delete "${ $.$data.store_name }"'),
-                            'message' => __('Are you sure you wan\'t to delete a "${ $.$data.store_name }" record?')
+                            'title' => __('Delete ' . $item['store_name']),
+                            'message' => __(sprintf('Are you sure you wan\'t to delete a %s record?', $item['store_name']))
                         ]
                     ];
                 }

@@ -42,6 +42,7 @@ class RestCallback implements RestCallbackInterface
      * @var Request
      */
     protected $_request;
+    protected $_storeManager;
     /**
      * @var \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook
      */
@@ -56,6 +57,7 @@ class RestCallback implements RestCallbackInterface
      * @param ServiceOutputProcessor                               $serviceOutputProcessor
      * @param Request                                              $request
      * @param \SalesAndOrders\FeedTool\Model\ResourceModel\WebHook $webHookModel
+     * @param  \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         CronScheduler $cronScheduler,
@@ -63,12 +65,14 @@ class RestCallback implements RestCallbackInterface
         SearchCriteriaInterface $searchCriteria,
         ServiceOutputProcessor $serviceOutputProcessor,
         Request $request,
-        WebHook $webHookModel
+        WebHook $webHookModel,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->cronScheduler = $cronScheduler;
         $this->productRepository = $productRepository;
         $this->searchCriteria = $searchCriteria;
         $this->serviceOutputProcessor = $serviceOutputProcessor;
+        $this->_storeManager = $storeManager;
         $this->_request = $request;
         $this->webHookModel = $webHookModel;
     }
@@ -105,5 +109,22 @@ class RestCallback implements RestCallbackInterface
         $params = $this->_request->getRequestData();
         $this->webHookModel->addIntegrationWebHook($params, 1);
         return true;
+    }
+    /**
+     * @return int|mixed
+     */
+    public function webhooks_remove_all() // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    {
+        //$params = $this->_request->getRequestData();
+        return $this->webHookModel->deleteWebHookAllIntegrations();
+    }
+    /**
+     * @return int|mixed
+     */
+    public function webhooks_remove_store() // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    {
+        $params = $this->_request->getRequestData();
+        $store_code =  $this->_storeManager->getStore()->getCode();
+        return $this->webHookModel->deleteWebHookStoreIntegrations($store_code);
     }
 }

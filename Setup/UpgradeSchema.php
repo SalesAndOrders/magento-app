@@ -12,7 +12,7 @@ use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
 /**
- * UpgradeSchema
+ * Upgrade Schema Class for db tables
  */
 class UpgradeSchema implements UpgradeSchemaInterface
 {

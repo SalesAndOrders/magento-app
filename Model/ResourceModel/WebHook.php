@@ -9,7 +9,6 @@ namespace SalesAndOrders\FeedTool\Model\ResourceModel;
 
 use \Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use \Magento\Framework\Model\ResourceModel\Db\Context;
-
 use \Magento\Integration\Model\IntegrationFactory;
 use Magento\Store\Model\StoreManagerInterface;
 use \SalesAndOrders\FeedTool\Model\Integration\Activation as IntegrationActivation;
@@ -17,7 +16,7 @@ use \SalesAndOrders\FeedTool\Model\Transport;
 use SalesAndOrders\FeedTool\Model\Cache;
 
 /**
- * Webhook
+ * Class Webhook Resource Model
  */
 class WebHook extends AbstractDb
 {
@@ -176,7 +175,7 @@ class WebHook extends AbstractDb
      */
     public function deleteWebHook($integrationId = 0)
     {
-        $this->getConnection()->delete($this->_mainTable, ['integration_id = ?' => $integrationId]);
+        $this->getConnection()->delete($this->getMainTable(), ['integration_id = ?' => $integrationId]);
         return true;
     }
 
@@ -202,6 +201,30 @@ class WebHook extends AbstractDb
         $where[] = $this->getConnection()->quoteInto('integration_id = ?', $integrationId);
         $this->getConnection()->delete($this->getMainTable(), $where);
         return true;
+    }
+    /**
+     * Removes integration for All stores
+     * @return int
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function deleteWebHookAllIntegrations(): int
+    {
+        $where = [];// = $this->getConnection()->quoteInto('integration_id = ?', '');
+        $res = $this->getConnection()->delete($this->getMainTable(), $where);
+        return $res;
+    }
+
+    /**
+     * Removes integration per store_code
+     * @param string $store_code
+     * @return int
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function deleteWebHookStoreIntegrations(string $store_code): int
+    {
+        $where = $this->getConnection()->quoteInto('store_code = ?', $store_code);
+         $res = $this->getConnection()->delete($this->getMainTable(), $where);
+        return $res;
     }
 
     /**
