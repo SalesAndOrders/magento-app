@@ -1,10 +1,19 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
-### [1.0.37] 2021-08-18
+
+### [2.0.0]
+### 2022-02-09
+* Fixed phpcs error.
+* Fixed installation of s&o app (url)
+* Fixed bug with notification of a new version of the s&o extension available
+* Fixed store name in title and body of the confirmation popup, on delete button click
+
+### 2021-08-18
 * Added: Check model to prevent logic execution if not SandO API request
   - SalesAndOrders\FeedTool\Model\Occupy.php
-### [1.0.35] 2021-04-13
+
+### 2021-04-13
  * Fixed: WebHook resource model getting table.
  * Fixed: Remove Integration changed method from **POST** to **DELETE**.
  * Added: Added Api endpoint to remove integration per store
@@ -15,17 +24,17 @@ All notable changes to this project will be documented in this file.
  * Added: Log transfer data to the file in the Model/Transport
  * Restored: HTTPS request to the SandO app 
     
-### [1.0.34] 2021-03-31
+### 2021-03-31
  * Fixed: Admin pages restricted by admin user access
  * Fixed: In *Stores* -> *Configuration* page changed titles of the module
-### [1.0.33] 2021-03-25
+### 2021-03-25
  * Fixed: Affecting product collection by API if no SandO request
 
-### [1.0.32] 2021-03-24
+### 2021-03-24
  * Added: Delete integrations endpoint added
  * Fixed: Admin -> Install button url on store code in URL enabled
 
-### [1.0.31] 2021-03-02
+### 2021-03-02
 
   * Added: Attributes *status* and *visibility* joined
       - "status": 1,
@@ -35,7 +44,7 @@ All notable changes to this project will be documented in this file.
   * Added: In stock filter
       - is_in_stock - equal true
         
-### [1.0.30] 2020-09-02
+### 2020-09-02
 
   * Added: CHANGELOG.md file
   * Added: Full product URL returns by API call 
