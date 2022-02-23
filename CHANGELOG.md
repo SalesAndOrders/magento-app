@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 * Fixed installation of s&o app (url)
 * Fixed bug with notification of a new version of the s&o extension available
 * Fixed store name in title and body of the confirmation popup, on delete button click
+* Move to declarative schema and data patches
 
 ### 2021-08-18
 * Added: Check model to prevent logic execution if not SandO API request

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="perspective_products" resource="default" engine="innodb" comment="perspective_products">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+    <column xsi:type="int" name="product_id" padding="11" unsigned="false" nullable="true" identity="false" comment="id of edited product"/>
+    <column xsi:type="varchar" name="product_sku" nullable="true" length="255" comment="sku of edited product"/>
+    <column xsi:type="varchar" name="store_code" nullable="true" length="255" comment="store_code of product event"/>
+    <column xsi:type="varchar" name="store_base_url" nullable="true" length="255" comment="storestore_base_url_code of product event"/>
+    <column xsi:type="datetime" name="edited" on_update="false" nullable="true" comment="edit date and time"/>
+    <column xsi:type="varchar" name="action" nullable="true" length="255" comment="action of product event"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="perspective_webhooks" resource="default" engine="innodb" comment="perspective_webhooks">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+    <column xsi:type="int" name="integration_id" padding="11" unsigned="false" nullable="false" identity="false" comment="id of integration"/>
+    <column xsi:type="int" name="consumer_id" padding="11" unsigned="false" nullable="false" identity="false" comment="id of consumer"/>
+    <column xsi:type="int" name="is_oath_authorized" padding="11" unsigned="false" nullable="false" identity="false" comment="flag"/>
+    <column xsi:type="mediumtext" name="verify_url_endpoint" nullable="false" comment="url"/>
+    <column xsi:type="varchar" name="store_code" nullable="true" length="255" comment="code"/>
+    <column xsi:type="int" name="is_deleted" padding="11" unsigned="false" nullable="true" identity="false" default="0" comment="if deleted - CRON not used"/>
+    <column xsi:type="mediumtext" name="products_webhook_url" nullable="true" comment="url"/>
+    <column xsi:type="mediumtext" name="account_update_url" nullable="true" comment="url"/>
+    <column xsi:type="mediumtext" name="uninstall_url" nullable="true" comment="url"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+</schema>
